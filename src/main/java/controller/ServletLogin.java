@@ -1,23 +1,32 @@
 package controller;
 
 import dao.UserDao;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-@WebServlet(name = "ServletLogin", value = "/login")
+@WebServlet(name = "ServletLogin", value = "/login")  // Cập nhật đường dẫn
 public class ServletLogin extends HttpServlet {
+    private static final Logger logger = Logger.getLogger(ServletLogin.class.getName());
     private UserDao userDao;
 
-    public void init(){
-        userDao = new UserDao();
+    @Override
+    public void init() {
+        try {
+            userDao = new UserDao();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Failed to initialize UserDao", e);
+        }
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -38,15 +47,18 @@ public class ServletLogin extends HttpServlet {
                 if ("admin".equals(role)) {
                     response.sendRedirect("admin-dashboard.jsp");
                 } else {
-                    response.sendRedirect("user-dashboard.jsp");
+                    response.sendRedirect("index.jsp");
                 }
             } else {
-                request.setAttribute("errorMessage", "Invaild username or password");
+                request.setAttribute("errorMessage", "Invalid username or password");  // Sửa lỗi chính tả
                 RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
                 dispatcher.forward(request, response);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error during authentication", e);
+            request.setAttribute("errorMessage", "An error occurred during login. Please try again.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
+            dispatcher.forward(request, response);
         }
     }
 }
