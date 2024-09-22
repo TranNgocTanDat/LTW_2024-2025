@@ -2,7 +2,6 @@ package dao;
 
 import context.DbContext;
 import model.Product;
-import model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

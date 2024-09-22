@@ -18,7 +18,54 @@ public class UserDao {
     ResultSet rs = null;
 
     // phương thức xác thực người dùng
-    public
+    public String authenticateUser(String username, String password){
+        String query ="SELECT role FROM Users WHERE username=? AND password=?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setString(2, password);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getString("role");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    // get user from username
+    public User getUserByUsername(String username){
+        String query ="SELECT * FROM Users WHERE username=?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, username);
+            rs = ps.executeQuery();
+            if (rs.next()){
+                User user = new User();
+                user.setUserId(rs.getInt("userID"));
+                user.setUsername(rs.getString("username"));
+                user.setPassword(rs.getString("password"));
+                user.setEmail(rs.getString("email"));
+                user.setFirsrtName(rs.getString("firstName"));
+                user.setLastName(rs.getString("lastName"));
+                user.setAddress(rs.getString("address"));
+                user.setPhoneNumber(rs.getString("phoneNumber"));
+                user.setRole(rs.getString("role"));
+                return user;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 
     public void insertUser(User user) {
         String query = "INSERT INTO users (username, password, email, firstName, lastName, address, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -75,7 +122,8 @@ public class UserDao {
 
     public static void main(String[] args) {
         UserDao userDao = new UserDao();
-        userDao.delelteUser(1);
+        String text = userDao.authenticateUser("td", "securepassword123");
+        System.out.println(text);
         List<User> users = userDao.getAll();
         for (User user: users) {
             System.out.println(user);
