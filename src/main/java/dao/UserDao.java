@@ -1,0 +1,85 @@
+package dao;
+
+import context.DbContext;
+import model.User;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class UserDao {
+
+    public UserDao(){}
+    Connection connection = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+
+    // phương thức xác thực người dùng
+    public
+
+    public void insertUser(User user) {
+        String query = "INSERT INTO users (username, password, email, firstName, lastName, address, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getFirsrtName());
+            ps.setString(5, user.getLastName());
+            ps.setString(6, user.getAddress());
+            ps.setString(7, user.getPhoneNumber());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public List<User> getAll(){
+        List<User> list = new ArrayList<>();
+        String query ="select*from users";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                list.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return list;
+    }
+
+    public void delelteUser(int userId){
+        String query = "DELETE  FROM Users WHERE userID=?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, userId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static void main(String[] args) {
+        UserDao userDao = new UserDao();
+        userDao.delelteUser(1);
+        List<User> users = userDao.getAll();
+        for (User user: users) {
+            System.out.println(user);
+        }
+
+    }
+}
