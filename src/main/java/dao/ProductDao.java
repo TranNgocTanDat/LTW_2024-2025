@@ -128,6 +128,32 @@ public class ProductDao {
         }
         return product;
     }
+    public List<Product> getProductsByCategory(String category) {
+        String query ="SELECT * FROM Product WHERE category = ?";
+        List<Product> products = new ArrayList<>();
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, category);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int productId = rs.getInt("productId");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                double price = rs.getDouble("price");
+                String size = rs.getString("size");
+                String color = rs.getString("color");
+                int stockQuantity = rs.getInt("stockQuantity");
+                products.add(new Product(productId, name,description, price, category, size, color, stockQuantity));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
 
 
 
@@ -136,8 +162,8 @@ public class ProductDao {
 //        productDao.addProduct(new Product(1, "iphone", "128GB", 100.0, "phone", "s", "red", 3));
 //        productDao.updateProduct(new Product(1,"a","a",3.0,"a","a","a",4));
 //        Product product1= productDao.getProductById(1);
-
-        List<Product> products = productDao.getAll();
+        productDao.getProductsByCategory("d");
+        List<Product> products = productDao.getProductsByCategory("d");
         for (Product product: products) {
             System.out.println(product);
         }

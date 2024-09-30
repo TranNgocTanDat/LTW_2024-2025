@@ -1,6 +1,7 @@
 package dao;
 
 import context.DbContext;
+import model.Product;
 import model.User;
 
 import java.sql.Connection;
@@ -37,17 +38,17 @@ public class UserDao {
         return null;
     }
 
-    // get user from username
-    public User getUserByUsername(String username){
-        String query ="SELECT * FROM Users WHERE username=?";
+    // get user by userId
+    public User getUserById(int userId){
+        String query ="SELECT * FROM Users WHERE userId=?";
         try {
             connection = new DbContext().getConnection();
             ps = connection.prepareStatement(query);
-            ps.setString(1, username);
+            ps.setInt(1, userId);
             rs = ps.executeQuery();
             if (rs.next()){
                 User user = new User();
-                user.setUserId(rs.getInt("userID"));
+                user.setUserId(rs.getInt("userId"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setEmail(rs.getString("email"));
@@ -75,7 +76,7 @@ public class UserDao {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getEmail());
-            ps.setString(4, user.getFirsrtName());
+            ps.setString(4, user.getFirstName());
             ps.setString(5, user.getLastName());
             ps.setString(6, user.getAddress());
             ps.setString(7, user.getPhoneNumber());
@@ -116,6 +117,37 @@ public class UserDao {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    //update user
+    public void updateUser(User user) {
+        String query = "UPDATE Users SET username=?, password=?, email=?, firstName=?, lastName=?, address=?, phoneNumber=?, role=? WHERE userId=?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getFirstName());
+            ps.setString(5, user.getLastName());
+            ps.setString(6, user.getAddress());
+            ps.setString(7, user.getPhoneNumber());
+            ps.setString(8, user.getRole());
+            ps.setInt(9, user.getUserId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            // Đóng các đối tượng để tránh rò rỉ tài nguyên
+            try {
+                if (ps != null) ps.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

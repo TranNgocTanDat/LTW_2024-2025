@@ -5,7 +5,7 @@ public class User {
     protected String username;
     protected String password;
     protected String email;
-    protected String firsrtName;
+    protected String firstName;
     protected String lastName;
     protected String address;
     protected String phoneNumber;
@@ -14,17 +14,18 @@ public class User {
     public User() {
     }
 
-    public User(int userId, String username, String password, String email, String firsrtName, String lastName, String address, String phoneNumber, String role) {
+    public User(int userId, String username, String password, String email, String firstName, String lastName, String address, String phoneNumber, String role) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.firsrtName = firsrtName;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.role = role;
     }
+
 
     public int getUserId() {
         return userId;
@@ -58,12 +59,12 @@ public class User {
         this.email = email;
     }
 
-    public String getFirsrtName() {
-        return firsrtName;
+    public String getFirstName() {
+        return firstName;
     }
 
     public void setFirsrtName(String firsrName) {
-        this.firsrtName = firsrtName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -105,7 +106,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", firsrtName='" + firsrtName + '\'' +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +

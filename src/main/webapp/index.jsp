@@ -9,5 +9,7 @@
 </h1>
 <br/>
 <a href="hello-servlet">Hello Servlet</a>
+<a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
 </body>
 </html>
+<!-- File dashboard.jsp -->
