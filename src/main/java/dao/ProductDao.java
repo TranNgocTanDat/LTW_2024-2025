@@ -18,7 +18,7 @@ public class ProductDao {
 
     //add new product
     public void addProduct(Product product){
-        String query ="INSERT INTO product (name, description, price, category, size, color, stockQuantity) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query ="INSERT INTO product (name, description, price, category, size, color, stockQuantity, imageUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             connection = new DbContext().getConnection();
@@ -30,6 +30,7 @@ public class ProductDao {
             ps.setString(5, product.getSize());
             ps.setString(6, product.getColor());
             ps.setInt(7, product.getStockQuantity());
+            ps.setString(8, product.getImageUrl());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -40,7 +41,7 @@ public class ProductDao {
 
     //update product
     public void updateProduct(Product product) {
-        String query = "UPDATE Product SET name=?, description=?, price=?, category=?, size=?, color=?, stockQuantity=? WHERE productId=?";
+        String query = "UPDATE Product SET name=?, description=?, price=?, category=?, size=?, color=?, stockQuantity=?, imageUrl=? WHERE productId=?";
         try {
             connection = new DbContext().getConnection();
             ps = connection.prepareStatement(query);
@@ -51,7 +52,8 @@ public class ProductDao {
             ps.setString(5, product.getSize());
             ps.setString(6, product.getColor());
             ps.setInt(7, product.getStockQuantity());
-            ps.setInt(8, product.getProductId());
+            ps.setString(8, product.getImageUrl());
+            ps.setInt(9, product.getProductId());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -92,7 +94,7 @@ public class ProductDao {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()){
-                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8)));
+                list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9)));
             }
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -119,6 +121,7 @@ public class ProductDao {
                 product.setSize(rs.getString("size"));
                 product.setColor(rs.getString("color"));
                 product.setStockQuantity(rs.getInt("stockQuantity"));
+                product.setImageUrl(rs.getString("imageUrl"));
 
             }
         } catch (SQLException e) {
@@ -145,7 +148,8 @@ public class ProductDao {
                 String size = rs.getString("size");
                 String color = rs.getString("color");
                 int stockQuantity = rs.getInt("stockQuantity");
-                products.add(new Product(productId, name,description, price, category, size, color, stockQuantity));
+                String imageUrl = rs.getString("imageUrl");
+                products.add(new Product(productId, name,description, price, category, size, color, stockQuantity, imageUrl));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -155,15 +159,46 @@ public class ProductDao {
         return products;
     }
 
+        public List<Product> searchProductByKeyWord(String keyword){
+            List<Product> products = new ArrayList<>();
+            String query = "SELECT * FROM Product WHERE name LIKE ? OR description LIKE ?";
+
+            try {
+                connection = new DbContext().getConnection();
+                ps = connection.prepareStatement(query);
+                String q = "%" + keyword + "%";
+                ps.setString(1, query);
+                ps.setString(2, query);
+                rs = ps.executeQuery();
+
+                while (rs.next()){
+                    int productId = rs.getInt("productId");
+                    String name = rs.getString("name");
+                    String description = rs.getString("description");
+                    double price = rs.getDouble("price");
+                    String category = rs.getString("category");
+                    String size = rs.getString("size");
+                    String color = rs.getString("color");
+                    int stockQuantity = rs.getInt("stockQuantity");
+                    String imageUrl = rs.getString("imageUrl");
+                    products.add(new Product(productId, name,description, price, category, size, color, stockQuantity, imageUrl));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+            return products;
+        }
+
 
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         ProductDao productDao = new ProductDao();
-//        productDao.addProduct(new Product(1, "iphone", "128GB", 100.0, "phone", "s", "red", 3));
-//        productDao.updateProduct(new Product(1,"a","a",3.0,"a","a","a",4));
-//        Product product1= productDao.getProductById(1);
+
         productDao.getProductsByCategory("d");
-        List<Product> products = productDao.getProductsByCategory("d");
+        List<Product> products = productDao.searchProductByKeyWord("Áo");
+//        List<Product> products = productDao.getAll();
         for (Product product: products) {
             System.out.println(product);
         }

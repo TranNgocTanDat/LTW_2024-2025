@@ -13,11 +13,11 @@ import java.util.logging.Logger;
 
 import java.io.IOException;
 
-@WebServlet(name = "ServletAdmin", value = "/admin")
-public class ServletAdmin extends HttpServlet {
+@WebServlet(name = "ServletHome", value = "/home")
+public class ServletHome extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("admin.jsp").forward(request, response);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     @Override

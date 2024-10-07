@@ -144,8 +144,8 @@
 <div class="sidebar">
   <h2>Admin Panel</h2>
   <ul>
-    <li><a href="manageProducts.jsp">Quản lý sản phẩm</a></li>
-    <li><a href="manageUsers.jsp">Quản lý người dùng</a></li>
+    <li><a href="admin/products">Quản lý sản phẩm</a></li>
+    <li><a href="admin/users">Quản lý người dùng</a></li>
     <li><a href="orders.jsp">Quản lý đơn hàng</a></li>
     <li><a href="reports.jsp">Báo cáo</a></li>
   </ul>

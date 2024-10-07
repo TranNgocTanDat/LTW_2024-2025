@@ -112,6 +112,6 @@ public class ServletUser extends HttpServlet {
 
         User updateUser = new User(userId, username, password, email, firstName, lastName, address, phoneNumber, role);
         userDao.updateUser(updateUser);
-        response.sendRedirect(request.getContextPath() + "/admin/products"); // Redirect đúng đường dẫn
+        response.sendRedirect(request.getContextPath() + "/admin/users"); // Redirect đúng đường dẫn
     }
 }

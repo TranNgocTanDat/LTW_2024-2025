@@ -73,6 +73,7 @@ public class ServletProductAdmin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String action = request.getParameter("action");
 
         if ("insert".equals(action)) {
@@ -90,8 +91,9 @@ public class ServletProductAdmin extends HttpServlet {
         String size = request.getParameter("size");
         String color = request.getParameter("color");
         int stockQuantity = Integer.parseInt(request.getParameter("stockQuantity"));
+        String imageUrl = request.getParameter("imageUrl");
 
-        Product newProduct = new Product(0, name, description, price, category, size, color, stockQuantity);
+        Product newProduct = new Product(0, name, description, price, category, size, color, stockQuantity, imageUrl);
         productDao.addProduct(newProduct);
         response.sendRedirect(request.getContextPath() + "/admin/products"); // Redirect đúng đường dẫn
     }
@@ -105,8 +107,9 @@ public class ServletProductAdmin extends HttpServlet {
         String size = request.getParameter("size");
         String color = request.getParameter("color");
         int stockQuantity = Integer.parseInt(request.getParameter("stockQuantity"));
+        String imageUrl = request.getParameter("imageUrl");
 
-        Product updatedProduct = new Product(productId, name, description, price, category, size, color, stockQuantity);
+        Product updatedProduct = new Product(productId, name, description, price, category, size, color, stockQuantity, imageUrl);
         productDao.updateProduct(updatedProduct);
         response.sendRedirect(request.getContextPath() + "/admin/products"); // Redirect đúng đường dẫn
     }

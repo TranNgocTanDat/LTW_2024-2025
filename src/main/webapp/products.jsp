@@ -40,10 +40,10 @@
 <body>
 <div class="sidebar">
   <h2>Danh Mục Sản Phẩm</h2>
-  <a href="products?category=d">Quần</a>
-  <a href="products?category=a">Áo</a>
+  <a href="products?category=Quần">Quần</a>
+  <a href="products?category=Áo">Áo</a>
   <a href="products?category=mu">Mũ</a>
-  <a href="products?category=giay">Giày</a>
+  <a href="products?category=Giày">Giày</a>
 </div>
 
 <div class="content">
@@ -56,6 +56,7 @@
       <th>Giá</th>
       <th>Mô Tả</th>
       <th>Giá</th>
+      <th>Ảnh</th>
 
     </tr>
     <c:forEach var="product" items="${products}">
@@ -65,11 +66,12 @@
         <td>${product.price}</td>
         <td>${product.category}</td>
         <td>${product.size}</td>
-
         <td>${product.stockQuantity}</td>
+        <td><img src="${product.imageUrl}"></td>
       </tr>
     </c:forEach>
   </table>
+
 </div>
 </body>
 </html>

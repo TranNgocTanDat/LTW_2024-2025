@@ -9,10 +9,11 @@ public class Product {
     protected String size;
     protected String color;
     protected int stockQuantity;
+    protected String imageUrl;
 
     public Product(){}
 
-    public Product(int productId, String name, String description, double price, String category, String size, String color, int stockQuantity) {
+    public Product(int productId, String name, String description, double price, String category, String size, String color, int stockQuantity, String imageUrl) {
         this.productId = productId;
         this.name = name;
         this.description = description;
@@ -21,6 +22,7 @@ public class Product {
         this.size = size;
         this.color = color;
         this.stockQuantity = stockQuantity;
+        this.imageUrl = imageUrl;
     }
 
     public int getProductId() {
@@ -51,7 +53,7 @@ public class Product {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -87,6 +89,14 @@ public class Product {
         this.stockQuantity = stockQuantity;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -98,6 +108,7 @@ public class Product {
                 ", size='" + size + '\'' +
                 ", color='" + color + '\'' +
                 ", stockQuantity=" + stockQuantity +
+                ", imageUrl=" + imageUrl +
                 '}';
     }
 }
