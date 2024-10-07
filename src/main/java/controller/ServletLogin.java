@@ -1,6 +1,7 @@
 package controller;
 
 import dao.UserDao;
+import model.User; // Đảm bảo bạn đã tạo lớp User
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,19 +39,20 @@ public class ServletLogin extends HttpServlet {
         String password = request.getParameter("password");
 
         try {
-            String role = userDao.authenticateUser(username, password);
-            if (role != null) {
+            // Xác thực và lấy thông tin người dùng
+            User user = userDao.authenticateUser(username, password);
+            if (user != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("user", username);
-                session.setAttribute("role", role);
+                session.setAttribute("user", user); // Lưu đối tượng User vào session
+                session.setAttribute("role", user.getRole()); // Lưu vai trò người dùng
 
-                if ("admin".equals(role)) {
+                if ("admin".equals(user.getRole())) {
                     response.sendRedirect("admin.jsp");
                 } else {
                     response.sendRedirect("index.jsp");
                 }
             } else {
-                request.setAttribute("errorMessage", "Invalid username or password");  // Sửa lỗi chính tả
+                request.setAttribute("errorMessage", "Invalid username or password"); // Sửa lỗi chính tả
                 RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
                 dispatcher.forward(request, response);
             }

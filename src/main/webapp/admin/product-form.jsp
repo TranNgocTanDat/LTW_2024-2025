@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>${product != null ? "Edit" : "Add"} Product</title>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -34,6 +35,9 @@
 
   <label for="stockQuantity">Stock Quantity:</label>
   <input type="number" id="stockQuantity" name="stockQuantity" value="${product != null ? product.stockQuantity : ''}" required><br/>
+
+  <label for="imageUrl">Image URL:</label>
+  <input type="text" id="imageUrl" name="imageUrl" value="${product != null ? product.imageUrl : ''}" required><br/>
 
   <input type="submit" value="${product != null ? "Update" : "Add"} Product">
 </form>
