@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet(name = "ServletSearch", value = "/search")
-public class ServletSearch extends HttpServlet {
+@WebServlet(name = "ServletProductDetail", value = "/product-detail")
+public class ServletProductDetail extends HttpServlet {
     private ProductDao productDao;
 
     public void init(){
@@ -19,13 +18,15 @@ public class ServletSearch extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String keyword = request.getParameter("keyword");
+        String productIdParam = request.getParameter("productId");
+        int productId = Integer.parseInt(productIdParam);
 
-        List<Product> products = productDao.searchProductByKeyWord(keyword);
+        // Lấy thông tin sản phẩm từ database
+        Product product = productDao.getProductById(productId);
 
-        request.setAttribute("products", products);
-
-        request.getRequestDispatcher("search.jsp").forward(request, response);
+        // Đưa sản phẩm vào request
+        request.setAttribute("product", product);
+        request.getRequestDispatcher("productDetail.jsp").forward(request, response);
     }
 
     @Override

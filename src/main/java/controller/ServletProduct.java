@@ -25,7 +25,16 @@ public class ServletProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String category = request.getParameter("category");
-        List<Product> products = productDao.getProductsByCategory(category);
+        List<Product> products;
+
+        // Kiểm tra nếu category là null thì lấy tất cả sản phẩm
+        if (category == null || category.isEmpty()) {
+            products = productDao.getAll(); // Lấy tất cả sản phẩm
+        } else {
+            products = productDao.getProductsByCategory(category); // Lấy sản phẩm theo category
+        }
+
+        // Set products vào request attribute để hiển thị trong JSP
         request.setAttribute("products", products);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/products.jsp");
         dispatcher.forward(request, response);

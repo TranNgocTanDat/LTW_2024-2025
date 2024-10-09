@@ -24,6 +24,7 @@ public class AuthFilter implements Filter {
         boolean loggedIn = (session != null && session.getAttribute("user") != null);
         boolean isAdmin = (session != null && "admin".equals(session.getAttribute("role"))); // Kiểm tra vai trò
         boolean loginRequest = httpRequest.getRequestURI().equals(loginURI);
+        boolean adminRequest = httpRequest.getRequestURI().equals(adminURI);
 
         // Nếu đã đăng nhập và là admin, cho phép truy cập
         if (loggedIn && isAdmin) {
@@ -31,6 +32,9 @@ public class AuthFilter implements Filter {
         } else if (loggedIn && !isAdmin) {
             // Nếu đã đăng nhập nhưng không phải admin, chuyển hướng đến trang chính
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/home");
+        }else if (adminRequest) {
+            // Nếu yêu cầu trang admin nhưng chưa đăng nhập hoặc không phải là admin, thông báo lỗi
+            httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "You do not have permission to access this page.");
         } else if (loginRequest) {
             // Nếu yêu cầu trang đăng nhập, cho phép
             chain.doFilter(request, response);
