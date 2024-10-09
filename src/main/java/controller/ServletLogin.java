@@ -43,6 +43,7 @@ public class ServletLogin extends HttpServlet {
             User user = userDao.authenticateUser(username, password);
             if (user != null) {
                 HttpSession session = request.getSession();
+                session.setAttribute("userId", user.getUserId()); // Lưu userId vào session
                 session.setAttribute("user", user); // Lưu đối tượng User vào session
                 session.setAttribute("role", user.getRole()); // Lưu vai trò người dùng
 

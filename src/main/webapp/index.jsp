@@ -10,6 +10,11 @@
 <br/>
 <a href="hello-servlet">Hello Servlet</a>
 <a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
+<!-- Form tìm kiếm -->
+<form action="search" method="get">
+    <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm..." required>
+    <button type="submit">Tìm kiếm</button>
+</form>
 </body>
 </html>
 <!-- File dashboard.jsp -->
