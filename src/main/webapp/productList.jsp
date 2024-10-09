@@ -68,13 +68,13 @@
         <jsp:include page="header.jsp"></jsp:include>
     </header>
 
-<%--    <div class="sidebar">--%>
-<%--        <h2>Danh Mục Sản Phẩm</h2>--%>
-<%--        <a href="products?category=Quần">Quần</a>--%>
-<%--        <a href="products?category=Áo">Áo</a>--%>
-<%--        <a href="products?category=mu">Mũ</a>--%>
-<%--        <a href="products?category=Giày">Giày</a>--%>
-<%--    </div>--%>
+    <div class="sidebar">
+        <h2>Danh Mục Sản Phẩm</h2>
+        <a href="products?category=Quần">Quần</a>
+        <a href="products?category=Áo">Áo</a>
+        <a href="products?category=mu">Mũ</a>
+        <a href="products?category=Giày">Giày</a>
+    </div>
 
 
         <div class="container__product">
@@ -94,7 +94,11 @@
                         </div>
                         <div class="btn__product">
                             <button class="btn__price">Mua</button>
-                            <button class="addToCard">Thêm</button>
+                            <form action="cart" method="post">
+                                <input type="hidden" name="userId" value="${sessionScope.userId}">
+                                <input type="hidden" name="productId" value="${product.productId}">
+                                <input type="number" name="quantity" value="1" min="1" required>
+                                <button type="submit">Thêm vào Giỏ</button>
                         </div>
                     </div>
                     </c:forEach>
