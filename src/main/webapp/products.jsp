@@ -1,64 +1,73 @@
-
+<%--
+  Created by IntelliJ IDEA.
+  User: Danh Nguyen
+  Date: 10/1/2024
+  Time: 11:49 AM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Danh Sách Sản Phẩm</title>
+  <meta charset="UTF-8">
+  <title>Double D</title>
   <style>
-    body {
-      display: flex;
-      margin: 0;
-      font-family: Arial, sans-serif;
+    body{
+      margin: 0px;
     }
-    .sidebar {
-      width: 200px;
-      background-color: #f4f4f4;
-      padding: 15px;
-      position: fixed;
-      height: 100%;
-    }
-    .sidebar a {
+    .nav__left{
       display: block;
-      padding: 10px;
-      text-decoration: none;
-      color: black;
     }
-    .sidebar a:hover {
-      background-color: #ddd;
+    .header__product{
+      background-color: #bf9369;
     }
-    .content {
-      margin-left: 220px; /* Khoảng cách với sidebar */
-      padding: 15px;
-      width: calc(100% - 220px); /* Đảm bảo nội dung không chồng lên sidebar */
+
+    /*test*/
+    .list__item--product{
+      display: grid;
+      grid-template-columns: repeat(4, minmax(200px, 1fr));
+      /*gap: px;*/
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
+
+    .item__product{
+      text-align: center;
+      background-color: #F5F5F5;
+      margin-left: 30px;
+      margin-right: 30px;
     }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
+    .item__product:hover .product__img{
+      transform: scale(1.1);
     }
-    th {
-      background-color: #f2f2f2;
+    .btn__price{
+      width: 80px;
+      height: 30px;
+      margin-right: 20px;
+      margin-bottom: 10px;
+      border: 0px;
+      font-size: 20px;
     }
-    img {
-      width: 100px; /* Kích thước hình ảnh */
-      height: auto;
+    .btn__price:hover{
+      background-color: red;
     }
-    .add-to-cart {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
+    .addToCard{
+      width: 80px;
+      height: 30px;
+      margin-left: 20px;
+      margin-bottom: 10px;
+      border: 0px;
+      font-size: 20px;
     }
-    .add-to-cart select {
-      margin-right: 5px;
+    .addToCard:hover{
+      background-color: red;
     }
   </style>
 </head>
 <body>
+<header>
+  <jsp:include page="header.jsp"></jsp:include>
+</header>
+
 <div class="sidebar">
   <h2>Danh Mục Sản Phẩm</h2>
   <a href="products?category=Quần">Quần</a>
@@ -67,46 +76,39 @@
   <a href="products?category=Giày">Giày</a>
 </div>
 
-<div class="content">
-  <h1>Danh Sách Sản Phẩm</h1>
 
-  <!-- Form thêm sản phẩm vào giỏ -->
-
-
-
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>Tên Sản Phẩm</th>
-      <th>Danh Mục</th>
-      <th>Giá</th>
-      <th>Mô Tả</th>
-      <th>Kích Thước</th>
-      <th>Số Lượng Tồn</th>
-      <th>Ảnh</th>
-      <th>Xem</th>
-      <th>add</th>
-    </tr>
-    <c:forEach var="product" items="${products}">
-      <tr>
-        <td>${product.productId}</td>
-        <td>${product.name}</td>
-        <td>${product.category}</td>
-        <td>${product.price} VNĐ</td>
-        <td>${product.description}</td>
-        <td>${product.size}</td>
-        <td>${product.stockQuantity}</td>
-        <td><img src="${product.imageUrl}" alt="${product.name}"></td>
-        <td><a href="product-detail?productId=${product.productId}">Xem chi tiết</a></td>
-        <td><form action="cart" method="post">
-          <input type="hidden" name="userId" value="${sessionScope.userId}">
-          <input type="hidden" name="productId" value="${product.productId}">
-          <input type="number" name="quantity" value="1" min="1" required>
-          <button type="submit">Thêm vào Giỏ</button>
-        </form></td>
-      </tr>
-    </c:forEach>
-  </table>
+<div class="container__product">
+  <div class="list__newProduct">
+    <h3 class="title__newProduct">Flast Sale</h3>
+    <div class="list__item--product">
+      <c:forEach var="product" items="${products}">
+        <div class="item__product">
+          <div class="item__product--img">
+            <img src="${product.imageUrl}" class="product__img" style="width: 300px; height: 400px">
+          </div>
+          <div class="title__product">
+              ${product.name}
+          </div>
+          <div class="price__product">
+              ${product.price}
+          </div>
+          <div class="btn__product">
+            <button class="btn__price">Mua</button>
+            <form action="cart" method="post">
+              <input type="hidden" name="userId" value="${sessionScope.userId}">
+              <input type="hidden" name="productId" value="${product.productId}">
+              <input type="number" name="quantity" value="1" min="1" required>
+              <button type="submit">Thêm vào Giỏ</button>
+            </form>
+          </div>
+        </div>
+      </c:forEach>
+    </div>
+  </div>
 </div>
+<footer>
+  <jsp:include page="foodter.jsp"></jsp:include>
+</footer>
+<script src="index.js"></script>
 </body>
 </html>
