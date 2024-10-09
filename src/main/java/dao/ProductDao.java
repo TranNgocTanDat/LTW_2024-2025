@@ -196,7 +196,7 @@ public class ProductDao {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         ProductDao productDao = new ProductDao();
-        productDao.getProductsByCategory("d");
+//        productDao.getProductsByCategory("d");
 //        List<Product> products = productDao.searchProductByKeyWord("Áo");
         List<Product> products = productDao.getAll();
         for (Product product: products) {
