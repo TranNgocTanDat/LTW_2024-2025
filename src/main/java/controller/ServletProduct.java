@@ -24,10 +24,10 @@ public class ServletProduct extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String category = request.getParameter("category");
-        List<Product> products = productDao.getProductsByCategory(category);
+//        String category = request.getParameter("category");
+        List<Product> products = productDao.getAll();
         request.setAttribute("products", products);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/products.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/productList.jsp");
         dispatcher.forward(request, response);
     }
 

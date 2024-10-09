@@ -197,8 +197,8 @@ public class ProductDao {
         ProductDao productDao = new ProductDao();
 
         productDao.getProductsByCategory("d");
-        List<Product> products = productDao.searchProductByKeyWord("Áo");
-//        List<Product> products = productDao.getAll();
+//        List<Product> products = productDao.searchProductByKeyWord("Áo");
+        List<Product> products = productDao.getAll();
         for (Product product: products) {
             System.out.println(product);
         }
