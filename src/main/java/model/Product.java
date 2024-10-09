@@ -25,6 +25,10 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public Product(int productId, String name, double price, int stockQuantity) {
+    }
+
+
     public int getProductId() {
         return productId;
     }

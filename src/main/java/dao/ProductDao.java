@@ -159,47 +159,57 @@ public class ProductDao {
         return products;
     }
 
-        public List<Product> searchProductByKeyWord(String keyword){
-            List<Product> products = new ArrayList<>();
-            String query = "SELECT * FROM Product WHERE name LIKE ? OR description LIKE ?";
+    public List<Product> searchProductByKeyWord(String keyword) {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT * FROM Product WHERE name LIKE ? OR description LIKE ?";
 
-            try {
-                connection = new DbContext().getConnection();
-                ps = connection.prepareStatement(query);
-                String q = "%" + keyword + "%";
-                ps.setString(1, query);
-                ps.setString(2, query);
-                rs = ps.executeQuery();
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(query);
 
-                while (rs.next()){
-                    int productId = rs.getInt("productId");
-                    String name = rs.getString("name");
-                    String description = rs.getString("description");
-                    double price = rs.getDouble("price");
-                    String category = rs.getString("category");
-                    String size = rs.getString("size");
-                    String color = rs.getString("color");
-                    int stockQuantity = rs.getInt("stockQuantity");
-                    String imageUrl = rs.getString("imageUrl");
-                    products.add(new Product(productId, name,description, price, category, size, color, stockQuantity, imageUrl));
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+            // Tạo giá trị cho tham số
+            String q = "%" + keyword + "%";
+            ps.setString(1, q);
+            ps.setString(2, q);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int productId = rs.getInt("productId");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                double price = rs.getDouble("price");
+                String category = rs.getString("category");
+                String size = rs.getString("size");
+                String color = rs.getString("color");
+                int stockQuantity = rs.getInt("stockQuantity");
+                String imageUrl = rs.getString("imageUrl");
+                products.add(new Product(productId, name, description, price, category, size, color, stockQuantity, imageUrl));
             }
-            return products;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
-
-
+        return products;
+    }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         ProductDao productDao = new ProductDao();
 
+<<<<<<< HEAD
         productDao.getProductsByCategory("d");
 //        List<Product> products = productDao.searchProductByKeyWord("Áo");
         List<Product> products = productDao.getAll();
         for (Product product: products) {
+=======
+        // Uncomment if you want to get products by category
+        // productDao.getProductsByCategory("d");
+
+        List<Product> products = productDao.searchProductByKeyWord("Áo"); // Thay 'Áo' thành 'Áo'
+
+        for (Product product : products) {
+>>>>>>> 00023506834e1347da1a170510761c107bb39e95
             System.out.println(product);
         }
     }

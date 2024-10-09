@@ -1,57 +1,43 @@
 package model;
 
-public class Cart {
-    protected int cartId;
-    protected int userId;
-    protected int productId;
-    protected int quatity;
+import java.util.Date;
+import java.util.List;
 
-    public Cart(int cartId, int userId, int productId, int quatity) {
-        this.cartId = cartId;
+
+public class Cart {
+    private int userId;
+    private int productId;
+    private int quantity;
+    private String sessionId;
+    private String status;
+
+    // Constructor
+    public Cart(int userId, int productId, int quantity, String sessionId, String status) {
         this.userId = userId;
         this.productId = productId;
-        this.quatity = quatity;
+        this.quantity = quantity;
+        this.sessionId = sessionId;
+        this.status = status;
     }
 
-    public int getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(int cartId) {
-        this.cartId = cartId;
-    }
-
+    // Getters and Setters
     public int getUserId() {
         return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public int getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public int getQuatity() {
-        return quatity;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setQuatity(int quatity) {
-        this.quatity = quatity;
-    }
-
-    @Override
-    public String toString() {
-        return "Cart{" +
-                "cartId=" + cartId +
-                ", userId=" + userId +
-                ", productId=" + productId +
-                ", quatity=" + quatity +
-                '}';
+    public String getStatus() {
+        return status;
     }
 }
