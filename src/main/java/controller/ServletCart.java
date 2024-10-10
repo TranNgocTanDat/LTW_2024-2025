@@ -1,7 +1,7 @@
 package controller;
 
 import dao.CartDao;
-import model.Product;
+import model.CartItem;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,8 +23,6 @@ public class ServletCart extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession(); // Lấy session
         Integer userId = (Integer) session.getAttribute("userId"); // Lấy userId từ session
 
@@ -34,7 +32,7 @@ public class ServletCart extends HttpServlet {
         }
 
         try {
-            List<Product> cart = cartDAO.getCart(userId); // Lấy giỏ hàng từ CartDAO
+            List<CartItem> cart = cartDAO.getCart(userId); // Lấy giỏ hàng từ CartDAO
             request.setAttribute("cart", cart); // Đưa cart vào request scope
 
             // Lưu cart vào session để sử dụng sau này
@@ -54,25 +52,32 @@ public class ServletCart extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
-        System.out.println(userId);
+
+        String action = request.getParameter("action");
 
         try {
             int productId = Integer.parseInt(request.getParameter("productId"));
-            int quantity = Integer.parseInt(request.getParameter("quantity"));
 
-            // Lấy sessionId từ session hoặc tạo mới nếu cần
-            String sessionId = request.getSession().getId();
+            if ("add".equals(action)) {
+                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                // Thêm sản phẩm vào giỏ hàng
+                cartDAO.addProduct(userId, productId, quantity, request.getSession().getId());
+            } else if ("remove".equals(action)) {
+                // Xóa sản phẩm khỏi giỏ hàng
+                cartDAO.removeProduct(userId, productId);
+            } else if ("update".equals(action)) {
+                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                // Cập nhật số lượng sản phẩm
+                cartDAO.updateProductQuantity(userId, productId, quantity);
+            }
 
-            // Thêm sản phẩm vào giỏ hàng
-            cartDAO.addProduct(userId, productId, quantity, sessionId);
-
-            // Cập nhật giỏ hàng trong session sau khi thêm sản phẩm
-            List<Product> cart = cartDAO.getCart(userId);
+            // Cập nhật giỏ hàng trong session sau khi thực hiện hành động
+            List<CartItem> cart = cartDAO.getCart(userId);
             session.setAttribute("cartSession", cart);
 
             response.sendRedirect("cart");
         } catch (SQLException e) {
-            throw new ServletException("Error adding product to cart: " + e.getMessage(), e);
+            throw new ServletException("Error processing cart action: " + e.getMessage(), e);
         } catch (NumberFormatException e) {
             throw new ServletException("Invalid number format: " + e.getMessage(), e);
         }
