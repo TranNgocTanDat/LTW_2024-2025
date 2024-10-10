@@ -84,10 +84,14 @@
         Danh Mục Sản Phẩm
     </div>
     <div class="nav__search">
-      <input type="text" placeholder="Search..." class="search" style="padding-left: 20px; font-size: 15px">
-      <button class="bnt__search">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
+
+        <form action="search" method="get">
+            <input type="text" name="keyword" placeholder="Search..." class="search" style="padding-left: 20px; font-size: 15px" required>
+            <button type="submit" class="bnt__search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+
     </div>
     <div class="nav__card">
       <div class="card__item">
@@ -96,7 +100,7 @@
       </div>
       <div class="login">
           <i class="fa-solid fa-user"></i>
-          <a href="login.jsp" class="cart">Đăng nhập</a>
+          <a href="login" class="cart">Đăng nhập</a>
       </div>
     </div>
   </div>

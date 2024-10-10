@@ -107,7 +107,7 @@
     </style>
 </head>
 <body>
-<form action="login" method="post">
+
 <%--    <label for="username">Username:</label>--%>
 <%--    <input type="text" id="username" name="username" required><br/>--%>
 
@@ -119,9 +119,11 @@
     <div class="container__login">
         <div class="login__item">
             <h1>Đăng nhập</h1>
+            <form action="login" method="post">
             <input type="text" name="username" placeholder="Email/Số điện thoại/ Tên đăng nhập" class="login__texx">
             <input type="password" name="password" placeholder="Mật Khẩu" class="login__texx">
             <button type="submit" class="btn__login">Đăng nhập</button>
+            </form>
             <div class="login__sp">
                 <div class="login__sp--left">Quên mật khẩu</div>
             </div>
@@ -136,14 +138,27 @@
                     Google
                 </button>
             </div>
-            <div class="login__dk ">
+            <a href="register">
+                <div class="login__dk ">
                 Đăng kí
-            </div>
+                </div>
+            </a>
         </div>
     </div>
     <footer><jsp:include page="foodter.jsp"></jsp:include></footer>
-    <script src="login.js"></script>
-</form>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentPage = window.location.pathname; // Lấy đường dẫn hiện tại
+            const nav = document.querySelector('.nav'); // lấy ra thẻ nav
+
+            // Kiểm tra nếu đang ở trang login.jsp
+            if (currentPage.includes("login")) {
+                nav.style.display = 'none'; // Ẩn thẻ nav
+            }
+            console.log(currentPage); // Kiểm tra đường dẫn hiện tại trong console
+        });
+    </script>
+
 
 <c:if test="${not empty errorMessage}">
     <p style="color: red;">${errorMessage}</p>

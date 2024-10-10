@@ -78,10 +78,10 @@
     <div class="header__right">
       <ul class="list">
         <li class="list__item active">
-          <a href="Home.jsp">Trang chủ</a>
+          <a href="index.jsp">Trang chủ</a>
         </li>
         <li class="list__item header__product">
-          <a href="products.jsp">Sản Phẩm</a>
+          <a href="products">Sản Phẩm</a>
         </li>
         <li class="list__item">Cửa hàng</li>
         <li class="list__item">?Help?</li>
