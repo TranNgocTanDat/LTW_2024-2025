@@ -20,11 +20,13 @@ public class AuthFilter implements Filter {
 
         String loginURI = httpRequest.getContextPath() + "/login"; // Đường dẫn đến trang đăng nhập
         String adminURI = httpRequest.getContextPath() + "/admin"; // Đường dẫn đến trang admin
+        String homeURI = httpRequest.getContextPath() + "/home"; // Đường dẫn đến trang chính
 
         boolean loggedIn = (session != null && session.getAttribute("user") != null);
         boolean isAdmin = (session != null && "admin".equals(session.getAttribute("role"))); // Kiểm tra vai trò
         boolean loginRequest = httpRequest.getRequestURI().equals(loginURI);
         boolean adminRequest = httpRequest.getRequestURI().equals(adminURI);
+        boolean homeRequest = httpRequest.getRequestURI().equals(homeURI);
 
         // Nếu đã đăng nhập và là admin, cho phép truy cập
         if (loggedIn && isAdmin) {
@@ -38,6 +40,9 @@ public class AuthFilter implements Filter {
         } else if (loginRequest) {
             // Nếu yêu cầu trang đăng nhập, cho phép
             chain.doFilter(request, response);
+        }  else if (!homeRequest) {
+            // Nếu chưa đăng nhập và yêu cầu không phải trang chính, chuyển hướng đến trang chính
+            httpResponse.sendRedirect(homeURI);
         } else {
             // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
             httpResponse.sendRedirect(loginURI);
