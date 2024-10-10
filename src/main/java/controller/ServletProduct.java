@@ -26,7 +26,6 @@ public class ServletProduct extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String category = request.getParameter("category");
         List<Product> products;
-
         // Kiểm tra nếu category là null thì lấy tất cả sản phẩm
         if (category == null || category.isEmpty()) {
             products = productDao.getAll(); // Lấy tất cả sản phẩm
