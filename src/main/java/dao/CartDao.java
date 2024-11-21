@@ -1,77 +1,3 @@
-//package dao;
-//
-//import context.DbContext;
-//import model.Cart;
-//
-//import java.sql.*;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//public class CartDao {
-//    Connection connection =null;
-//    PreparedStatement ps = null;
-//    ResultSet rs = null;
-//
-//    public int addCart(Cart cart) throws SQLException {
-//        String query = "INSERT INTO Cart (userId, productId, quantity, sessionId, status) VALUES (?, ?, ?, ?, ?)";
-//        try {
-//            connection = new DbContext().getConnection();
-//            ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-//            ps.setInt(1, cart.getUserId());
-//            ps.setInt(2, cart.getProductId());
-//            ps.setInt(3, cart.getQuantity());
-//            ps.setString(4, cart.getSessionId());
-//            ps.setString(5, cart.getStatus());
-//
-//            int affectedRows = ps.executeUpdate();
-//            if (affectedRows == 0) {
-//                throw new SQLException("Failed to create cart, no rows affected.");
-//            }
-//
-//            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
-//                if (generatedKeys.next()) {
-//                    return generatedKeys.getInt(1); // Trả về `cartId` vừa được tạo
-//                } else {
-//                    throw new SQLException("Failed to create cart, no ID obtained.");
-//                }
-//            }
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    // Lấy danh sách sản phẩm trong giỏ hàng của người dùng
-//    public List<Cart> getCartItems(int userId) throws SQLException {
-//        List<Cart> cartItems = new ArrayList<>();
-//        String query = "SELECT * FROM Cart WHERE userId = ?";
-//
-//        try  {
-//            connection = new DbContext().getConnection();
-//            ps = connection.prepareStatement(query);
-//            ps.setInt(1, userId);
-//            rs = ps.executeQuery();
-//                while (rs.next()) {
-//                    int cartId = rs.getInt("cartId");
-//                    int productId = rs.getInt("productId");
-//                    int quantity = rs.getInt("quantity");
-//                    String sessionId = rs.getString("sessionId");
-//                    String status = rs.getString("status");
-//
-//                    Cart cart = new Cart(userId, productId, quantity, sessionId, status);
-//                    cartItems.add(cart);
-//                }
-//
-//        } catch (ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return cartItems;
-//    }
-//
-//    public static void main(String[] args) {
-//        CartDao cartDao = new CartDao();
-//
-//    }
-//}
 package dao;
 
 import context.DbContext;
@@ -84,39 +10,45 @@ import java.util.List;
 
 public class CartDao {
     public void addProduct(int userId, int productId, int quantity, String sessionId) throws SQLException {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Số lượng phải lớn hơn 0.");
+        }
+
         String queryCheck = "SELECT quantity FROM Cart WHERE userId = ? AND productId = ?";
         try (Connection connection = new DbContext().getConnection();
              PreparedStatement stmtCheck = connection.prepareStatement(queryCheck)) {
+            connection.setAutoCommit(false);  // Bắt đầu giao dịch
             stmtCheck.setInt(1, userId);
             stmtCheck.setInt(2, productId);
             ResultSet rs = stmtCheck.executeQuery();
 
             if (rs.next()) {
-                // Nếu sản phẩm đã tồn tại, cập nhật số lượng
+                // Sản phẩm đã tồn tại, cập nhật số lượng
                 int currentQuantity = rs.getInt("quantity");
                 String queryUpdate = "UPDATE Cart SET quantity = ? WHERE userId = ? AND productId = ?";
                 try (PreparedStatement stmtUpdate = connection.prepareStatement(queryUpdate)) {
-                    stmtUpdate.setInt(1, currentQuantity + quantity); // Tăng số lượng sản phẩm
+                    stmtUpdate.setInt(1, currentQuantity + quantity);
                     stmtUpdate.setInt(2, userId);
                     stmtUpdate.setInt(3, productId);
                     stmtUpdate.executeUpdate();
                 }
             } else {
-                // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
-                String queryInsert = "INSERT INTO Cart (userId, productId, quantity, sessionId, status) VALUES (?, ?, ?, ?, ?)";
+                // Sản phẩm chưa tồn tại, thêm vào giỏ hàng
+                String queryInsert = "INSERT INTO Cart (userId, productId, quantity, sessionId) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement stmtInsert = connection.prepareStatement(queryInsert)) {
                     stmtInsert.setInt(1, userId);
                     stmtInsert.setInt(2, productId);
                     stmtInsert.setInt(3, quantity);
                     stmtInsert.setString(4, sessionId);
-                    stmtInsert.setString(5, "pending"); // Hoặc bất kỳ trạng thái nào bạn muốn
                     stmtInsert.executeUpdate();
                 }
             }
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            connection.commit();  // Xác nhận giao dịch
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException("Lỗi khi cập nhật giỏ hàng", e);
         }
     }
+
 
     public List<CartItem> getCart(int userId) throws SQLException {
         List<CartItem> cartItems = new ArrayList<>();
@@ -148,7 +80,7 @@ public class CartDao {
 
     // Phương thức để xóa sản phẩm khỏi giỏ hàng
     public void removeProduct(int userId, int productId) throws SQLException {
-        String sql = "DELETE FROM cart WHERE user_id = ? AND product_id = ?";
+        String sql = "DELETE FROM cart WHERE userId = ? AND productId = ?";
         try (Connection conn = new DbContext().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, userId);
             stmt.setInt(2, productId);
@@ -158,14 +90,37 @@ public class CartDao {
         }
     }
 
-    // Phương thức để cập nhật số lượng sản phẩm
-    public void updateProductQuantity(int userId, int productId, int quantity) throws SQLException {
-        String sql = "UPDATE cart SET quantity = ? WHERE user_id = ? AND product_id = ?";
+    // Tăng số lượng sản phẩm trong giỏ hàng
+    public void increaseProductQuantity(int userId, int productId) throws SQLException {
+        String sql = "UPDATE Cart SET quantity = quantity + 1 WHERE userId = ? AND productId = ?";
         try (Connection conn = new DbContext().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, quantity);
-            stmt.setInt(2, userId);
-            stmt.setInt(3, productId);
+            stmt.setInt(1, userId);
+            stmt.setInt(2, productId);
             stmt.executeUpdate();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Giảm số lượng sản phẩm trong giỏ hàng
+    public void decreaseProductQuantity(int userId, int productId) throws SQLException {
+        String sql = "UPDATE Cart SET quantity = quantity - 1 WHERE userId = ? AND productId = ? AND quantity > 1";
+        try (Connection conn = new DbContext().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            stmt.setInt(2, productId);
+            stmt.executeUpdate();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void clearCart(int userId) {
+        String sql = "DELETE FROM Cart WHERE userId = ?";
+        try (Connection conn = new DbContext().getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -175,13 +130,32 @@ public class CartDao {
     public static void main(String[] args) throws SQLException {
         CartDao cartDao = new CartDao();
 
-        // Thay đổi thông tin này theo nhu cầu của bạn
-        int userId = 1; // ID người dùng
-        int productId = 1; // ID sản phẩm
-        int quantity = 2; // Số lượng
+        int userId = 12; // ID người dùng
+        int productId = 7  ; // ID sản phẩm
+        int initialQuantity = 1; // Số lượng ban đầu
         String sessionId = "session123"; // ID phiên
-        cartDao.addProduct(userId, productId, quantity, sessionId);
-        System.out.println("Product added to cart successfully.");
+
+        // Thêm sản phẩm vào giỏ hàng với số lượng ban đầu
+        cartDao.addProduct(userId, productId, initialQuantity, sessionId);
+        System.out.println("First addProduct call: Product added to cart with quantity = " + initialQuantity);
+
+        // Hiển thị giỏ hàng sau lần thêm đầu tiên
+        List<CartItem> cartItems = cartDao.getCart(userId);
+        System.out.println("Cart items after first addProduct:");
+        for (CartItem item : cartItems) {
+            System.out.println("Product ID: " + item.getProduct().getProductId() +
+                    ", Name: " + item.getProduct().getName() +
+                    ", Quantity: " + item.getQuantity());
+        }
+
+        // Hiển thị giỏ hàng sau lần thêm thứ hai
+        cartItems = cartDao.getCart(userId);
+        System.out.println("Cart items after second addProduct:");
+        for (CartItem item : cartItems) {
+            System.out.println("Product ID: " + item.getProduct().getProductId() +
+                    ", Name: " + item.getProduct().getName() +
+                    ", Quantity: " + item.getQuantity());
+        }
 
 
     }

@@ -26,7 +26,7 @@ public class AuthFilter implements Filter {
         boolean isAdmin = (session != null && "admin".equals(session.getAttribute("role"))); // Kiểm tra vai trò
         boolean loginRequest = httpRequest.getRequestURI().equals(loginURI);
         boolean adminRequest = httpRequest.getRequestURI().equals(adminURI);
-        boolean homeRequest = httpRequest.getRequestURI().equals(homeURI);
+        boolean homeRequest = httpRequest.getRequestURI().equals("/home");
 
         // Nếu đã đăng nhập và là admin, cho phép truy cập
         if (loggedIn && isAdmin) {
