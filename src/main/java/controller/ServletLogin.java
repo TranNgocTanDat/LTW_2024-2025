@@ -30,7 +30,14 @@ public class ServletLogin extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("user") != null) {
+            // Nếu đã đăng nhập rồi, chuyển hướng đến trang chính hoặc hồ sơ người dùng
+            response.sendRedirect("profile.jsp"); // Chuyển hướng đến trang profile
+        } else {
+            // Nếu chưa đăng nhập, hiển thị trang login
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
     }
 
     @Override

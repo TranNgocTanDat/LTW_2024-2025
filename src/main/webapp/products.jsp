@@ -104,6 +104,7 @@
               <input type="hidden" name="userId" value="${sessionScope.userId}">
               <input type="hidden" name="productId" value="${product.productId}">
               <input type="number" name="quantity" value="1" min="1" required>
+              <input type="hidden" name="action" value="add">
               <button type="submit">Thêm vào Giỏ</button>
             </form>
           </div>

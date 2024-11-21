@@ -28,7 +28,7 @@
 
 <h2>Giỏ hàng</h2>
 <c:choose>
-  <c:when test="${not empty cart}">
+  <c:when test="${not empty sessionScope.cartSession}">
     <table>
       <tr>
         <th>Tên sản phẩm</th>
@@ -37,26 +37,27 @@
         <th>Tổng giá</th>
         <th>Hành động</th>
       </tr>
-      <c:forEach var="item" items="${cart}">
+      <c:forEach var="item" items="${sessionScope.cartSession}">
         <tr>
           <td>${item.product.name}</td>
           <td>${item.product.price} VNĐ</td>
-          <<td>
-          <input type="number" name="quantity" value="${item.quantity}" min="1" />
-          <input type="hidden" name="productId" value="${item.product.productId}" />
-        </td>
-          <td>${item.product.price * item.quantity} VNĐ</td> <!-- Tính tổng giá cho sản phẩm -->
           <td>
-            <button type="submit" name="action" value="update">Cập nhật</button>
-            <button type="submit" name="action" value="remove">Xóa</button>
+            <form method="post" action="cart">
+              <input type="number" name="quantity" value="${item.quantity}" min="1" />
+              <input type="hidden" name="productId" value="${item.product.productId}" />
+              <button type="submit" name="action" value="increase">+</button>
+              <button type="submit" name="action" value="decrease">-</button>
+              <button type="submit" name="action" value="remove">Xóa</button>
+            </form>
           </td>
+          <td>${item.product.price * item.quantity} VNĐ</td>
         </tr>
       </c:forEach>
       <tr>
         <td colspan="3" style="text-align:right;"><strong>Tổng cộng:</strong></td>
         <td>
           <c:set var="total" value="0" />
-          <c:forEach var="cartItem" items="${cart}">
+          <c:forEach var="cartItem" items="${sessionScope.cartSession}">
             <c:set var="product" value="${cartItem.product}" />
             <c:set var="total" value="${total + (product.price * cartItem.quantity)}" />
           </c:forEach>
