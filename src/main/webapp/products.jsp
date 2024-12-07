@@ -116,7 +116,9 @@
             <form action="cart" method="post" class="add__product">
               <input type="hidden" name="userId" value="${sessionScope.userId}">
               <input type="hidden" name="productId" value="${product.productId}">
+
               <button type="submit" class="btn__add">Thêm vào Giỏ</button>
+
             </form>
           </div>
         </div>

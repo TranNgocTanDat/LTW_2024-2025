@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,7 +62,7 @@
         }
         .list__item--product{
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, minmax(200px, 1fr));
             /*gap: px;*/
         }
 
@@ -199,69 +201,29 @@
 <div class="list__newProduct">
     <h3 class="title__newProduct">Sảm Phẩm Mới</h3>
     <div class="list__item--product">
-        <div class="item__product">
-            <div class="item__product--img">
-                <img src="./img/doubleD1.png" class="product__img" style="width: 300px; height: 400px">
+        <c:forEach var="product" items="${products}">
+            <div class="item__product">
+                <div class="item__product--img">
+                    <img src="${product.imageUrl}" class="product__img" style="width: 300px; height: 400px">
+                </div>
+                <div class="title__product">
+                        ${product.name}
+                </div>
+                <div class="price__product">
+                        ${product.price}
+                </div>
+                <div class="btn__product">
+                    <button class="btn__price">Mua</button>
+                    <button class="btn__price" onclick="viewProduct(${product.productId})">Xem</button>
+                    <form action="cart" method="post">
+                        <input type="hidden" name="userId" value="${sessionScope.userId}">
+                        <input type="hidden" name="productId" value="${product.productId}">
+                        <input type="number" name="quantity" value="1" min="1" required>
+                        <button type="submit">Thêm vào Giỏ</button>
+                    </form>
+                </div>
             </div>
-            <div class="title__product">
-                Áo lụa
-            </div>
-            <div class="price__product">
-                250.000
-            </div>
-            <div class="btn__product">
-                <button class="btn__price">Mua</button>
-                <button class="addToCard">Thêm</button>
-            </div>
-        </div>
-        <%--        sảm phẩm1--%>
-        <div class="item__product">
-            <div class="item__product--img">
-                <img src="./img/doubleD1.png" class="product__img" style="width: 300px; height: 400px">
-            </div>
-            <div class="title__product">
-                Áo lụa
-            </div>
-            <div class="price__product">
-                250.000
-            </div>
-            <div class="btn__product">
-                <button class="btn__price">Mua</button>
-                <button class="addToCard">Thêm</button>
-            </div>
-        </div>
-        <%--        sảm phẩm 2--%>
-        <div class="item__product">
-            <div class="item__product--img">
-                <img src="./img/doubleD1.png" class="product__img" style="width: 300px; height: 400px">
-            </div>
-            <div class="title__product">
-                Áo lụa
-            </div>
-            <div class="price__product">
-                250.000
-            </div>
-            <div class="btn__product">
-                <button class="btn__price">Mua</button>
-                <button class="addToCard">Thêm</button>
-            </div>
-        </div>
-        <%--        sảm phẩm 3--%>
-        <div class="item__product">
-            <div class="item__product--img">
-                <img src="./img/doubleD1.png" class="product__img" style="width: 300px; height: 400px">
-            </div>
-            <div class="title__product">
-                Áo lụa
-            </div>
-            <div class="price__product">
-                250.000
-            </div>
-            <div class="btn__product">
-                <button class="btn__price">Mua</button>
-                <button class="addToCard">Thêm</button>
-            </div>
-        </div>
+        </c:forEach>
     </div>
 </div>
 <footer>
