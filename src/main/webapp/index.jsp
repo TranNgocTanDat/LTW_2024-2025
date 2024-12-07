@@ -34,6 +34,7 @@
             width: 1200px;
             display: flex;
             transition: 0.5s;
+            background-size: contain;
         }
         .img__item{
             flex-shrink: 0;
@@ -112,79 +113,41 @@
 <div class="main__test">
     <div class="list__img">
         <div class="img">
-            <img src="img/DSC_1468.png" class="img__item" >
-            <img src="img/DSC_1489.png" class="img__item" >
-            <img src="img/DSC_1499.png" class="img__item">
-            <img src="./img/DSC_1470%20-%20Copy.JPG" class="img__item">
+            <img src="https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="img__item" >
+            <img src="https://images.pexels.com/photos/102129/pexels-photo-102129.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" class="img__item" >
+            <img src="https://images.pexels.com/photos/28271086/pexels-photo-28271086/free-photo-of-giay-adidas-buty-sklep-z-butami-c-a-hang-ban-l-giay.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load" class="img__item">
+            <img src="https://images.pexels.com/photos/3875430/pexels-photo-3875430.jpeg?auto=compress&cs=tinysrgb&w=600" class="img__item">
         </div>
     </div>
 </div>
 <div class="list__newProduct">
     <h3 class="title__newProduct">Flast Sale</h3>
     <div class="list__item--product">
-        <div class="item__product">
-            <div class="item__product--img">
-                <img src="./img/doubleD1.png" class="product__img" style="width: 300px; height: 400px">
+        <c:forEach var="product" items="${products}">
+            <div class="item__product">
+                <div class="item__product--img">
+                    <img src="${product.imageUrl}" class="product__img" style="width: 300px; height: 400px">
+                </div>
+                <div class="title__product">
+                        ${product.name}
+                </div>
+                <div class="price__product">
+                        ${product.price}
+                </div>
+                <div class="btn__product">
+                    <button class="btn__price">Mua</button>
+                    <button class="btn__price" onclick="viewProduct(${product.productId})">Xem</button>
+                    <form action="cart" method="post">
+                        <input type="hidden" name="userId" value="${sessionScope.userId}">
+                        <input type="hidden" name="productId" value="${product.productId}">
+                        <input type="number" name="quantity" value="1" min="1" required>
+                        <input type="hidden" name="action" value="add">
+                        <button type="submit" class="addToCard">Thêm vào Giỏ</button>
+                    </form>
+                </div>
             </div>
-            <div class="title__product">
-                Áo lụa
-            </div>
-            <div class="price__product">
-                250.000
-            </div>
-            <div class="btn__product">
-                <button class="btn__price">Mua</button>
-                <button class="addToCard">Thêm</button>
-            </div>
-        </div>
-        <%--        sảm phẩm1--%>
-        <div class="item__product">
-            <div class="item__product--img">
-                <img src="./img/doubleD1.png" class="product__img" style="width: 300px; height: 400px">
-            </div>
-            <div class="title__product">
-                Áo lụa
-            </div>
-            <div class="price__product">
-                250.000
-            </div>
-            <div class="btn__product">
-                <button class="btn__price">Mua</button>
-                <button class="addToCard">Thêm</button>
-            </div>
-        </div>
-        <%--        sảm phẩm 2--%>
-        <div class="item__product">
-            <div class="item__product--img">
-                <img src="./img/doubleD1.png" class="product__img" style="width: 300px; height: 400px">
-            </div>
-            <div class="title__product">
-                Áo lụa
-            </div>
-            <div class="price__product">
-                250.000
-            </div>
-            <div class="btn__product">
-                <button class="btn__price">Mua</button>
-                <button class="addToCard">Thêm</button>
-            </div>
-        </div>
-        <%--        sảm phẩm 3--%>
-        <div class="item__product">
-            <div class="item__product--img">
-                <img src="./img/doubleD1.png" class="product__img" style="width: 300px; height: 400px">
-            </div>
-            <div class="title__product">
-                Áo lụa
-            </div>
-            <div class="price__product">
-                250.000
-            </div>
-            <div class="btn__product">
-                <button class="btn__price">Mua</button>
-                <button class="addToCard">Thêm</button>
-            </div>
-        </div>
+        </c:forEach>
+
     </div>
 </div>
 <div class="container__mid">
@@ -201,7 +164,7 @@
 <div class="list__newProduct">
     <h3 class="title__newProduct">Sảm Phẩm Mới</h3>
     <div class="list__item--product">
-        <c:forEach var="product" items="${products}">
+        <c:forEach var="product" items="${productsNewProduct}">
             <div class="item__product">
                 <div class="item__product--img">
                     <img src="${product.imageUrl}" class="product__img" style="width: 300px; height: 400px">

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ProductDao {
@@ -17,8 +18,8 @@ public class ProductDao {
 
 
     //add new product
-    public void addProduct(Product product){
-        String query ="INSERT INTO product (name, description, price, category, size, color, stockQuantity, imageUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    public void addProduct(Product product) {
+        String query = "INSERT INTO product (name, description, price, category, size, color, stockQuantity, imageUrl) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             connection = new DbContext().getConnection();
@@ -86,14 +87,14 @@ public class ProductDao {
     }
 
     //get all product
-    public List<Product> getAll(){
+    public List<Product> getAll() {
         List<Product> list = new ArrayList<>();
-        String query ="select*from Product";
+        String query = "select*from Product";
         try {
             connection = new DbContext().getConnection();
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 list.add(new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getFloat(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8), rs.getString(9)));
             }
         } catch (SQLException | ClassNotFoundException e) {
@@ -103,7 +104,7 @@ public class ProductDao {
     }
 
     //get product by id
-    public Product getProductById(int productId){
+    public Product getProductById(int productId) {
         Product product = null;
         String query = "SELECT * FROM Product WHERE productID=?";
         try {
@@ -111,7 +112,7 @@ public class ProductDao {
             ps = connection.prepareStatement(query);
             ps.setInt(1, productId);
             rs = ps.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 product = new Product();
                 product.setProductId(rs.getInt("productId"));
                 product.setName(rs.getString("name"));
@@ -131,8 +132,9 @@ public class ProductDao {
         }
         return product;
     }
+
     public List<Product> getProductsByCategory(String category) {
-        String query ="SELECT * FROM Product WHERE category = ?";
+        String query = "SELECT * FROM Product WHERE category = ?";
         List<Product> products = new ArrayList<>();
         try {
             connection = new DbContext().getConnection();
@@ -149,7 +151,7 @@ public class ProductDao {
                 String color = rs.getString("color");
                 int stockQuantity = rs.getInt("stockQuantity");
                 String imageUrl = rs.getString("imageUrl");
-                products.add(new Product(productId, name,description, price, category, size, color, stockQuantity, imageUrl));
+                products.add(new Product(productId, name, description, price, category, size, color, stockQuantity, imageUrl));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -194,12 +196,69 @@ public class ProductDao {
         return products;
     }
 
+    public List<Product> getRandomProducts(int limit) {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT TOP " + limit + " * FROM product ORDER BY NEWID()";
+
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("productId");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                double price = rs.getDouble("price");
+                String category = rs.getString("category");
+                String size = rs.getString("size");
+                String color = rs.getString("color");
+                int stockQuantity = rs.getInt("stockQuantity");
+                String imageUrl = rs.getString("imageUrl");
+                products.add(new Product(productId, name, description, price, category, size, color, stockQuantity, imageUrl));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+
+    public List<Product> getRandomProductNewProduct(int limit) {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT TOP " + limit + " * FROM product ORDER BY NEWID()";
+
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(sql);
+
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int productId = rs.getInt("productId");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                double price = rs.getDouble("price");
+                String category = rs.getString("category");
+                String size = rs.getString("size");
+                String color = rs.getString("color");
+                int stockQuantity = rs.getInt("stockQuantity");
+                String imageUrl = rs.getString("imageUrl");
+                products.add(new Product(productId, name, description, price, category, size, color, stockQuantity, imageUrl));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         ProductDao productDao = new ProductDao();
 //        productDao.getProductsByCategory("d");
 //        List<Product> products = productDao.searchProductByKeyWord("Áo");
-        List<Product> products = productDao.getAll();
-        for (Product product: products) {
+        List<Product> products = productDao.getRandomProducts(4);
+        for (Product product : products) {
             System.out.println(product);
         }
     }

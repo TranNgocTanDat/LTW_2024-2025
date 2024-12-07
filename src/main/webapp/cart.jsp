@@ -154,6 +154,9 @@
     </style>
 </head>
 <body>
+<header>
+    <jsp:include page="header.jsp"></jsp:include>
+</header>
 <div class="cart-container">
     <c:choose>
         <c:when test="${not empty sessionScope.cartSession}">
@@ -173,13 +176,11 @@
                                     <button type="submit" name="action" value="increase">+</button>
                                     <input type="number" name="quantity" value="${item.quantity}" min="1"/>
                                     <button type="submit" name="action" value="decrease">-</button>
-                                    <button type="submit" name="action" value="remove"
-                                            style="background: linear-gradient(135deg, #ff4b5c, #ff6f61);">Xóa
-                                    </button>
+                                    <p class="item-price">${item.product.price}</p>
+                                    <button type="submit" name="action" value="remove" class="remove-item">×</button>
                                 </form>
                             </div>
-                            <p class="item-price">${item.product.price}</p>
-                            <button class="remove-item">×</button>
+
                         </div>
 
                     </div>
