@@ -38,6 +38,40 @@
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         /*display: none;*/
     }
+    .sidebar{
+        opacity: 0; /* Ẩn sidebar ban đầu */
+        visibility: hidden;
+        position: absolute;
+        top: 45px;
+        left: 20px;
+        z-index: 1;
+        width: 200px;
+        height: 200px;
+        text-align: center;
+        background-color: #002D62;
+        color: white;
+        border-radius: 20px;
+        border: 1px solid black;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    ul{
+        margin: 0px;
+        padding: 0px;
+    }
+    .list{
+        border-bottom:1px solid  black;
+        margin-bottom: 0px;
+        height: 50px;
+        padding: 0px;
+    }
+    .shoes{
+        border-bottom: none;
+    }
+    .nav__left:hover .sidebar {
+        opacity: 1; /* Hiển thị sidebar */
+        visibility: visible; /* Bật lại */
+    }
+
     .nav__search{
       width: 600px;
       display: flex;
@@ -75,6 +109,7 @@
         color: black;
         text-decoration: none;
     }
+
   </style>
 </head>
 <body>
@@ -82,9 +117,28 @@
     <div class="nav__left">
         <i class="fa-solid fa-list"></i>
         Danh Mục Sản Phẩm
+        <div class="sidebar">
+            <ul>
+                <li class="list">
+                    <a href="products?category=Quần" style="color: white; font-size: 20px">Quần</a>
+                </li>
+                <li class="list">
+                    <a href="products?category=Áo" style="color: white; font-size: 20px">Áo</a>
+                </li>
+                <li class="list">
+                    <a href="products?category=mu" style="color: white; font-size: 20px">Mũ</a>
+                </li>
+                <li class="list shoes">
+                    <a href="products?category=Giày" style="color: white; font-size: 20px">Giày</a>
+                </li>
+            </ul>
+
+
+
+
+        </div>
     </div>
     <div class="nav__search">
-
         <form action="search" method="get">
             <input type="text" name="keyword" placeholder="Search..." class="search" style="padding-left: 20px; font-size: 15px" required>
             <button type="submit" class="bnt__search">
@@ -96,13 +150,14 @@
     <div class="nav__card">
       <div class="card__item">
           <i class="fa-solid fa-cart-shopping"></i>
-          <a href="cartProducts.jsp" class="cart">Giỏ hàng</a>
+          <a href="cart" class="cart">Giỏ hàng</a>
       </div>
       <div class="login">
           <i class="fa-solid fa-user"></i>
           <a href="login" class="cart">Đăng nhập</a>
       </div>
     </div>
+
   </div>
 <script src="nav.js"></script>
 </body>

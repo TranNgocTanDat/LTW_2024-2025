@@ -70,7 +70,7 @@
   </c:otherwise>
 </c:choose>
 
-<a href="productList.jsp">Tiếp tục mua sắm</a> <!-- Link để quay lại danh sách sản phẩm -->
+<a href="home">Tiếp tục mua sắm</a> <!-- Link để quay lại danh sách sản phẩm -->
 
 </body>
 </html>

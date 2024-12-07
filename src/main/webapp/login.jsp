@@ -138,7 +138,7 @@
                     Google
                 </button>
             </div>
-            <a href="register">
+            <a type="submit" href="register">
                 <div class="login__dk ">
                 Đăng kí
                 </div>

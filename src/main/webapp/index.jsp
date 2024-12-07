@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>Double D</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         * {
@@ -267,6 +267,7 @@
 <footer>
     <jsp:include page="foodter.jsp"></jsp:include>
 </footer>
+<script src="index.js"></script>
 </body>
 </html>
 <!-- File dashboard.jsp -->
