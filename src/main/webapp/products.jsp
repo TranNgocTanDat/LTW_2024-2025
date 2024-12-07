@@ -35,7 +35,10 @@
       background-color: #F5F5F5;
       margin-left: 30px;
       margin-right: 30px;
+      margin-bottom: 20px;
+      border-radius: 5px;
     }
+
     .item__product:hover .product__img{
       transform: scale(1.1);
     }
@@ -45,10 +48,16 @@
       margin-right: 20px;
       margin-bottom: 10px;
       border: 0px;
-      font-size: 20px;
+      font-size: 13px;
+      margin-left: 10px;
+      border-radius: 10px;
+      border: solid 1px black;
     }
     .btn__price:hover{
       background-color: red;
+    }
+    .btn__view:hover{
+      background-color: #45a049;
     }
     .addToCard{
       width: 80px;
@@ -60,6 +69,20 @@
     }
     .addToCard:hover{
       background-color: red;
+    }
+    .btn__product{
+      display: flex;
+    }
+    .add__product{
+      display: flex;
+    }
+    .btn__add{
+      height: 30px;
+      border-radius: 10px;
+      font-size: 13px;
+    }
+    .btn__add:hover{
+      background-color: #fc870c;
     }
   </style>
   <script>
@@ -73,23 +96,13 @@
   <jsp:include page="header.jsp"></jsp:include>
 </header>
 
-<div class="sidebar">
-  <h2>Danh Mục Sản Phẩm</h2>
-  <a href="products?category=Quần">Quần</a>
-  <a href="products?category=Áo">Áo</a>
-  <a href="products?category=mu">Mũ</a>
-  <a href="products?category=Giày">Giày</a>
-</div>
-
-
 <div class="container__product">
   <div class="list__newProduct">
-    <h3 class="title__newProduct">Flast Sale</h3>
     <div class="list__item--product">
       <c:forEach var="product" items="${products}">
         <div class="item__product">
           <div class="item__product--img">
-            <img src="${product.imageUrl}" class="product__img" style="width: 300px; height: 400px">
+            <img src="${product.imageUrl}" class="product__img" style="width: 320px; height: 400px; border-radius: 10px">
           </div>
           <div class="title__product">
               ${product.name}
@@ -99,13 +112,13 @@
           </div>
           <div class="btn__product">
             <button class="btn__price">Mua</button>
-            <button class="btn__price" onclick="viewProduct(${product.productId})">Xem</button>
-            <form action="cart" method="post">
+            <button class="btn__price btn__view" onclick="viewProduct(${product.productId})">Xem</button>
+            <form action="cart" method="post" class="add__product">
               <input type="hidden" name="userId" value="${sessionScope.userId}">
               <input type="hidden" name="productId" value="${product.productId}">
-              <input type="number" name="quantity" value="1" min="1" required>
-              <input type="hidden" name="action" value="add">
-              <button type="submit">Thêm vào Giỏ</button>
+
+              <button type="submit" class="btn__add">Thêm vào Giỏ</button>
+
             </form>
           </div>
         </div>
