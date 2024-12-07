@@ -7,12 +7,16 @@ public class Order {
     protected int userId;
     protected Date orderDate;
     protected float totalAmount;
+    String shippingAddress;
     protected String status;
 
-    public Order(int orderId, int userId, Date orderDate, float totalAmount, String status) {
+    public Order(){}
+
+    public Order(int orderId, int userId, Date orderDate, float totalAmount, String shippingAddress, String status) {
         this.orderId = orderId;
         this.userId = userId;
         this.orderDate = orderDate;
+        this.shippingAddress = shippingAddress;
         this.totalAmount = totalAmount;
         this.status = status;
     }
@@ -57,6 +61,14 @@ public class Order {
         this.status = status;
     }
 
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -64,6 +76,7 @@ public class Order {
                 ", userId=" + userId +
                 ", orderDate=" + orderDate +
                 ", totalAmount=" + totalAmount +
+                ", shippingAddress='" + shippingAddress + '\'' +
                 ", status='" + status + '\'' +
                 '}';
     }
