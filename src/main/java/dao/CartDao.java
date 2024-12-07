@@ -52,7 +52,7 @@ public class CartDao {
 
     public List<CartItem> getCart(int userId) throws SQLException {
         List<CartItem> cartItems = new ArrayList<>();
-        String query = "SELECT p.productId, p.name, p.price, p.stockQuantity, c.quantity " +
+        String query = "SELECT p.productId, p.name, p.price, p.stockQuantity, p.imageUrl, p.size, p.color, c.quantity " +
                 "FROM Product p JOIN Cart c ON p.productId = c.productId WHERE c.userId = ?";
 
         try (Connection connection = new DbContext().getConnection();
@@ -66,6 +66,9 @@ public class CartDao {
                 product.setName(rs.getString("name"));
                 product.setPrice(rs.getDouble("price"));
                 product.setStockQuantity(rs.getInt("stockQuantity"));
+                product.setImageUrl(rs.getString("imageUrl"));
+                product.setSize(rs.getString("size"));
+                product.setSize(rs.getString("color"));
 
                 int quantity = rs.getInt("quantity"); // Lấy số lượng từ bảng Cart
 
