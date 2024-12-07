@@ -77,12 +77,16 @@
     </div>
     <div class="header__right">
       <ul class="list">
-        <li class="list__item active">
-          <a href="index.jsp">Trang chủ</a>
-        </li>
-        <li class="list__item header__product">
-          <a href="products">Sản Phẩm</a>
-        </li>
+        <a href="home">
+          <li class="list__item active">
+            Trang chủ
+          </li>
+        </a>
+        <a href="products">
+          <li class="list__item header__product">
+            Sản Phẩm
+          </li>
+        </a>
         <li class="list__item">Cửa hàng</li>
         <li class="list__item">?Help?</li>
         <li class="list__item">Tin tức &  Sự kiện</li>
