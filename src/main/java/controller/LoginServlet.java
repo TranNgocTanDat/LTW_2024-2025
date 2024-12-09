@@ -14,15 +14,15 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet(name = "ServletLogin", value = "/login")  // Cập nhật đường dẫn
-public class ServletLogin extends HttpServlet {
-    private static final Logger logger = Logger.getLogger(ServletLogin.class.getName());
+@WebServlet("/login")
+public class LoginServlet extends HttpServlet {
+    private static final Logger logger = Logger.getLogger(LoginServlet.class.getName());
     private UserDao userDao;
 
     @Override
     public void init() {
         try {
-            userDao = new UserDao();
+            userDao = new UserDao();  // Khởi tạo DAO để kiểm tra thông tin đăng nhập
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Failed to initialize UserDao", e);
         }
@@ -30,7 +30,7 @@ public class ServletLogin extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("login.jsp").forward(request, response);  // Chuyển hướng đến trang đăng nhập
     }
 
     @Override
@@ -39,29 +39,30 @@ public class ServletLogin extends HttpServlet {
         String password = request.getParameter("password");
 
         try {
-            // Xác thực và lấy thông tin người dùng
+            // Kiểm tra thông tin đăng nhập
             User user = userDao.authenticateUser(username, password);
             if (user != null) {
                 HttpSession session = request.getSession();
-                session.setAttribute("userId", user.getUserId()); // Lưu userId vào session
-                session.setAttribute("user", user); // Lưu đối tượng User vào session
-                session.setAttribute("role", user.getRole()); // Lưu vai trò người dùng
+                session.setAttribute("user", user);  // Lưu thông tin người dùng vào session
+                session.setAttribute("role", user.getRole());  // Lưu vai trò người dùng vào session
 
                 if ("admin".equals(user.getRole())) {
-                    response.sendRedirect("admin.jsp");
+                    // Nếu là admin, lưu token bảo mật trong session và chuyển hướng đến trang admin
+                    String token = java.util.UUID.randomUUID().toString();
+                    session.setAttribute("adminToken", token);
+                    response.sendRedirect("admin");  // Chuyển hướng đến trang admin
                 } else {
+                    // Nếu không phải admin, chuyển hướng đến trang người dùng chính
                     response.sendRedirect("index.jsp");
                 }
             } else {
-                request.setAttribute("errorMessage", "Invalid username or password"); // Sửa lỗi chính tả
-                RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-                dispatcher.forward(request, response);
+                request.setAttribute("errorMessage", "Invalid username or password");
+                request.getRequestDispatcher("login.jsp").forward(request, response);  // Hiển thị lại trang login với thông báo lỗi
             }
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error during authentication", e);
             request.setAttribute("errorMessage", "An error occurred during login. Please try again.");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-            dispatcher.forward(request, response);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 }
