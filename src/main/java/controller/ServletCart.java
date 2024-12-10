@@ -46,40 +46,58 @@ public class ServletCart extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        Integer userId = (Integer) session.getAttribute("userId");
+        if (session == null || session.getId() == null) {
+            throw new ServletException("Session ID is missing.");
+        }
 
+        Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
         String action = request.getParameter("action");
+        String productIdStr = request.getParameter("productId");
+        String quantityStr = request.getParameter("quantity");
+
+        if (productIdStr == null || quantityStr == null || action == null) {
+            throw new ServletException("Product ID, Quantity, or Action is missing.");
+        }
 
         try {
-            int productId = Integer.parseInt(request.getParameter("productId"));
+            int productId = Integer.parseInt(productIdStr);
+            int quantity = Integer.parseInt(quantityStr);
 
-            if ("add".equals(action)) {
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
-                // Thêm sản phẩm vào giỏ hàng
-                cartDAO.addProduct(userId, productId, quantity, request.getSession().getId());
-            } else if ("remove".equals(action)) {
-                // Xóa sản phẩm khỏi giỏ hàng
-                cartDAO.removeProduct(userId, productId);
-            } else if ("update".equals(action)) {
-                int quantity = Integer.parseInt(request.getParameter("quantity"));
-                // Cập nhật số lượng sản phẩm
-                cartDAO.updateProductQuantity(userId, productId, quantity);
+            if (quantity <= 0) {
+                throw new ServletException("Quantity must be greater than 0.");
             }
 
-            // Cập nhật giỏ hàng trong session sau khi thực hiện hành động
+            switch (action) {
+                case "add":
+                    cartDAO.addProduct(userId, productId, quantity, session.getId());
+                    break;
+                case "remove":
+                    cartDAO.removeProduct(userId, productId);
+                    break;
+                case "increase":
+                    cartDAO.increaseProductQuantity(userId, productId);
+                    break;
+                case "decrease":
+                    cartDAO.decreaseProductQuantity(userId, productId);
+                    break;
+                default:
+                    throw new ServletException("Invalid action.");
+            }
+
             List<CartItem> cart = cartDAO.getCart(userId);
             session.setAttribute("cartSession", cart);
-
             response.sendRedirect("cart");
+
         } catch (SQLException e) {
             throw new ServletException("Error processing cart action: " + e.getMessage(), e);
         } catch (NumberFormatException e) {
-            throw new ServletException("Invalid number format: " + e.getMessage(), e);
+            throw new ServletException("Invalid number format for product ID or quantity.", e);
         }
     }
+
 }

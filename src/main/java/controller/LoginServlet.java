@@ -30,7 +30,16 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);  // Chuyển hướng đến trang đăng nhập
+
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("user") != null) {
+            // Nếu đã đăng nhập rồi, chuyển hướng đến trang chính hoặc hồ sơ người dùng
+            response.sendRedirect("profile.jsp"); // Chuyển hướng đến trang profile
+        } else {
+            // Nếu chưa đăng nhập, hiển thị trang login
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
+
     }
 
     @Override
@@ -48,8 +57,8 @@ public class LoginServlet extends HttpServlet {
 
                 if ("admin".equals(user.getRole())) {
                     // Nếu là admin, lưu token bảo mật trong session và chuyển hướng đến trang admin
-                    String token = java.util.UUID.randomUUID().toString();
-                    session.setAttribute("adminToken", token);
+//                    String token = java.util.UUID.randomUUID().toString();
+//                    session.setAttribute("adminToken", token);
                     response.sendRedirect("admin");  // Chuyển hướng đến trang admin
                 } else {
                     // Nếu không phải admin, chuyển hướng đến trang người dùng chính

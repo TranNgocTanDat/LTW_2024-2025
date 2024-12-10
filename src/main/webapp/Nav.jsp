@@ -1,18 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Danh Nguyen
-  Date: 9/14/2024
-  Time: 8:19 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <style>
-    body{
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
 
     }
     .nav{
@@ -111,9 +105,10 @@
     }
 
   </style>
+
 </head>
 <body>
-  <div class="nav">
+<div class="nav">
     <div class="nav__left">
         <i class="fa-solid fa-list"></i>
         Danh Mục Sản Phẩm
@@ -145,7 +140,6 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </form>
-
     </div>
     <div class="nav__card">
       <div class="card__item">
@@ -159,6 +153,7 @@
     </div>
 
   </div>
+
 <script src="nav.js"></script>
 </body>
 </html>
