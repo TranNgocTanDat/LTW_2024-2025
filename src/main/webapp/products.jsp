@@ -113,12 +113,12 @@
           <div class="btn__product">
             <button class="btn__price">Mua</button>
             <button class="btn__price btn__view" onclick="viewProduct(${product.productId})">Xem</button>
-            <form action="cart" method="post" class="add__product">
+            <form action="cart" method="post">
               <input type="hidden" name="userId" value="${sessionScope.userId}">
               <input type="hidden" name="productId" value="${product.productId}">
-
-              <button type="submit" class="btn__add">Thêm vào Giỏ</button>
-
+              <input type="number" name="quantity" value="1" min="1" required>
+              <input type="hidden" name="action" value="add">
+              <button type="submit">Thêm vào Giỏ</button>
             </form>
           </div>
         </div>
