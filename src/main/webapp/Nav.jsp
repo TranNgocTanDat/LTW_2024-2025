@@ -142,14 +142,23 @@
         </form>
     </div>
     <div class="nav__card">
-      <div class="card__item">
-          <i class="fa-solid fa-cart-shopping"></i>
-          <a href="cart" class="cart">Giỏ hàng</a>
-      </div>
-      <div class="login">
-          <i class="fa-solid fa-user"></i>
-          <a href="login" class="cart">Đăng nhập</a>
-      </div>
+        <div class="card__item">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <a href="cart" class="cart">Giỏ hàng</a>
+        </div>
+        <div class="login">
+            <i class="fa-solid fa-user"></i>
+            <c:choose>
+                <c:when test="${not empty sessionScope.user}">
+                    <!-- Nếu đã đăng nhập, hiển thị "Xem Profile" -->
+                    <a href="profile" class="cart">Xem Profile</a>
+                </c:when>
+                <c:otherwise>
+                    <!-- Nếu chưa đăng nhập, hiển thị "Đăng nhập" -->
+                    <a href="login" class="cart">Đăng nhập</a>
+                </c:otherwise>
+            </c:choose>
+        </div>
     </div>
 
   </div>
