@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (currentPage.includes("productList.jsp")) {
         navLeft.style.display = 'flex'; // Hiển thị danh mục sản phẩm
     }
-    if (currentPage.includes("cartProducts.jsp")) {
+    if (currentPage.includes("cart")) {
         nav.style.display = 'none'; // ẩm di nav
     }
     if (currentPage.includes("login.jsp")) {

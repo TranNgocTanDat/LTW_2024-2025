@@ -8,6 +8,13 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.MessageDigest;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.SecureRandom;
+import java.security.Signature;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -44,12 +51,14 @@ public class ChuKi_model {
 	}
 
 	// Khởi tạo đối tượng Signature với thuật toán băm và thuật toán mã hóa
+
 	public void initSignature( String algorithm) throws Exception {
 		if (this.signature == null) {
 			this.signature = Signature.getInstance("SHA256" + "with" + algorithm);
 		}
 		this.secureRandom = new SecureRandom(); // Khởi tạo SecureRandom
 	}
+
 
 
 	public String signMessage(String message, byte[] hashedMessage) throws Exception {
@@ -66,7 +75,9 @@ public class ChuKi_model {
 			throw new Exception("Dữ liệu chưa được băm");
 		}
 		
+
 		hashedMessage = generateHash(message);
+
 
 		// In ra giá trị băm dưới dạng Hexadecimal hoặc Base64
 		System.out.println("Giá trị băm: " + bytesToHex(hashedMessage));
@@ -81,6 +92,7 @@ public class ChuKi_model {
 	}
 
 	// Tạo băm của một thông điệp
+
 	public static byte[] generateHash(String message) throws Exception {
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
 		byte[] hashBytes = messageDigest.digest(message.getBytes(StandardCharsets.UTF_8));
@@ -109,6 +121,7 @@ public class ChuKi_model {
 	}
 
 	// Băm một tệp tin
+
 	public byte[] hashFile(String path) {
 		try (InputStream fis = new FileInputStream(path)) {
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -133,6 +146,7 @@ public class ChuKi_model {
 	}
 
 	// Xác minh chữ ký của một thông điệp
+
 	public boolean verifySignature(String message, String signatureString) throws Exception {
 		Signature signature = this.signature != null ? this.signature : Signature.getInstance("SHA256withRSA");
 
@@ -158,7 +172,9 @@ public class ChuKi_model {
 		} catch (IllegalArgumentException e) {
 			throw new Exception("Mã hóa Base64 không hợp lệ cho chữ ký.", e);
 		}
+
 		byte[] hashedMessage = generateHash(message);
+
 
 		// Lấy khóa công khai và khởi tạo đối tượng Signature
 		PublicKey publicKey = keyPair.getPublic();
@@ -171,6 +187,7 @@ public class ChuKi_model {
 	}
 
 	// Ký một tệp và trả về chữ ký dưới dạng Base64
+
 	public String signFile(String filePath, byte[] hashedFile) throws Exception {
 		if (keyPair == null) {
 			throw new Exception("Hãy tạo key hoặc load key của bạn!");
@@ -185,7 +202,9 @@ public class ChuKi_model {
 		}
 
 		// Đọc nội dung tệp
+
 		hashedFile = hashFile(filePath);
+
 		
 		// Khởi tạo Signature với khóa riêng để ký
 		PrivateKey privateKey = keyPair.getPrivate();
@@ -200,13 +219,17 @@ public class ChuKi_model {
 	}
 
 	// Xác minh chữ ký của một tệp bằng khóa công khai
+
 	public boolean verifyFile(String filePath, String signatureString) throws Exception {
+
 		if (keyPair == null) {
 			throw new Exception("Cặp khóa chưa được khởi tạo.");
 		}
 		
 		 // Băm nội dung tệp trước khi xác minh
+
 	    byte[] fileBytes = hashFile(filePath);
+
 
 		// Giải mã chữ ký từ chuỗi Base64
 		byte[] signatureBytes;
@@ -225,6 +248,7 @@ public class ChuKi_model {
 
 		return signature.verify(signatureBytes); // Kiểm tra tính hợp lệ của chữ ký
 	}
+
 
 	// Hàm đọc Public Key từ file (dạng plain text Base64)
 	public static PublicKey loadPublicKey(String filePath) throws Exception {
@@ -304,6 +328,7 @@ public class ChuKi_model {
 		return keyFactory.generatePrivate(keySpec);
 	}
 
+
 	// Phương thức trả về PublicKey
 	public PublicKey getPublicKey() {
 		return keyPair.getPublic();
@@ -326,6 +351,8 @@ public class ChuKi_model {
 
 	        // 2. Băm một thông điệp và in ra giá trị băm (MD5)
 	        String message = "TranNgocTanDat";
+
+
 	        byte[] hashedMessage = generateHash(message);
 	        System.out.println("Giá trị băm của thông điệp '" + message + "': " + chuKiModel.bytesToHex(hashedMessage));
 
@@ -335,10 +362,12 @@ public class ChuKi_model {
 
 	        // 4. Xác minh chữ ký với thông điệp và chữ ký đã ký (Base64)
 	        boolean isVerified = chuKiModel.verifySignature(message, signedMessage);
+
 	        System.out.println("Chữ ký có hợp lệ không? " + isVerified);
 
 	        // 5. Ký một tệp tin và in ra chữ ký Base64
 	        String filePath = "C:\\Users\\USER\\Documents\\diem.txt";  // Đảm bảo rằng tệp tin này tồn tại trên hệ thống của bạn\
+
 	        byte[] hashedFile = chuKiModel.hashFile(filePath);
 	        String fileSignature = chuKiModel.signFile(filePath,  hashedFile);
 	        System.out.println("Chữ ký của tệp tin " + filePath + ": " + fileSignature);

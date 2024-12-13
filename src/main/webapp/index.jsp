@@ -76,6 +76,9 @@
         .item__product:hover .product__img{
             transform: scale(1.1);
         }
+        .btn__product{
+            display: flex;
+        }
         .btn__price{
             width: 80px;
             height: 30px;
@@ -83,25 +86,26 @@
             margin-bottom: 10px;
             border: 0px;
             font-size: 20px;
-            background-color: forestgreen;
+            border-radius: 10px;
+            border: 1px solid black;
+            font-size: 13px;
         }
         .btn__price:hover{
-            background-color: brown;
+            background-color: red;
         }
-        .addToCard{
-            width: 80px;
-            height: 30px;
-            margin-left: 20px;
-            margin-bottom: 10px;
-            border: 0px;
-            font-size: 20px;
-            background-color: darkcyan;
-        }
-        .addToCard:hover{
-            background-color: brown;
+        .view:hover{
+            background-color: #45a049;
         }
         .active{
             background-color: #bf9369;
+        }
+        .btn__add{
+            height: 30px;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+        .btn__add:hover{
+            background-color: #fc870c;
         }
     </style>
 </head>
@@ -136,13 +140,13 @@
                 </div>
                 <div class="btn__product">
                     <button class="btn__price">Mua</button>
-                    <button class="btn__price" onclick="viewProduct(${product.productId})">Xem</button>
+                    <button class="btn__price view" onclick="viewProduct(${product.productId})">Xem</button>
                     <form action="cart" method="post">
                         <input type="hidden" name="userId" value="${sessionScope.userId}">
                         <input type="hidden" name="productId" value="${product.productId}">
-                        <input type="number" name="quantity" value="1" min="1" required>
+                        <input type="number" name="quantity" value="1" min="1" required style="display: none">
                         <input type="hidden" name="action" value="add">
-                        <button type="submit" class="addToCard">Thêm vào Giỏ</button>
+                        <button type="submit" class="addToCard btn__add">Thêm vào Giỏ</button>
                     </form>
                 </div>
             </div>
@@ -152,13 +156,13 @@
 </div>
 <div class="container__mid">
     <div class="img__left">
-        <img src="./img/doubleD3.png" style="width: 349px; height: 382px; margin-right: 10px">
+        <img src="./accset/home.jpg" style="width: 349px; height: 382px; margin-right: 10px">
     </div>
     <div class="img__center">
-        <img src="./img/doubleD5.png" style="width: 727px; height: 380px">
+        <img src="./accset/home3.jpg" style="width: 727px; height: 380px">
     </div>
     <div class="img__right">
-        <img src="./img/doubleD4.png" style="width: 349px; height: 382px; margin-left: 10px">
+        <img src="./accset/home2.jpg" style="width: 349px; height: 382px; margin-left: 10px">
     </div>
 </div>
 <div class="list__newProduct">
@@ -177,12 +181,12 @@
                 </div>
                 <div class="btn__product">
                     <button class="btn__price">Mua</button>
-                    <button class="btn__price" onclick="viewProduct(${product.productId})">Xem</button>
+                    <button class="btn__price view" onclick="viewProduct(${product.productId})">Xem</button>
                     <form action="cart" method="post">
                         <input type="hidden" name="userId" value="${sessionScope.userId}">
                         <input type="hidden" name="productId" value="${product.productId}">
-                        <input type="number" name="quantity" value="1" min="1" required>
-                        <button type="submit">Thêm vào Giỏ</button>
+                        <input type="number" name="quantity" value="1" min="1" required style="display: none">
+                        <button type="submit" class="btn__add">Thêm vào Giỏ</button>
                     </form>
                 </div>
             </div>

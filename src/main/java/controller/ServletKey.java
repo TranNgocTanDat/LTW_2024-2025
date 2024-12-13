@@ -23,6 +23,7 @@ public class ServletKey extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
             request.getRequestDispatcher("generateKey.jsp").forward(request, response);
 
     }
@@ -54,6 +55,9 @@ public class ServletKey extends HttpServlet {
 
             UserKey userKey = new UserKey(0, userId, publicKey, privateKey, "RSA", new Date());
             userKeyDAO.saveKey(userKey);
+
+            // Đặt thông báo thành công
+
 
             // Đặt publicKey và privateKey vào request attribute
             request.setAttribute("publicKey", publicKey);

@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
@@ -33,11 +34,13 @@
             await saveKeyToDirectory(privateKey, "privateKey.txt");
         }
     </script>
+
 </head>
 <body>
 <h1>Generate RSA Key</h1>
 <form method="post" action="key">
     <button type="submit">Generate Key</button>
+
 
 </form>
 <c:if test="${not empty message}">
@@ -55,6 +58,7 @@
 </c:if>
 <form action="${pageContext.request.contextPath}/downloadTool" method="get">
     <button type="submit">Tải xuống Tool</button>
+
 </form>
 </body>
 </html>
