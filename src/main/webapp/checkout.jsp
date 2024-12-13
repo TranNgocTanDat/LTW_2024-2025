@@ -60,6 +60,7 @@
 </head>
 
 <body>
+
 <header><jsp:include page="header.jsp"></jsp:include></header>
 <h1 style="margin-bottom: 20px; text-align: center">Thông tin thanh toán</h1>
 <form action="checkout" method="post" class="checkout">
@@ -115,6 +116,14 @@
 
     <div class="checkout_right">
         <h2>Sản phẩm trong giỏ hàng</h2>
+
+<h1>Thông tin thanh toán</h1>
+<form action="checkout" method="post">
+    <label>Địa chỉ giao hàng:</label>
+    <input type="text" name="shippingAddress" required><br>
+
+    <h2>Sản phẩm trong giỏ hàng</h2>
+    <c:if test="${not empty cartItems}">
         <table border="1">
             <thead>
             <tr>
@@ -137,8 +146,15 @@
         </table>
         <h3>Tổng cộng: ${totalAmount}</h3>
 
+
     </div>
-    <button type="submit">Thanh toán</button>
+
+
+        <button type="submit">Thanh toán</button>
+    </c:if>
+    <c:if test="${empty cartItems}">
+        <p>Giỏ hàng của bạn đang trống!</p>
+    </c:if>
 
 </form>
 
