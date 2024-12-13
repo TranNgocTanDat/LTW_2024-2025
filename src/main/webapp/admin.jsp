@@ -147,7 +147,7 @@
   <ul>
     <li><a href="admin/products">Quản lý sản phẩm</a></li>
     <li><a href="admin/users">Quản lý người dùng</a></li>
-    <li><a href="admin/orders">Quản lý đơn hàng</a></li>
+    <li><a href="admin/orders-management">Quản lý đơn hàng</a></li>
     <li><a href="reports.jsp">Báo cáo</a></li>
   </ul>
 </div>

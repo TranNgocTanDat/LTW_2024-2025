@@ -6,32 +6,41 @@
 </head>
 <body>
 <h1>Danh sách đơn hàng</h1>
-<table border="1">
-    <thead>
+<table>
     <tr>
-        <th>ID đơn hàng</th>
-        <th>ID khách hàng</th>
-        <th>Địa chỉ giao hàng</th>
-        <th>Trạng thái</th>
-        <th>Ngày tạo</th>
-        <th>Thao tác</th>
+        <th>Order ID</th>
+        <th>User ID</th>
+        <th>Order Date</th>
+        <th>Total Amount</th>
+        <th>Status</th>
+        <th>Actions</th>
     </tr>
-    </thead>
-    <tbody>
     <c:forEach var="order" items="${orders}">
         <tr>
             <td>${order.orderId}</td>
             <td>${order.userId}</td>
-            <td>${order.shippingAddress}</td>
-            <td>${order.status}</td>
             <td>${order.orderDate}</td>
+            <td>${order.totalAmount}</td>
             <td>
-                <a href="order-details?orderId=${order.orderId}">Xem chi tiết</a>
-                <a href="update-order-status?orderId=${order.orderId}">Cập nhật trạng thái</a>
+                <c:if test="${order.status == 'Pending'}">
+                    <form action="orders-management" method="POST" style="display:inline;">
+                        <input type="hidden" name="action" value="approve" />
+                        <input type="hidden" name="orderId" value="${order.orderId}" />
+                        <button type="submit">Approve</button>
+                    </form>
+                    <form action="orders-management" method="POST" style="display:inline;">
+                        <input type="hidden" name="action" value="cancel" />
+                        <input type="hidden" name="orderId" value="${order.orderId}" />
+                        <button type="submit">Cancel</button>
+                    </form>
+                </c:if>
+            </td>
+            <td>
+                <a href="orders-management?action=details&orderId=${order.orderId}">View</a>
+                <a href="orders-management?action=delete&orderId=${order.orderId}">Delete</a>
             </td>
         </tr>
     </c:forEach>
-    </tbody>
-</table>
+</table>a
 </body>
 </html>

@@ -1,35 +1,32 @@
 package controller;
 
 import dao.OrderDao;
-import model.Order;
+import model.OrderItem;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "ServletOrderAdmin", value = "/admin/orders")
-public class ServletOrderAdmin extends HttpServlet {
+@WebServlet(name = "ServletOrderItemDetail", value = "/admin/order-details")
+public class ServletOrderItemDetail extends HttpServlet {
     private OrderDao orderDao;
 
-    public void init(){
+    @Override
+    public void init() {
         orderDao = new OrderDao();
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Order> orders;
-        orders = orderDao.getAllOrders();
-
-        //Gửi dữ liệu đến jsp
-        request.setAttribute("orders", orders);
-        request.getRequestDispatcher("orders.jsp").forward(request, response);
-
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
+        List<OrderItem> orderItems = orderDao.getOrderDetails(orderId);
+        request.setAttribute("orderItems", orderItems);
+        request.getRequestDispatcher("orderDetails.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doGet(request, response);
     }
 }

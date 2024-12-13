@@ -24,7 +24,17 @@ public class ServletCheckout extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userId = (int) request.getSession().getAttribute("userId");
+        HttpSession session = request.getSession();
+        if (session == null || session.getId() == null) {
+            throw new ServletException("Session ID is missing.");
+        }
+
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
         //Lay danh sach san pham trong gio hang
         try {
             List<CartItem> cartItems = cartDao.getCart(userId);
@@ -45,7 +55,16 @@ public class ServletCheckout extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userId = (int) request.getSession().getAttribute("userId");
+        HttpSession session = request.getSession();
+        if (session == null || session.getId() == null) {
+            throw new ServletException("Session ID is missing.");
+        }
+
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
         String shippingAddress = request.getParameter("shippingAddress");
 
         //Luu chi tiet don hang
@@ -61,7 +80,7 @@ public class ServletCheckout extends HttpServlet {
             cartDao.clearCart(userId);
 
             // Chuyển hướng đến trang xác nhận đơn hàng
-            response.sendRedirect("cart");
+            response.sendRedirect("confirm?orderId=" + orderId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
