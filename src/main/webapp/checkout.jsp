@@ -120,6 +120,9 @@
 <h1>Thông tin thanh toán</h1>
 <form action="checkout" method="post">
     <label>Địa chỉ giao hàng:</label>
+    <form>
+
+    </form>
     <input type="text" name="shippingAddress" required><br>
 
     <h2>Sản phẩm trong giỏ hàng</h2>
@@ -144,6 +147,7 @@
             </c:forEach>
             </tbody>
         </table>
+        <p>${orderDate}</p>
         <h3>Tổng cộng: ${totalAmount}</h3>
 
 
@@ -157,6 +161,12 @@
     </c:if>
 
 </form>
+<!-- Liên kết tải file thông tin thanh toán -->
+<br>
+<a href="/export?$shippingAddress=${shippingAddress}" target="_blank">
+    Tải thông tin thanh toán (.docx)
+</a>
+
 
 <script>
     document.querySelector('.nav').style.display = 'none';
