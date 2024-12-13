@@ -3,7 +3,6 @@ package controller;
 import dao.UserDao;
 import model.User; // Đảm bảo bạn đã tạo lớp User
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,9 +13,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
-    private static final Logger logger = Logger.getLogger(LoginServlet.class.getName());
+@WebServlet(name = "ServletLogin", value = "/login")
+public class ServletLogin extends HttpServlet {
+    private static final Logger logger = Logger.getLogger(ServletLogin.class.getName());
     private UserDao userDao;
 
     @Override
@@ -52,6 +51,7 @@ public class LoginServlet extends HttpServlet {
             User user = userDao.authenticateUser(username, password);
             if (user != null) {
                 HttpSession session = request.getSession();
+                session.setAttribute("userId", user.getUserId());
                 session.setAttribute("user", user);  // Lưu thông tin người dùng vào session
                 session.setAttribute("role", user.getRole());  // Lưu vai trò người dùng vào session
 

@@ -76,7 +76,7 @@
       <img src="" class="img__footer">
     </div>
     <div class="header__right">
-      <ul class="list">
+      <ul class="list" style="border: none">
         <a href="home">
           <li class="list__item active">
             Trang chủ

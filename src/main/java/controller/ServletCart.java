@@ -1,7 +1,9 @@
 package controller;
 
 import dao.CartDao;
+import dao.ProductDao;
 import model.CartItem;
+import model.Product;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,10 +18,12 @@ import java.util.List;
 @WebServlet(name = "ServletCart", value = "/cart")
 public class ServletCart extends HttpServlet {
     private CartDao cartDAO;
+    private ProductDao productDao;
 
     @Override
     public void init() {
-        cartDAO = new CartDao(); // Khởi tạo CartDAO
+        cartDAO = new CartDao();
+        productDao = new ProductDao();// Khởi tạo CartDAO
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -30,6 +34,15 @@ public class ServletCart extends HttpServlet {
             response.sendRedirect("login.jsp"); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
             return;
         }
+
+        List<Product> products;
+        products = productDao.getRandomProducts(4);
+        List<Product> productsNewProduct;
+        productsNewProduct = productDao.getRandomProductNewProduct(4);
+
+        request.setAttribute("productsNewProduct", productsNewProduct);
+
+        request.getRequestDispatcher("cart.jsp").forward(request, response);
 
         try {
             List<CartItem> cart = cartDAO.getCart(userId); // Lấy giỏ hàng từ CartDAO

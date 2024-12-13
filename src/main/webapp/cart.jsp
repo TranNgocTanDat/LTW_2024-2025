@@ -21,11 +21,14 @@
             background-color: #f4f4f4;
             padding: 20px;
         }
-
+        .nav{
+            display: none;
+        }
         .cart-container {
             display: flex;
             justify-content: space-between;
             gap: 20px;
+            margin-bottom: 20px;
         }
 
         .cart {
@@ -138,11 +141,12 @@
             margin-top: 20px;
             font-weight: bold;
             font-size: 16px;
+            margin-bottom: 10px;
         }
 
         .checkout {
             width: 100%;
-            background: #000;
+            background: #002D62;
             color: #fff;
             padding: 10px 0;
             border: none;
@@ -150,7 +154,70 @@
             font-size: 16px;
             border-radius: 4px;
         }
+        .list__newProduct{
 
+            margin-bottom: 10px;
+        }
+        .title__newProduct{
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        .list__item--product{
+            display: grid;
+            grid-template-columns: repeat(4, minmax(200px, 1fr));
+            /*gap: px;*/
+        }
+
+        .item__product{
+            text-align: center;
+            background-color: #F5F5F5;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+        .item__product:hover .product__img{
+            transform: scale(1.1);
+        }
+        .btn__product{
+            display: flex;
+        }
+        .btn__price{
+            width: 80px;
+            height: 30px;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            border: 0px;
+            font-size: 20px;
+            border-radius: 10px;
+            border: solid 1px black;
+            font-size: 13px;
+        }
+        .btn__price:hover{
+            background-color: red;
+        }
+        .view:hover{
+            background-color: #45a049;
+        }
+        .addToCard{
+            width: 80px;
+            height: 30px;
+            margin-left: 20px;
+            margin-bottom: 10px;
+            border: 0px;
+            font-size: 20px;
+            background-color: darkcyan;
+        }
+        .addToCard:hover{
+            background-color: brown;
+        }
+        .btn__add{
+            height: 30px;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+        .btn__add:hover{
+            background-color: #fc870c;
+        }
     </style>
 </head>
 <body>
@@ -230,7 +297,34 @@
     </c:choose>
 
 </div>
-
-
+<div class="list__newProduct">
+    <h3 class="title__newProduct">Gợi ý sảm phảm</h3>
+    <div class="list__item--product">
+        <c:forEach var="product" items="${productsNewProduct}">
+            <div class="item__product">
+                <div class="item__product--img">
+                    <img src="${product.imageUrl}" class="product__img" style="width: 300px; height: 400px; border-radius: 10px">
+                </div>
+                <div class="title__product">
+                        ${product.name}
+                </div>
+                <div class="price__product">
+                        ${product.price}
+                </div>
+                <div class="btn__product">
+                    <button class="btn__price">Mua</button>
+                    <button class="btn__price view" onclick="viewProduct(${product.productId})">Xem</button>
+                    <form action="cart" method="post">
+                        <input type="hidden" name="userId" value="${sessionScope.userId}">
+                        <input type="hidden" name="productId" value="${product.productId}">
+                        <input type="number" name="quantity" value="1" min="1" required style="display: none">
+                        <button type="submit" class="btn__add">Thêm vào Giỏ</button>
+                    </form>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+<script src="nav.js"></script>
 </body>
 </html>
