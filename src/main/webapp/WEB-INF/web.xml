@@ -26,4 +26,23 @@
         <url-pattern>/admin/*</url-pattern>
         <url-pattern>*.jsp</url-pattern>
     </filter-mapping>
+
+    <servlet>
+        <servlet-name>ServletOrderManagement</servlet-name>
+        <servlet-class>controller.ServletOrderManagement</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServletOrderManagement</servlet-name>
+        <url-pattern>/admin/orders-management</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ExportPDFServlet</servlet-name>
+        <servlet-class>controller.ServletExportFile</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ExportPDFServlet</servlet-name>
+        <url-pattern>/exportPDF</url-pattern>
+    </servlet-mapping>
 </web-app>

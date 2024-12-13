@@ -51,6 +51,11 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.3</version>  <!-- Chọn phiên bản phù hợp -->
+        </dependency>
     </dependencies>
 
     <build>

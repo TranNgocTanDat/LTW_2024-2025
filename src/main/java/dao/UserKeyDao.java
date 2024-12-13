@@ -4,11 +4,49 @@ import context.DbContext;
 import model.UserKey;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UserKeyDAO {
+public class UserKeyDao {
     private Connection connection;
     private PreparedStatement ps;
     private ResultSet rs;
+
+    public List<UserKey> getAllKeys() throws SQLException {
+        List<UserKey> userKeys = new ArrayList<>();
+        String sql = "SELECT * FROM user_keys";
+        try  {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                UserKey userKey = new UserKey(
+                        rs.getInt("keyId"),
+                        rs.getInt("userId"),
+                        rs.getString("publicKey"),
+                        rs.getString("privateKey"),
+                        rs.getString("keyType"),
+                        rs.getDate("creationDate")
+                );
+                userKeys.add(userKey);
+            }
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return userKeys;
+    }
+
+    public void deleteKey(int keyId) throws SQLException {
+        String sql = "DELETE FROM user_keys WHERE keyId = ?";
+        try  {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, keyId);
+            ps.executeUpdate();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public UserKey getKeyByUserId(int userId){
         String sql = "Select * from user_keys where userId =?";
@@ -55,5 +93,10 @@ public class UserKeyDAO {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void main(String[] args) throws SQLException {
+        UserKeyDao userKeyDao = new UserKeyDao();
+        userKeyDao.deleteKey(1);
     }
 }
