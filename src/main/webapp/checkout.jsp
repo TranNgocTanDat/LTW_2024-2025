@@ -249,61 +249,60 @@
 
 <script>
     document.querySelector('.nav').style.display = 'none';
-    <%--document.querySelector('.pay').addEventListener('click', function(event) {--%>
-    <%--    event.preventDefault(); // Ngăn việc submit form mặc định--%>
+    document.querySelector('.pay').addEventListener('click', function(event) {
+        event.preventDefault(); // Ngăn việc submit form mặc định
 
-    <%--    // Thu thập thông tin người dùng từ biểu mẫu--%>
-    <%--    const fullName = document.querySelector('input[name="fullName"]').value;--%>
-    <%--    const email = document.querySelector('input[name="mail"]').value;--%>
-    <%--    const shippingAddress = document.querySelector('input[name="shippingAddress"]').value;--%>
-    <%--    const city = document.querySelector('#city').value;--%>
-    <%--    const district = document.querySelector('#district').value;--%>
-    <%--    const ward = document.querySelector('#ward').value;--%>
-    <%--    const phone = document.querySelector('.right__phone input').value;--%>
+        // Thu thập thông tin người dùng từ biểu mẫu
+        const fullName = document.querySelector('input[name="fullName"]').value;
+        const email = document.querySelector('input[name="mail"]').value;
+        const shippingAddress = document.querySelector('input[name="shippingAddress"]').value;
+        const city = document.querySelector('#city').value;
+        const district = document.querySelector('#district').value;
+        const ward = document.querySelector('#ward').value;
+        const phone = document.querySelector('.right__phone input').value;
 
-    <%--    console.log({ fullName, email, phone, shippingAddress, city, district, ward });--%>
-    <%--    // Thu thập dữ liệu giỏ hàng--%>
-    <%--    const cartItems = Array.from(document.querySelectorAll('.product__cart--top')).map(item => {--%>
-    <%--        return {--%>
-    <%--            name: item.querySelector('.product__name').innerText,--%>
-    <%--            quantity: item.querySelector('.product__quantity').innerText.split(": ")[1],--%>
-    <%--            price: item.querySelector('.peoduct__price').innerText--%>
-    <%--        };--%>
-    <%--        console.log(item.name)--%>
-    <%--    });--%>
+        console.log({ fullName, email, phone, shippingAddress, city, district, ward });
+        // Thu thập dữ liệu giỏ hàng
+        const cartItems = Array.from(document.querySelectorAll('.product__cart--top')).map(item => {
+            return {
+                name: item.querySelector('.product__name').innerText,
+                quantity: item.querySelector('.product__quantity').innerText.split(": ")[1],
+                price: item.querySelector('.peoduct__price').innerText
+            };
+        });
 
-    <%--    // Tổng tiền--%>
-    <%--    const totalAmount = document.querySelector('.totalAmount h3:last-child').innerText;--%>
+        // Tổng tiền
+        const totalAmount = document.querySelector('.totalAmount h3:last-child').innerText;
 
-    <%--    // Định dạng nội dung file--%>
-    <%--    let fileContent = `Thông tin thanh toán:\n`;--%>
-    <%--    fileContent += `Họ và Tên: ${fullName}\n`;--%>
-    <%--    fileContent += `Email: ${email}\n`;--%>
-    <%--    fileContent += `Số điện thoại: ${phone}\n`;--%>
-    <%--    fileContent += `Địa chỉ giao hàng: ${shippingAddress}\n`;--%>
-    <%--    fileContent += `Thành phố: ${city}\n`;--%>
-    <%--    fileContent += `Quận/Huyện: ${district}\n`;--%>
-    <%--    fileContent += `Phường/Xã: ${ward}\n\n`;--%>
-    <%--    fileContent += `Giỏ hàng:\n`;--%>
-    <%--    cartItems.forEach((item, index) => {--%>
-    <%--        fileContent += `Sản phẩm ${index + 1}:\n`;--%>
-    <%--        fileContent += `  Tên: ${item.name}\n`;--%>
-    <%--        fileContent += `  Số lượng: ${item.quantity}\n`;--%>
-    <%--        fileContent += `  Giá: ${item.price}\n`;--%>
-    <%--    });--%>
-    <%--    fileContent += `\nTổng cộng: ${totalAmount}\n`;--%>
-    <%--    // console.log(fileContent);--%>
-    <%--    const blob = new Blob([fileContent], { type: 'text/plain' });--%>
-    <%--    const fileName = 'checkout-info.txt';--%>
+        // Định dạng nội dung file
+        let fileContent = `Thông tin thanh toán:\n`;
+        fileContent += `Họ và Tên: ${fullName}\n`;
+        fileContent += `Email: ${email}\n`;
+        fileContent += `Số điện thoại: ${phone}\n`;
+        fileContent += `Địa chỉ giao hàng: ${shippingAddress}\n`;
+        fileContent += `Thành phố: ${city}\n`;
+        fileContent += `Quận/Huyện: ${district}\n`;
+        fileContent += `Phường/Xã: ${ward}\n\n`;
+        fileContent += `Giỏ hàng:\n`;
+        cartItems.forEach((item, index) => {
+            fileContent += `Sản phẩm ${index + 1}:\n`;
+            fileContent += `  Tên: ${item.name}\n`;
+            fileContent += `  Số lượng: ${item.quantity}\n`;
+            fileContent += `  Giá: ${item.price}\n`;
+        });
+        fileContent += `\nTổng cộng: ${totalAmount}\n`;
+        console.log(fileContent);
+        const blob = new Blob([fileContent], { type: 'text/plain' });
+        const fileName = 'checkout-info.txt';
 
-    <%--    const link = document.createElement('a');--%>
-    <%--    link.href = URL.createObjectURL(blob);--%>
-    <%--    link.download = fileName;--%>
-    <%--    document.body.appendChild(link); // Đảm bảo link được thêm vào DOM--%>
-    <%--    link.click(); // Kích hoạt tải xuống--%>
-    <%--    document.body.removeChild(link); // Xóa link khỏi DOM sau khi tải--%>
-    <%--    URL.revokeObjectURL(link.href); // Giải phóng URL object--%>
-    <%--});--%>
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        document.body.appendChild(link); // Đảm bảo link được thêm vào DOM
+        link.click(); // Kích hoạt tải xuống
+        document.body.removeChild(link); // Xóa link khỏi DOM sau khi tải
+        URL.revokeObjectURL(link.href); // Giải phóng URL object
+    });
 </script>
 <script src="chechout.js"></script>
 </body>
