@@ -1,9 +1,8 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Generate RSA Key</title>
+    <title>Xác nhận chữ ký điện tử trước khi thanh toán</title>
     <script>
         async function saveKeyToDirectory(key, filename) {
             try {
@@ -34,13 +33,11 @@
             await saveKeyToDirectory(privateKey, "privateKey.txt");
         }
     </script>
-
 </head>
 <body>
 <h1>Generate RSA Key</h1>
 <form method="post" action="key">
     <button type="submit">Generate Key</button>
-
 
 </form>
 <c:if test="${not empty message}">
@@ -52,13 +49,11 @@
         <p><strong>Private Key:</strong></p>
         <textarea readonly rows="5" cols="80">${privateKey}</textarea>
         <p>Khóa đã được tạo thành công. Bạn có thể lưu các khóa dưới đây:</p>
-        <button type="button" onclick="savePublicKeyToDirectory('${publicKey}')">Lưu Public Key vào thư mục</button>
         <button type="button" onclick="savePrivateKeyToDirectory('${privateKey}')">Lưu Private Key vào thư mục</button>
     </div>
 </c:if>
 <form action="${pageContext.request.contextPath}/downloadTool" method="get">
     <button type="submit">Tải xuống Tool</button>
-
 </form>
 </body>
 </html>
