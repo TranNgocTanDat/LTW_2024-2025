@@ -1,6 +1,6 @@
 package controller;
 
-import dao.UserKeyDAO;
+import dao.UserKeyDao;
 import model.ChuKi_model;
 import model.UserKey;
 
@@ -9,16 +9,15 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.security.KeyPair;
-import java.security.PublicKey;
 import java.util.Base64;
 import java.util.Date;
 
 @WebServlet(name = "ServletKey", value = "/key")
 public class ServletKey extends HttpServlet {
-    private UserKeyDAO userKeyDAO;
+    private UserKeyDao userKeyDAO;
     private ChuKi_model chuKiModel;
     public void init(){
-        userKeyDAO = new UserKeyDAO();
+        userKeyDAO = new UserKeyDao();
         chuKiModel = new ChuKi_model();
     }
     @Override

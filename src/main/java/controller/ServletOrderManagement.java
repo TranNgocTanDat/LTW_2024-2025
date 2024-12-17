@@ -34,7 +34,7 @@ public class ServletOrderManagement extends HttpServlet {
                     showOrderDetails(request, response);
                     break;
                 default:
-                    response.sendRedirect("/admin/orders-management");
+                    response.sendRedirect(request.getContextPath() +"/admin/orders-management");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,7 +56,7 @@ public class ServletOrderManagement extends HttpServlet {
                     deleteOrder(request, response);
                     break;
                 default:
-                    response.sendRedirect("/admin/orders-management");
+                    response.sendRedirect(request.getContextPath() +"/admin/orders-management");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,12 +90,12 @@ public class ServletOrderManagement extends HttpServlet {
                 String newStatus = "approve".equals(action) ? "Shipped" : "Canceled";
                 order.setStatus(newStatus);
                 orderDao.updateOrder(order);
-                response.sendRedirect("/admin/orders-management?action=list");
+                response.sendRedirect(request.getContextPath() +"/admin/orders-management?action=list");
             } else {
-                response.sendRedirect("/admin/orders-management?action=list&error=Invalid order status.");
+                response.sendRedirect(request.getContextPath() +"/admin/orders-management?action=list&error=Invalid order status.");
             }
         } catch (NumberFormatException e) {
-            response.sendRedirect("/admin/orders-management?action=list&error=Invalid order ID.");
+            response.sendRedirect(request.getContextPath() +"/admin/orders-management?action=list&error=Invalid order ID.");
         }
     }
 
@@ -103,9 +103,11 @@ public class ServletOrderManagement extends HttpServlet {
         try {
             int orderId = Integer.parseInt(request.getParameter("orderId"));
             orderDao.deleteOrder(orderId);
-            response.sendRedirect("/admin/orders-management?action=list&message=Order deleted successfully.");
+            System.out.println("Redirecting to: " + request.getContextPath() + "/admin/orders-management?action=list&message=Order deleted successfully.");
+            response.sendRedirect("http://localhost:8080/demoServlet_war_exploded/admin/orders-management?action=list&message=Order deleted successfully.");
         } catch (NumberFormatException e) {
-            response.sendRedirect("/admin/orders-management?action=list&error=Invalid order ID.");
+            response.sendRedirect(request.getContextPath() + "/admin/orders-management?action=list&error=Invalid order ID.");
         }
     }
+
 }

@@ -201,9 +201,46 @@
     </div>
 
     <div class="checkout_right">
+
         <h2 style="text-align: center; font-size: 30px">Sản phẩm trong giỏ hàng</h2>
         <div class="product__cart">
         <c:forEach var="item" items="${cartItems}">
+
+        <h2>Sản phẩm trong giỏ hàng</h2>
+
+<h1>Thông tin thanh toán</h1>
+<form action="checkout" method="post">
+    <label>Địa chỉ giao hàng:</label>
+    <form>
+
+    </form>
+    <input type="text" name="shippingAddress" required><br>
+
+    <h2>Sản phẩm trong giỏ hàng</h2>
+    <c:if test="${not empty cartItems}">
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+                <th>Thành tiền</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="item" items="${cartItems}">
+                <tr>
+                    <td>${item.product.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.product.price}</td>
+                    <td>${item.quantity * item.product.price}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <p>${orderDate}</p>
+        <h3>Tổng cộng: ${totalAmount}</h3>
+
 
                 <div class="product__cart--top">
                     <img class="product__img" src="${item.product.imageUrl}" style="width: 80px; height: 80px; background-color: #999999; border-radius: 10px; margin-right: 40px">
@@ -246,6 +283,12 @@
         <button type="submit" class="pay">Thanh toán</button>
     </div>
 </form>
+<!-- Liên kết tải file thông tin thanh toán -->
+<br>
+<a href="/export?$shippingAddress=${shippingAddress}" target="_blank">
+    Tải thông tin thanh toán (.docx)
+</a>
+
 
 <script>
     document.querySelector('.nav').style.display = 'none';
