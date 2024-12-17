@@ -33,3 +33,12 @@ function updateDistricts() {
         });
     }
 }
+
+window.onload = function() {
+    const footer = document.querySelector('.footer__checkout');
+    const form = document.querySelector('.checkout');
+    if (footer && form) {
+        const footerHeight = footer.offsetHeight;
+        form.style.paddingBottom = `${footerHeight +20}px`; // Tự động thêm padding bằng chiều cao footer
+    }
+};
