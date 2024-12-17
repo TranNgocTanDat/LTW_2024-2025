@@ -7,18 +7,33 @@ public class Order {
     protected int userId;
     protected Date orderDate;
     protected float totalAmount;
+    protected String recipientName;
+    protected String shippingPhoneNumber;
+    protected String paymentMethod;
+    protected String paymentStatus;
+    protected Date deliveryDate;
+    protected String notes;
     String shippingAddress;
     protected String status;
-
+    protected String signature;
+    protected String order_content;
     public Order(){}
 
-    public Order(int orderId, int userId, Date orderDate, float totalAmount, String shippingAddress, String status) {
+    public Order(int orderId, int userId, Date orderDate, float totalAmount, String recipientName, String shippingPhoneNumber, String paymentMethod, String paymentStatus, Date deliveryDate, String notes, String shippingAddress, String status, String signature, String order_content) {
         this.orderId = orderId;
         this.userId = userId;
         this.orderDate = orderDate;
-        this.shippingAddress = shippingAddress;
         this.totalAmount = totalAmount;
+        this.recipientName = recipientName;
+        this.shippingPhoneNumber = shippingPhoneNumber;
+        this.paymentMethod = paymentMethod;
+        this.paymentStatus = paymentStatus;
+        this.deliveryDate = deliveryDate;
+        this.notes = notes;
+        this.shippingAddress = shippingAddress;
         this.status = status;
+        this.signature = signature;
+        this.order_content = order_content;
     }
 
     public int getOrderId() {
@@ -53,12 +68,52 @@ public class Order {
         this.totalAmount = totalAmount;
     }
 
-    public String getStatus() {
-        return status;
+    public String getRecipientName() {
+        return recipientName;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setRecipientName(String recipientName) {
+        this.recipientName = recipientName;
+    }
+
+    public String getShippingPhoneNumber() {
+        return shippingPhoneNumber;
+    }
+
+    public void setShippingPhoneNumber(String shippingPhoneNumber) {
+        this.shippingPhoneNumber = shippingPhoneNumber;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public String getShippingAddress() {
@@ -69,6 +124,30 @@ public class Order {
         this.shippingAddress = shippingAddress;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public String getOrder_content() {
+        return order_content;
+    }
+
+    public void setOrder_content(String order_content) {
+        this.order_content = order_content;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -76,8 +155,16 @@ public class Order {
                 ", userId=" + userId +
                 ", orderDate=" + orderDate +
                 ", totalAmount=" + totalAmount +
+                ", recipientName='" + recipientName + '\'' +
+                ", shippingPhoneNumber='" + shippingPhoneNumber + '\'' +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", paymentStatus='" + paymentStatus + '\'' +
+                ", deliveryDate=" + deliveryDate +
+                ", notes='" + notes + '\'' +
                 ", shippingAddress='" + shippingAddress + '\'' +
                 ", status='" + status + '\'' +
+                ", signature='" + signature + '\'' +
+                ", order_content='" + order_content + '\'' +
                 '}';
     }
 }

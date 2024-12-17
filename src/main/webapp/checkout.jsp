@@ -57,6 +57,7 @@
             margin-bottom: 20px;
         }
     </style>
+
 </head>
 
 <body>
@@ -66,67 +67,50 @@
 <form action="checkout" method="post" class="checkout">
     <div class="checkout__left">
         <div class="fullname">
-            <label>HỌ VÀ TÊN</label>
-            <input type="text" name="fullName" required style="width: 840px; height: 45px; border-radius: 10px; border: 1px solid black">
+            <label for="recipientName">Tên Người Nhận:</label>
+            <input type="text" id="recipientName" name="recipientName" required style="width: 840px; height: 45px; border-radius: 10px; border: 1px solid black"><br><br>
         </div>
 
         <div class="inf">
             <div class="inf__left">
-                <div class="left__mail">
-                    <label>Email</label>
-                    <input type="text" name="mail" required style="width: 390px; height: 45px; border-radius: 10px; border: 1px solid black"><br>
-                </div>
+
                 <div class="left__address">
-                    <label>Địa chỉ giao hàng</label>
-                    <input type="text" name="shippingAddress" required style="width: 390px; height: 45px; border-radius: 10px; border: 1px solid black"><br>
+                    <label for="shippingAddress">Địa Chỉ Giao Hàng:</label>
+                    <input type="text" id="shippingAddress" name="shippingAddress" required style="width: 390px; height: 45px; border-radius: 10px; border: 1px solid black"><br><br>
                 </div>
                 <div class="left__district">
-                    <label>QUẬN/HUYỆN</label>
-                    <select id="district" style="width: 390px; height: 45px; border-radius: 10px; border: 1px solid black">
-                        <option value="" >-- Chọn quận / huyện --</option>
-                    </select>
+                    <label for="notes">Ghi Chú:</label>
+                    <textarea id="notes" name="notes"></textarea><br><br>
                 </div>
 
             </div>
             <div class="inf__right">
                 <div class="right__phone">
-                    <label>SỐ ĐIỆN THOẠI</label>
-                    <input type="text" name="mail" required style="width: 390px; height: 45px; border-radius: 10px; border: 1px solid black"><br>
+                    <label for="shippingPhoneNumber">Số Điện Thoại:</label>
+                    <input type="text" id="shippingPhoneNumber" name="shippingPhoneNumber" required style="width: 390px; height: 45px; border-radius: 10px; border: 1px solid black"><br><br>
                 </div>
-                <div class="right__city">
-                    <label for="city">Chọn thành phố:</label>
-                    <select id="city" onchange="updateDistricts()" style="margin-bottom: 20px;width: 390px; height: 45px; border-radius: 10px; border: 1px solid black">
-                        <option value="">-- Chọn thành phố --</option>
-                        <option value="hcm">Thành phố Hồ Chí Minh</option>
-                        <option value="hn">Hà Nội</option>
-                        <option value="dn">Đà Nẵng</option>
-                    </select>
-                </div>
-                <div class="right__ward">
-                    <label>PHƯỜNG/XÃ</label>
-                    <select id="ward" style="width: 390px; height: 45px; border-radius: 10px; border: 1px solid black">
-                        <option value="">-- Chọn phường / xã --</option>
-                    </select>
-                </div>
-
             </div>
         </div>
 
+    </div>
+
+    <h3>Chọn Phương Thức Thanh Toán</h3>
+    <div>
+        <input type="radio" id="creditCard" name="paymentMethod" value="Credit Card">
+        <label for="creditCard">Thẻ Tín Dụng</label><br>
+
+        <input type="radio" id="cashOnDelivery" name="paymentMethod" value="Cash On Delivery" checked>
+        <label for="cashOnDelivery">Thanh Toán Khi Nhận Hàng</label><br>
     </div>
 
     <div class="checkout_right">
         <h2>Sản phẩm trong giỏ hàng</h2>
 
 <h1>Thông tin thanh toán</h1>
-<form action="checkout" method="post">
-    <label>Địa chỉ giao hàng:</label>
-    <form>
 
-    </form>
-    <input type="text" name="shippingAddress" required><br>
 
     <h2>Sản phẩm trong giỏ hàng</h2>
-    <c:if test="${not empty cartItems}">
+    <c:if test="${not empty sessionScope.cartSession}">
         <table border="1">
             <thead>
             <tr>
@@ -137,7 +121,7 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach var="item" items="${cartItems}">
+            <c:forEach var="item" items="${sessionScope.cartSession}">
                 <tr>
                     <td>${item.product.name}</td>
                     <td>${item.quantity}</td>
@@ -152,22 +136,13 @@
 
 
     </div>
-
-
         <button type="submit">Thanh toán</button>
     </c:if>
-    <c:if test="${empty cartItems}">
+    <c:if test="${empty sessionScope.cartSession}">
         <p>Giỏ hàng của bạn đang trống!</p>
     </c:if>
 
 </form>
-<!-- Liên kết tải file thông tin thanh toán -->
-<br>
-<a href="/export?$shippingAddress=${shippingAddress}" target="_blank">
-    Tải thông tin thanh toán (.docx)
-</a>
-
-
 <script>
     document.querySelector('.nav').style.display = 'none';
 </script>

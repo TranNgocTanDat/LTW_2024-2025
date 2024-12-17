@@ -22,8 +22,7 @@ public class ServletKey extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-            request.getRequestDispatcher("generateKey.jsp").forward(request, response);
+            request.getRequestDispatcher("signOrder.jsp").forward(request, response);
 
     }
 
@@ -62,7 +61,7 @@ public class ServletKey extends HttpServlet {
             request.setAttribute("publicKey", publicKey);
             request.setAttribute("privateKey", privateKey);
             request.setAttribute("message", "Key của bạn đã được lưu thành công!");
-            request.getRequestDispatcher("generateKey.jsp").forward(request, response);
+            request.getRequestDispatcher("signOrder.jsp").forward(request, response);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

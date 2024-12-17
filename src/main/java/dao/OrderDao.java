@@ -4,6 +4,10 @@ import context.DbContext;
 import model.Order;
 import model.OrderItem;
 
+import javax.servlet.http.Part;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,7 +39,14 @@ public class OrderDao {
                 order.setOrderDate(rs.getDate("orderDate"));
                 order.setTotalAmount(rs.getFloat("totalAmount"));
                 order.setShippingAddress(rs.getString("shippingAddress"));
+                order.setRecipientName(rs.getString("recipientName"));
+                order.setShippingPhoneNumber(rs.getString("shippingPhoneNumber"));
+                order.setPaymentMethod(rs.getString("paymentMethod"));
+                order.setPaymentStatus(rs.getString("paymentStatus"));
+                order.setDeliveryDate(rs.getDate("deliveryDate"));
+                order.setNotes(rs.getString("notes"));
                 order.setStatus(rs.getString("status"));
+                order.setOrder_content(rs.getString("order_content"));
 
                 orders.add(order);
             }
@@ -62,7 +73,14 @@ public class OrderDao {
                 order.setOrderDate(rs.getDate("orderDate"));
                 order.setTotalAmount(rs.getFloat("totalAmount"));
                 order.setShippingAddress(rs.getString("shippingAddress"));
+                order.setRecipientName(rs.getString("recipientName"));
+                order.setShippingPhoneNumber(rs.getString("shippingPhoneNumber"));
+                order.setPaymentMethod(rs.getString("paymentMethod"));
+                order.setPaymentStatus(rs.getString("paymentStatus"));
+                order.setDeliveryDate(rs.getDate("deliveryDate"));
+                order.setNotes(rs.getString("notes"));
                 order.setStatus(rs.getString("status"));
+                order.setOrder_content(rs.getString("order_content"));
             }
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -78,13 +96,18 @@ public class OrderDao {
         return order;
     }
 
-    public int createOrder(int userId, String shippingAddress) {
-        String query = "INSERT INTO Orders (userId, shippingAddress, totalAmount) OUTPUT INSERTED.orderId VALUES (?, ?, 0)";
+    public int createOrder(int userId, String shippingAddress, String recipientName, String shippingPhoneNumber, String paymentMethod, String notes, String order_content) {
+        String query = "INSERT INTO Orders (userId, shippingAddress, totalAmount, recipientName, shippingPhoneNumber, paymentMethod, notes, order_content) OUTPUT INSERTED.orderId VALUES (?, ?, 0, ?,?,?,?, ?)";
         try {
             connection = new DbContext().getConnection();
             ps = connection.prepareStatement(query);
             ps.setInt(1, userId);
             ps.setString(2, shippingAddress);
+            ps.setString(3, recipientName);
+            ps.setString(4, shippingPhoneNumber);
+            ps.setString(5, paymentMethod);
+            ps.setString(6, notes);
+            ps.setString(7, order_content);
 
             rs = ps.executeQuery();
             if (rs.next()) {
@@ -104,15 +127,17 @@ public class OrderDao {
         return 0;
     }
 
-    public void addOrderItem(int orderId, int productId, int quantity, double price){
-        String query = "INSERT INTO OrderItem (orderId, productId, quantity, price) VALUES (?, ?, ?, ?)";
+    public void addOrderItem(int orderId, int productId, int quantity, float price, float discount){
+        String sql = "INSERT INTO OrderItem (orderId, productId, quantity, price, discount) VALUES (?, ?, ?, ?, ?)";
         try {
             connection = new DbContext().getConnection();
-            ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(sql);
             ps.setInt(1, orderId);
             ps.setInt(2, productId);
             ps.setInt(3, quantity);
             ps.setDouble(4, price);
+            ps.setFloat(5, discount);
+
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -135,7 +160,9 @@ public class OrderDao {
                         rs.getInt("orderId"),
                         rs.getInt("productId"),
                         rs.getInt("quantity"),
-                        rs.getFloat("price")
+                        rs.getFloat("price"),
+                        rs.getFloat("discount"),
+                        rs.getFloat("totalPrice")
                 );
                 orderItems.add(item);
             }
@@ -222,16 +249,45 @@ public class OrderDao {
         return false;
     }
 
+
+    public String getOrderContentById(int orderId){
+        String sql = "SELECT order_content FROM Orders WHERE orderId = ?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, orderId);
+            rs = ps.executeQuery();
+            if (rs.next()){
+                return rs.getString("order_content");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    public boolean saveSignature(int orderId, String signature){
+        String sql = "UPDATE Orders SET signature = ? WHERE orderId = ?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, signature);
+            ps.setInt(2, orderId);
+
+            // Kiểm tra số bản ghi được cập nhật
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void main(String[] args) {
         OrderDao orderDao = new OrderDao();
-
-        // Tạo đơn hàng mới
-//        int orderId = orderDao.createOrder(1, "123 Main St");
-//        System.out.println("Order ID: " + orderId);
-//
-//        // Thêm sản phẩm vào đơn hàng
-//        orderDao.addOrderItem(orderId, 1, 2, 19.99);
-//        orderDao.addOrderItem(orderId, 3, 1, 9.99);
 
         // Lấy danh sách đơn hàng
         List<Order> orders = orderDao.getAllOrders();
@@ -241,20 +297,29 @@ public class OrderDao {
             System.out.println("Order Date: " + order.getOrderDate());
             System.out.println("Total Amount: " + order.getTotalAmount());
             System.out.println("Shipping Address: " + order.getShippingAddress());
-            System.out.println("status:" +  order.getStatus());
+            System.out.println("Recipient Name: " + order.getRecipientName());
+            System.out.println("Shipping Phone: " + order.getShippingPhoneNumber());
+            System.out.println("Payment Method: " + order.getPaymentMethod());
+            System.out.println("Payment Status: " + order.getPaymentStatus());
+            System.out.println("Delivery Date: " + order.getDeliveryDate());
+            System.out.println("Notes: " + order.getNotes());
+            System.out.println("Order Status: " + order.getStatus());
+            System.out.println("Order Content: " + order.getOrder_content());
             System.out.println("-----------------------------");
         }
-//        System.out.println("sss");
-////         Lấy chi tiết đơn hàng
-//        List<OrderItem> orderItems = orderDao.getOrderDetails(orderId);
-//        for (OrderItem item : orderItems) {
-//            System.out.println("Order Item ID: " + item.getOrderItemId());
-//            System.out.println("Order ID: " + item.getOrderId());
-//            System.out.println("Product ID: " + item.getProductId());
-//            System.out.println("Quantity: " + item.getQuantity());
-//            System.out.println("Price: " + item.getPrice());
-//            System.out.println("-----------------------------");
-//        }
+
+        // Lấy chi tiết đơn hàng
+        List<OrderItem> orderItems = orderDao.getOrderDetails(1);
+        for (OrderItem item : orderItems) {
+            System.out.println("Order Item ID: " + item.getOrderItemId());
+            System.out.println("Order ID: " + item.getOrderId());
+            System.out.println("Product ID: " + item.getProductId());
+            System.out.println("Quantity: " + item.getQuantity());
+            System.out.println("Price: " + item.getPrice());
+            System.out.println("Discount: " + item.getDiscount());
+            System.out.println("Total Price: " + item.getTotalPrice());
+            System.out.println("-----------------------------");
+        }
     }
 
 

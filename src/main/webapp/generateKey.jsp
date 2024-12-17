@@ -40,8 +40,6 @@
 <h1>Generate RSA Key</h1>
 <form method="post" action="key">
     <button type="submit">Generate Key</button>
-
-
 </form>
 <c:if test="${not empty message}">
     <script>

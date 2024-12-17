@@ -38,7 +38,6 @@
 <h1>Generate RSA Key</h1>
 <form method="post" action="key">
     <button type="submit">Generate Key</button>
-
 </form>
 <c:if test="${not empty message}">
     <script>
@@ -55,5 +54,18 @@
 <form action="${pageContext.request.contextPath}/downloadTool" method="get">
     <button type="submit">Tải xuống Tool</button>
 </form>
+
+    <h1>dddđ${orderId}</h1>
+
+<form id="confirmSignForm" action="${pageContext.request.contextPath}/confirmSign" method="post" enctype="multipart/form-data">
+    <h1>dddđ${orderId}</h1>
+    <input type="hidden" name="orderId" value="${orderId}">
+    <label for="signatureFile">Tải lên chữ ký:</label>
+    <input type="file" name="signatureFile" id="signatureFile" required>
+    <!-- Nút xác nhận đơn hàng -->
+    <button type="submit">Xác Thực Đơn Hàng</button>
+</form>
+
+
 </body>
 </html>

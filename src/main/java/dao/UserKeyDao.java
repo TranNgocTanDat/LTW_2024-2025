@@ -3,8 +3,14 @@ package dao;
 import context.DbContext;
 import model.UserKey;
 
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class UserKeyDao {
@@ -46,6 +52,30 @@ public class UserKeyDao {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public PublicKey getPublicKeyById(int userId){
+        String sql = "Select publicKey from user_keys where userId =?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, userId);
+            rs = ps.executeQuery();
+            if (rs.next()){
+                String publicKeyBase64 = rs.getString("publicKey");
+                byte[] decoded = Base64.getDecoder().decode(publicKeyBase64);
+                X509EncodedKeySpec keySpec = new X509EncodedKeySpec(decoded);
+                KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+                return keyFactory.generatePublic(keySpec);
+            }
+        } catch (SQLException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     public UserKey getKeyByUserId(int userId){
