@@ -65,19 +65,52 @@ public class ServletCheckout extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+        String recipientName = request.getParameter("recipientName");
         String shippingAddress = request.getParameter("shippingAddress");
+        String shippingPhoneNumber = request.getParameter("shippingPhoneNumber");
+        String notes = request.getParameter("notes");
+        String paymentMethod = request.getParameter("paymentMethod");
+
+        // Tạo chuỗi nội dung đơn hàng
+        StringBuilder orderContent = new StringBuilder();
+        orderContent.append("Khách hàng: ").append(recipientName).append(System.lineSeparator());
+        orderContent.append("Địa chỉ giao hàng: ").append(shippingAddress).append(System.lineSeparator());
+        orderContent.append("Số điện thoại: ").append(shippingPhoneNumber).append(System.lineSeparator());
+        orderContent.append("Phương thức thanh toán: ").append(paymentMethod).append(System.lineSeparator());
+        orderContent.append("Ghi chú: ").append(notes).append(System.lineSeparator());
+        orderContent.append("Chi tiết sản phẩm:").append(System.lineSeparator());
+
 
         //Luu chi tiet don hang
         try {
-            //Tao don hang
-            int orderId = orderDao.createOrder(userId, shippingAddress);
             List<CartItem> cartItems = cartDao.getCart(userId);
+            double totalAmount = 0.0;
             for (CartItem item : cartItems) {
-                orderDao.addOrderItem(orderId, item.getProduct().getProductId(), item.getQuantity(), item.getProduct().getPrice());
+                double itemTotal = item.getQuantity() * item.getProduct().getPrice();
+                orderContent.append(item.getProduct().getName())
+                        .append(" | Số lượng: ").append(item.getQuantity())
+                        .append(" | Giá: ").append(item.getProduct().getPrice())
+                        .append(" | Tổng: ").append(itemTotal)
+                        .append("\n");
+                totalAmount += itemTotal;
             }
 
+            orderContent.append("Tổng tiền: ").append(totalAmount).append("\n");
+
+            // Lưu đơn hàng vào cơ sở dữ liệu
+            int orderId = orderDao.createOrder(userId, shippingAddress, recipientName, shippingPhoneNumber, notes, paymentMethod, orderContent.toString());
+
+            // Lưu chi tiết sản phẩm vào đơn hàng
+            for (CartItem item : cartItems) {
+                float discount = 0.0f; // Giả sử không có giảm giá, hoặc tính toán ở đây
+                orderDao.addOrderItem(orderId, item.getProduct().getProductId(), item.getQuantity(), (float) item.getProduct().getPrice(), discount);
+            }
+
+            // Lưu orderId vào session
+            session.setAttribute("orderId", orderId);
+
             // Xóa sản phẩm khỏi giỏ hàng
-            cartDao.clearCart(userId);
+//            cartDao.clearCart(userId);
 
             // Chuyển hướng đến trang xác nhận đơn hàng
             response.sendRedirect("confirm?orderId=" + orderId);

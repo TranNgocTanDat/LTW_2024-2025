@@ -92,8 +92,12 @@ public class ChuKi_model {
 	}
 
 	// Tạo băm của một thông điệp
-
+	// Chuẩn hóa nội dung (Normalize content) để đảm bảo tính nhất quán
+	public static String normalizeContent(String content) {
+		return content.replace("\r\n", "\n").trim(); // Thay \r\n bằng \n và loại bỏ khoảng trắng đầu/cuối
+	}
 	public static byte[] generateHash(String message) throws Exception {
+		message = normalizeContent(message);
 		MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
 		byte[] hashBytes = messageDigest.digest(message.getBytes(StandardCharsets.UTF_8));
 		return hashBytes;
@@ -122,26 +126,17 @@ public class ChuKi_model {
 
 	// Băm một tệp tin
 
-	public byte[] hashFile(String path) {
-		try (InputStream fis = new FileInputStream(path)) {
-			MessageDigest digest = MessageDigest.getInstance("SHA-256");
-
-			byte[] byteArray = new byte[1024];
-			int bytesRead;
-
-			// Đọc dữ liệu tệp tin theo từng khối và cập nhật giá trị băm
-			while ((bytesRead = fis.read(byteArray)) != -1) {
-				digest.update(byteArray, 0, bytesRead);
-			}
-
-			// Chuyển đổi giá trị băm thành chuỗi dạng hex
-			byte[] hashBytes = digest.digest();
-			
-			return hashBytes;
-
+	// Băm nội dung của file
+	public byte[] hashFile(String path) throws Exception {
+		try {
+			// Đọc toàn bộ nội dung file vào một chuỗi
+			String fileContent = new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
+			// Chuẩn hóa nội dung file
+			fileContent = normalizeContent(fileContent);
+			// Băm nội dung sau khi chuẩn hóa
+			return generateHash(fileContent);
 		} catch (Exception e) {
-			System.out.println("Lỗi khi băm tệp: " + e.getMessage());
-			return null;
+			throw new Exception("Lỗi khi băm tệp: " + e.getMessage(), e);
 		}
 	}
 
