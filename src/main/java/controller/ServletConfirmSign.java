@@ -95,19 +95,21 @@ public class ServletConfirmSign extends HttpServlet {
 
             // Xác minh chữ ký
             boolean isValid = verifySignature(contentOrder, decodedString, publicKey);
-
+            request.setAttribute("orderId", orderId);
             if (isValid) {
                 // Xác minh thành công -> Lưu chữ ký vào database
                 orderDao.saveSignature(orderId, decodedString);
                 out.write("<h3 style='color:green;'>Xác thực chữ ký thành công và đã lưu vào hệ thống!</h3>");
-                System.out.println("sucess");
+
+                response.sendRedirect("ordered?orderId=" + orderId);
             } else {
                 // Chữ ký không hợp lệ
                 out.write("<h3 style='color:red;'>Chữ ký không hợp lệ!</h3>");
+
             }
 
-            request.setAttribute("orderId", orderId);
-            response.sendRedirect("confirm?orderId=" + orderId);
+
+
         } catch (Exception e) {
             e.printStackTrace();
             out.write("<h3 style='color:red;'>Lỗi trong quá trình xác thực: " + e.getMessage() + "</h3>");

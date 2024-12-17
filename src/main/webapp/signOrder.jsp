@@ -55,10 +55,7 @@
     <button type="submit">Tải xuống Tool</button>
 </form>
 
-    <h1>dddđ${orderId}</h1>
-
 <form id="confirmSignForm" action="${pageContext.request.contextPath}/confirmSign" method="post" enctype="multipart/form-data">
-    <h1>dddđ${orderId}</h1>
     <input type="hidden" name="orderId" value="${orderId}">
     <label for="signatureFile">Tải lên chữ ký:</label>
     <input type="file" name="signatureFile" id="signatureFile" required>

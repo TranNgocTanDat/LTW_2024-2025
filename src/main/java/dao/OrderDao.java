@@ -96,6 +96,48 @@ public class OrderDao {
         return order;
     }
 
+    public List<Order> getOrdersByUserId(int userId) {
+        String query = "SELECT * FROM Orders WHERE userId = ?";
+        List<Order> orders = new ArrayList<>();
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, userId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Order order = new Order();
+                order.setOrderId(rs.getInt("orderId"));
+                order.setUserId(rs.getInt("userId"));
+                order.setOrderDate(rs.getDate("orderDate"));
+                order.setTotalAmount(rs.getFloat("totalAmount"));
+                order.setShippingAddress(rs.getString("shippingAddress"));
+                order.setRecipientName(rs.getString("recipientName"));
+                order.setShippingPhoneNumber(rs.getString("shippingPhoneNumber"));
+                order.setPaymentMethod(rs.getString("paymentMethod"));
+                order.setPaymentStatus(rs.getString("paymentStatus"));
+                order.setDeliveryDate(rs.getDate("deliveryDate"));
+                order.setNotes(rs.getString("notes"));
+                order.setStatus(rs.getString("status"));
+                order.setOrder_content(rs.getString("order_content"));
+
+                // Thêm order vào danh sách
+                orders.add(order);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return orders;
+    }
+
+
     public int createOrder(int userId, String shippingAddress, String recipientName, String shippingPhoneNumber, String paymentMethod, String notes, String order_content) {
         String query = "INSERT INTO Orders (userId, shippingAddress, totalAmount, recipientName, shippingPhoneNumber, paymentMethod, notes, order_content) OUTPUT INSERTED.orderId VALUES (?, ?, 0, ?,?,?,?, ?)";
         try {
