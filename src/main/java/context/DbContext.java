@@ -8,9 +8,9 @@ public class DbContext {
 
     // JDBC URL, username và password của SQL Server
 
-    private static final String URL = "jdbc:sqlserver://TANDAT;databaseName=demo;encrypt=false";
+    private static final String URL = "jdbc:sqlserver://MSI\\SQLEXPRESS;databaseName=demoLTW;encrypt=false";
     private static final String USER = "sa";
-    private static final String PASSWORD = "Trandat123";
+    private static final String PASSWORD = "1630";
 
     public static void main(String[] args) {
         Connection connection = null;
