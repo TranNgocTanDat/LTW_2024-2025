@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+        http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+        version="3.0">
+
+    <context-param>
+        <param-name>dbURL</param-name>
+        <param-value>jdbc:sqlserver://localhost:1433;databaseName=Demo</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbUser</param-name>
+        <param-value>sa</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbPassword</param-name>
+        <param-value>Trandat123</param-value>
+    </context-param>
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>filter.AuthFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>ServletOrderManagement</servlet-name>
+        <servlet-class>controller.ServletOrderManagement</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServletOrderManagement</servlet-name>
+        <url-pattern>/admin/orders-management</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletConfirm</servlet-name>
+        <servlet-class>controller.ServletConfirm</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServletConfirm</servlet-name>
+        <url-pattern>/confirm</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ServletConfirmSign</servlet-name>
+        <servlet-class>controller.ServletConfirmSign</servlet-class>
+        <multipart-config>
+            <max-file-size>10485760</max-file-size> <!-- 10 MB -->
+            <max-request-size>20971520</max-request-size> <!-- 20 MB -->
+            <file-size-threshold>0</file-size-threshold>
+        </multipart-config>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServletConfirmSign</servlet-name>
+        <url-pattern>/confirmSign</url-pattern>
+    </servlet-mapping>
+
+</web-app>

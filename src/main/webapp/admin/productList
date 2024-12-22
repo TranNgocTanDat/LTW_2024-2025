@@ -53,6 +53,19 @@
             color: #ddd;
         }
 
+        /* Buttons */
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
         button:hover {
             background-color: #0056b3;
         }
@@ -74,16 +87,18 @@
             margin-bottom: 10px;
             width: 40px;
         }
-        a.btn-edit:active {
-            background-color: #3a873d;
+        a.btn-edit:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
         }
 
 
         a.btn-delete {
             background-color: #f44336;
         }
-        a.btn-delete:active {
-            background-color: #d63531;
+        a.btn-delete:hover {
+            background-color: #e53935;
+            transform: scale(1.05);
         }
 
         /* Tables */
@@ -104,7 +119,7 @@
         th {
             background-color: #002D62;
             color: white;
-            font-weight: 600;
+            text-transform: uppercase;
         }
 
         td {
@@ -157,18 +172,17 @@
             line-height: 1.5;
             font-family: Arial, sans-serif;
             text-align: justify;
-            max-height: 80px;
+            max-height: 60px;
             max-width: 300px;
             padding: 8px;
             border: 1px solid #ddd;
             overflow-y: auto;
             word-break: break-word;
             border-radius: 5px;
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
         }
 
         a.btn-add {
+            margin: 20px 0;
             display: inline-block;
             padding: 10px 20px;
             text-decoration: none;
@@ -181,9 +195,16 @@
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
+
+        a.btn-add:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
         /* Khi bấm giữ nút */
         a.btn-add:active {
             background-color: #004085;
+            transform: scale(0.95);
         }
 
 
@@ -198,7 +219,7 @@
     <!-- Section Quản lý sản phẩm -->
     <div id="products" class="section">
         <h2>Quản lý sản phẩm</h2>
-        <a href="product-form.jsp?action=new" class="btn-add">Thêm sản phẩm mới</a>
+        <button onclick="location.href='addProduct.jsp'">Thêm sản phẩm mới</button>
         <table>
                 <tr>
                     <th>Name</th>
@@ -208,7 +229,7 @@
                     <th>Size</th>
                     <th>Color</th>
                     <th>Stock Quantity</th>
-                    <th>image Url</th>
+                    <th>imageUrl</th>
                     <th>Actions</th>
 
                 </tr>
@@ -229,6 +250,8 @@
                     </tr>
                 </c:forEach>
             </table>
+
+        <a href="product-form.jsp?action=new" class="btn-add">Add New Product</a>
     </div>
 </div>
 </body>
