@@ -5,23 +5,21 @@ import java.math.BigDecimal;
 public class OrderItem {
     private int OrderItemId;
     private int orderId;
-    private Product product;
+    private int productId;
     private int quantity;
     private float price;
     private float discount;
     private float totalPrice;
 
-    public OrderItem(int orderItemId, int orderId, Product product, int quantity, float price, float discount, float totalPrice) {
+
+    public OrderItem(int orderItemId, int orderId, int productId, int quantity, float price, float discount, float totalPrice) {
         OrderItemId = orderItemId;
         this.orderId = orderId;
-        this.product = product;
+        this.productId = productId;
         this.quantity = quantity;
         this.price = price;
         this.discount = discount;
         this.totalPrice = totalPrice;
-    }
-
-    public OrderItem() {
 
     }
 
@@ -41,12 +39,12 @@ public class OrderItem {
         this.orderId = orderId;
     }
 
-    public Product getProduct() {
-        return product;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public int getQuantity() {
@@ -81,16 +79,19 @@ public class OrderItem {
         this.totalPrice = totalPrice;
     }
 
+
+
     @Override
     public String toString() {
         return "OrderItem{" +
                 "OrderItemId=" + OrderItemId +
                 ", orderId=" + orderId +
-                ", product=" + product +
+                ", productId=" + productId +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 ", discount=" + discount +
                 ", totalPrice=" + totalPrice +
+
                 '}';
     }
 }
