@@ -103,7 +103,7 @@
         <h3> Lưu khóa của bạn</h3>
         <p>Khóa của bạn đã được tạo thành công. Vui lòng lưu lại các khóa để sử dụng trong tương lai.</p>
         <p><strong>Private Key:</strong></p>
-        <textarea readonly rows="5">${privateKey}</textarea>
+<%--        <textarea readonly rows="5">${privateKey}</textarea>--%>
         <button type="button" onclick="savePrivateKey('${privateKey}')">Lưu Private Key vào thư mục</button>
         <p><strong>Public Key:</strong></p>
         <textarea readonly rows="5">${publicKey}</textarea>
