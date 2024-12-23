@@ -88,7 +88,7 @@
           </li>
         </a>
         <li class="list__item">Cửa hàng</li>
-        <li class="list__item">?Help?</li>
+        <li class="list__item">Thông báo</li>
         <li class="list__item">Tin tức &  Sự kiện</li>
       </ul>
     </div>
