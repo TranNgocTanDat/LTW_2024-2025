@@ -171,7 +171,7 @@
         <th>Total Amount</th>
         <th>Status</th>
         <th>Actions</th>
-        <th></th>
+        <th>Trạng Thái</th>
     </tr>
 
     <c:choose>
@@ -198,6 +198,16 @@
                         </form>
                        <button class="view_btn"><a class="view_letter" href="${pageContext.request.contextPath}/admin/orders-management?action=details&orderId=${order.orderId}">View</a></button>
                     </td>
+                    <td>
+                        <c:choose>
+                            <c:when test="${order.is_edited}">
+                                <span style="color: green;">Đã chỉnh sửa</span>
+                            </c:when>
+                            <c:otherwise>
+                                <span style="color: red;">Chưa chỉnh sửa</span>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
                     <td class="delete">
                         <form action="${pageContext.request.contextPath}/admin/orders-management" method="POST" onsubmit="return confirm('Are you sure you want to delete this order?');">
                             <input type="hidden" name="orderId" value="${order.orderId}" />
@@ -206,6 +216,7 @@
                             </button>
                         </form>
                     </td>
+
                 </tr>
             </c:forEach>
         </c:otherwise>

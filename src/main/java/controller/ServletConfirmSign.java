@@ -99,7 +99,7 @@ public class ServletConfirmSign extends HttpServlet {
                 orderDao.saveSignature(orderId, decodedString);
                 out.write("<h3 style='color:green;'>Xác thực chữ ký thành công và đã lưu vào hệ thống!</h3>");
 
-                response.sendRedirect("ordered?orderId=" + orderId);
+                response.sendRedirect("ordersUser?orderId=" + orderId);
             } else {
                 // Chữ ký không hợp lệ
                 out.write("<h3 style='color:red;'>Chữ ký không hợp lệ!</h3>");

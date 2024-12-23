@@ -45,6 +45,7 @@ public class OrderDao {
                 order.setPaymentMethod(rs.getString("paymentMethod"));
                 order.setPaymentStatus(rs.getString("paymentStatus"));
                 order.setDeliveryDate(rs.getDate("deliveryDate"));
+                order.setIs_edited(rs.getBoolean("is_edited"));
                 order.setNotes(rs.getString("notes"));
                 order.setStatus(rs.getString("status"));
                 order.setOrder_content(rs.getString("order_content"));
@@ -79,6 +80,7 @@ public class OrderDao {
                 order.setPaymentMethod(rs.getString("paymentMethod"));
                 order.setPaymentStatus(rs.getString("paymentStatus"));
                 order.setDeliveryDate(rs.getDate("deliveryDate"));
+                order.setIs_edited(rs.getBoolean("is_edited"));
                 order.setNotes(rs.getString("notes"));
                 order.setStatus(rs.getString("status"));
                 order.setOrder_content(rs.getString("order_content"));
@@ -117,6 +119,7 @@ public class OrderDao {
                 order.setPaymentMethod(rs.getString("paymentMethod"));
                 order.setPaymentStatus(rs.getString("paymentStatus"));
                 order.setDeliveryDate(rs.getDate("deliveryDate"));
+                order.setIs_edited(rs.getBoolean("is_edited"));
                 order.setNotes(rs.getString("notes"));
                 order.setStatus(rs.getString("status"));
                 order.setOrder_content(rs.getString("order_content"));
@@ -283,7 +286,7 @@ public class OrderDao {
 
     public boolean updateOrderWithItems(Order order, List<OrderItem> orderItems) {
         String updateOrderQuery = "UPDATE Orders SET " +
-                "shippingAddress = ?, recipientName = ?, shippingPhoneNumber = ?, status = ?, totalAmount = ?, order_content = ? " +
+                "shippingAddress = ?, recipientName = ?, shippingPhoneNumber = ?, status = ?, is_edited = ?, totalAmount = ?, order_content = ? " +
                 "WHERE orderId = ?";
         String updateOrderItemQuery = "UPDATE OrderItem SET quantity = ?, price = ? WHERE orderId = ? AND productId = ?";
         String deleteOrderItemQuery = "DELETE FROM OrderItem WHERE orderId = ? AND productId = ?";
@@ -301,9 +304,10 @@ public class OrderDao {
             ps.setString(2, order.getRecipientName());
             ps.setString(3, order.getShippingAddress());
             ps.setString(4, order.getStatus());
-            ps.setFloat(5, order.getTotalAmount());
-            ps.setString(6, order.getOrder_content());
-            ps.setInt(7, order.getOrderId());
+            ps.setBoolean(5, true);
+            ps.setFloat(6, order.getTotalAmount());
+            ps.setString(7, order.getOrder_content());
+            ps.setInt(8, order.getOrderId());
             ps.executeUpdate();
 
             // 2. Cập nhật hoặc thêm mới các sản phẩm trong OrderItem
