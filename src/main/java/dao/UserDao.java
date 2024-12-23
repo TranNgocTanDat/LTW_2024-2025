@@ -130,7 +130,7 @@ public class UserDao {
             connection = new DbContext().getConnection();
             ps = connection.prepareStatement(query);
             ps.setInt(1, userId);
-            ps.executeUpdate();
+            rs = ps.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -169,6 +169,40 @@ public class UserDao {
         }
     }
 
+    public boolean checkMail(String mail){
+        String sql = "SELECT * FROM Users WHERE email=?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, mail);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+    public boolean checkPhone(String phone){
+        String sql = "SELECT * FROM Users WHERE phoneNumber=?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, phone);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         UserDao userDao = new UserDao();

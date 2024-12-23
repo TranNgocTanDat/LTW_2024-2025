@@ -37,6 +37,17 @@
         <servlet-name>ServletOrderManagement</servlet-name>
         <url-pattern>/admin/orders-management</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletReportAdmin</servlet-name>
+        <servlet-class>controller.ServletReportAdmin</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServletReportAdmin</servlet-name>
+        <url-pattern>/admin/report-management</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>ServletConfirm</servlet-name>
         <servlet-class>controller.ServletConfirm</servlet-class>
