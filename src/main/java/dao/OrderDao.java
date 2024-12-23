@@ -344,7 +344,6 @@ public class OrderDao {
                     }
                 }
             }
-
             connection.commit(); // Commit transaction nếu không có lỗi
             success = true;
         } catch (SQLException | ClassNotFoundException e) {

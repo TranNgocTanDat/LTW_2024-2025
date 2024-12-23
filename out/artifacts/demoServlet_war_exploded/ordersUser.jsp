@@ -6,321 +6,213 @@
     <meta charset="UTF-8">
     <title>Danh Sách Đơn Hàng</title>
     <style>
+        /* Định dạng tổng thể */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
         }
 
         h1 {
             text-align: center;
             color: #333;
+            margin: 20px 0;
         }
 
+        /* Container cho danh sách đơn hàng */
         .order-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            flex-direction: column;
             gap: 20px;
         }
 
+        /* Định dạng thẻ chứa từng đơn hàng */
         .order-card {
             background-color: #fff;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            width: 400px;
             padding: 20px;
-            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .order-card h2 {
             margin-top: 0;
             color: #007bff;
+            font-size: 1.5em;
         }
 
+        /* Layout 2 cột */
         .order-details {
-            margin: 10px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        .order-details p {
-            margin: 5px 0;
-            color: #555;
-        }
-
-        .status {
-            font-weight: bold;
-        }
-
-        .status.edited {
-            color: green;
-        }
-
-        .status.not-edited {
-            color: red;
-        }
-
-        .actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-        }
-
-        .actions button, .actions a {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            color: #fff;
-            transition: background-color 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .edit-button {
-            background-color: #28a745;
-        }
-
-        .edit-button:hover {
-            background-color: #218838;
-        }
-
-        .delete-button {
-            background-color: #dc3545;
-        }
-
-        .delete-button:hover {
-            background-color: #c82333;
-        }
-
-        /* Thông báo */
-        .message {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        .message.success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-
+        /* Phần danh sách sản phẩm */
         .product-list {
-            max-height: 150px;
-            overflow: hidden;
-            transition: max-height 0.3s ease-in-out;
-        }
-
-        .product-list.expanded {
-            max-height: 1000px; /* Giá trị lớn để hiển thị tất cả sản phẩm */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .product-item {
             display: flex;
+            gap: 15px;
             align-items: center;
-            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f8f8f8;
         }
 
         .product-item img {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             object-fit: cover;
-            margin-right: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
         }
 
-        .product-item .product-info {
+        .product-info {
+            flex: 1;
             display: flex;
             flex-direction: column;
+            gap: 5px;
         }
 
-        .product-item .product-info span {
-            font-size: 14px;
+        .product-info span {
+            font-size: 0.9em;
             color: #555;
         }
 
-        /* Modal Styles */
-        .modal {
-            display: none; /* Ẩn modal mặc định */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4); /* Màu nền trong suốt */
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            width: 400px;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            color: #aaa;
-            font-size: 28px;
+        .product-info span:first-child {
             font-weight: bold;
-            cursor: pointer;
+            color: #333;
         }
 
-        .close:hover, .close:focus {
-            color: #000;
+        /* Thông tin đơn hàng */
+        .order-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .order-info p {
+            margin: 0;
+            font-size: 1em;
+            color: #333;
+        }
+
+        /* Nút toggle */
+        .toggle-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            color: #fff;
+            background-color: #007bff;
+            text-align: center;
             text-decoration: none;
-        }.toggle-button {
-             margin-top: 10px;
-             display: block;
-             text-align: center;
-             background-color: #007bff;
-             color: white;
-             padding: 10px;
-             border: none;
-             border-radius: 5px;
-             cursor: pointer;
-         }
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
 
         .toggle-button:hover {
             background-color: #0056b3;
         }
 
+        /* Các trạng thái đơn hàng */
+        .status {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .status.edited {
+            color: #28a745;
+        }
+
+        .status.not-edited {
+            color: #dc3545;
+        }
+
+        /* Responsive cho màn hình nhỏ */
+        @media (max-width: 768px) {
+            .order-details {
+                grid-template-columns: 1fr;
+            }
+
+            .product-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .product-item img {
+                margin-bottom: 10px;
+            }
+        }
+
         .product-item.extra {
-            display: none; /* Đảm bảo rằng sản phẩm được ẩn ban đầu */
+            display: none;
         }
     </style>
     <script>
-        // Hiển thị modal
-        function showModal(orderId) {
-            var modal = document.getElementById('signatureModal' + orderId);
-            modal.style.display = 'flex';
-        }
-
-        // Ẩn modal
-        function closeModal(orderId) {
-            var modal = document.getElementById('signatureModal' + orderId);
-            modal.style.display = 'none';
-        }
-
-        // Đóng modal khi nhấp ngoài nội dung modal
-        window.onclick = function (event) {
-            var modals = document.getElementsByClassName('modal');
-            for (var i = 0; i < modals.length; i++) {
-                if (event.target == modals[i]) {
-                    modals[i].style.display = "none";
-                }
-            }
-        }
 
         function toggleProductList(orderId) {
             const productList = document.getElementById(`productList${orderId}`);
             const extraProducts = productList.querySelectorAll('.product-item.extra');
             const toggleButton = document.getElementById(`toggleButton${orderId}`);
 
-            console.log(extraProducts);
+            // Kiểm tra trạng thái hiển thị của sản phẩm đầu tiên
+            const isHidden = Array.from(extraProducts).some(product => product.style.display === "none" || product.style.display === "");
 
             extraProducts.forEach(product => {
-                if (product.style.display === "none" || product.style.display === "") {
-                    product.style.display = "block"; // Hiển thị các sản phẩm
-                    toggleButton.textContent = "Thu gọn";
-                } else {
-                    product.style.display = "none"; // Ẩn các sản phẩm
-                    toggleButton.textContent = "Xem thêm";
-                }
+                product.style.display = isHidden ? "block" : "none"; // Hiển thị hoặc ẩn sản phẩm
             });
+
+            toggleButton.textContent = isHidden ? "Thu gọn" : "Xem thêm";
         }
     </script>
 </head>
 <body>
 <h1>Danh Sách Đơn Hàng</h1>
-
-<!-- Hiển thị thông báo -->
-<c:if test="${not empty message}">
-    <div class="message <c:choose>
-                                <c:when test="${message == 'Đơn hàng đã được chỉnh sửa thành công!'}">success</c:when>
-                                <c:otherwise>error</c:otherwise>
-                            </c:choose>">
-            ${message}
-    </div>
-</c:if>
-
 <div class="order-container">
     <c:forEach var="order" items="${orders}">
         <div class="order-card">
             <h2>Đơn Hàng #${order.orderId}</h2>
             <div class="order-details">
+                <div class="order-info">
+                    <p><strong>Khách Hàng:</strong> ${order.recipientName}</p>
+                    <p><strong>Địa Chỉ:</strong> ${order.shippingAddress}</p>
+                    <p><strong>Số Điện Thoại:</strong> ${order.shippingPhoneNumber}</p>
+<%--                    <p><strong>Phương Thức Thanh Toán:</strong> ${order.paymentMethod}</p>--%>
+<%--                    <p><strong>Ngày Đặt:</strong> ${order.orderDate}</p>--%>
+                    <p class="status ${order.is_edited ? 'edited' : 'not-edited'}">
+                            ${order.is_edited ? 'Đã chỉnh sửa' : 'Chưa chỉnh sửa'}
+                    </p>
+                </div>
                 <div>
-                    <h3>Danh sách sản phẩm</h3>
                     <div class="product-list" id="productList${order.orderId}">
                         <c:forEach var="item" items="${orderItems}" varStatus="status">
-                            <c:if test="${status.index < 1}">
-                                <!-- Hiển thị sản phẩm đầu tiên -->
-                                <div class="product-item">
-                                    <img src="${item.product.imageUrl}" alt="${item.product.name}">
-                                    <div class="product-info">
-                                        <span>${item.product.name}</span>
-                                        <span>SL: ${item.quantity}</span>
-                                        <span>Giá: ${item.product.price} VNĐ</span>
-                                    </div>
+                            <div class="product-item ${status.index >= 1 ? 'extra' : ''}">
+                                <img src="${item.product.imageUrl}" alt="${item.product.name}">
+                                <div class="product-info">
+                                    <span>${item.product.name}</span>
+                                    <span>SL: ${item.quantity}</span>
+                                    <span>Giá: ${item.product.price} VNĐ</span>
                                 </div>
-                            </c:if>
-                            <c:if test="${status.index >= 1}">
-                                <!-- Các sản phẩm còn lại -->
-                                <div class="product-item extra">
-                                    <img src="${item.product.imageUrl}" alt="${item.product.name}">
-                                    <div class="product-info">
-                                        <span>${item.product.name}</span>
-                                        <span>SL: ${item.quantity}</span>
-                                        <span>Giá: ${item.product.price} VNĐ</span>
-                                    </div>
-                                </div>
-                            </c:if>
+                            </div>
                         </c:forEach>
+                        <a class="toggle-button" href="${pageContext.request.contextPath}/ordered?orderId=${order.orderId}">
+                            Xem chi tiết
+                        </a>
                     </div>
-                    <button class="toggle-button" id="toggleButton${order.orderId}" onclick="toggleProductList(${order.orderId})">
-                        Xem thêm
-                    </button>
-                </div>
-                <p><strong>Khách Hàng:</strong> ${order.recipientName}</p>
-                <p><strong>Địa Chỉ:</strong> ${order.shippingAddress}</p>
-                <p><strong>Số Điện Thoại:</strong> ${order.shippingPhoneNumber}</p>
-                <p><strong>Phương Thức Thanh Toán:</strong> ${order.paymentMethod}</p>
-                <p><strong>Ngày Đặt:</strong> ${order.orderDate}</p>
-                <p class="status ${order.is_edited ? 'edited' : 'not-edited'}">
-                        ${order.is_edited ? 'Đã chỉnh sửa' : 'Chưa chỉnh sửa'}
-                </p>
-            </div>
-            <div class="actions">
-                <button class="edit-button" onclick="showModal(${order.orderId})">Chỉnh sửa</button>
-            </div>
 
-            <!-- Modal Popup -->
-            <div id="signatureModal${order.orderId}" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="closeModal(${order.orderId})">&times;</span>
-                    <h3>Nhập chữ ký để xác nhận</h3>
-                    <form action="verifySignUpdate" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="orderId" value="${order.orderId}"/>
-                        <div>
-                            <label for="signatureFile${order.orderId}">Chọn file chữ ký:</label>
-                            <input type="file" name="signatureFile" id="signatureFile${order.orderId}" accept=".png, .jpg, .jpeg, .pdf" required>
-                        </div>
-                        <button type="submit">Xác nhận</button>
-                    </form>
                 </div>
+
             </div>
         </div>
     </c:forEach>
