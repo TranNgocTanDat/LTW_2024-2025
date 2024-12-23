@@ -5,6 +5,7 @@
   Time: 1:43 PM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,6 +57,7 @@
             list-style: none;
             padding: 0;
             margin: 0;
+            border: none;
         }
 
         .list__item {
@@ -82,6 +84,16 @@
             background-color: #bf9369;
             color: #fff;
         }
+        .notification-dot {
+            width: 15px;
+            height: 15px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            top: 40px;
+            right: 220px;
+            /*display: none;*/
+        }
     </style>
 </head>
 <body>
@@ -104,8 +116,12 @@
             <a href="">
                 <li class="list__item">Cửa hàng</li>
             </a>
-            <a href="">
-                <li class="list__item">Help</li>
+            <a href="${pageContext.request.contextPath}/ServletNotification">
+                <li class="list__item">Thông báo
+                    <c:if test="${not empty sessionScope.user and not empty sessionScope.user.status}">
+                        <span class="notification-dot"></span>
+                    </c:if>
+                </li>
             </a>
             <a href="">
                 <li class="list__item">Tin tức & Sự kiện</li>
@@ -117,5 +133,20 @@
 <div class="nav">
     <jsp:include page="Nav.jsp"></jsp:include>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const notificationStatus = sessionStorage.getItem('notification');
+
+        if (notificationStatus) {
+            // Thêm dấu chấm đỏ vào header nếu có thông báo
+            const notificationDot = document.createElement('span');
+            notificationDot.classList.add('notification-dot');
+            document.querySelector('.header__right .list__item:last-child').appendChild(notificationDot);
+
+            // Đặt lại sessionStorage sau khi đã xử lý
+            // sessionStorage.removeItem('notification');
+        }
+    });
+</script>
 </body>
 </html>

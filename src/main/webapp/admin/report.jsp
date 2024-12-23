@@ -56,6 +56,41 @@
         .btn__finish:hover {
             background-color: red;
         }
+        /* Phần footer */
+        /* Footer cố định */
+        .footer__checkout {
+            position: fixed; /* Cố định footer ở cuối màn hình */
+            bottom: 0; /* Nằm sát đáy */
+            width: 100%; /* Chiếm toàn bộ chiều ngang */
+            height: 150px; /* Chiều cao cố định */
+            /*background-color: #f9f9f9; !* Màu nền *!*/
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9; /* Ưu tiên hiển thị trên nội dung */
+            /*box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); !* Đổ bóng nhẹ *!*/
+        }
+
+        /* Nội dung nút */
+        .cart,
+        .pay {
+            width: 330px;
+            height: 60px;
+            font-size: 25px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .cart {
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 100px;
+        }
+
     </style>
 </head>
 <body>
@@ -91,6 +126,11 @@
                 </div>
             </form>
             </c:forEach>
+            <div class="footer__checkout">
+                <a href="${pageContext.request.contextPath}/admin" class="cart">
+                    Quay lại
+                </a>
+            </div>
         </div>
 
 
@@ -100,7 +140,7 @@
             var reportCount = reports.length;
             console.log(reportCount);
             // Lưu số lượng vào sessionStorage
-            sessionStorage.setItem('reportCount', reportCount);
+            // sessionStorage.setItem('reportCount', reportCount);
 
             var reports = document.querySelectorAll('.container__report');
 
@@ -116,6 +156,9 @@
                     completeButton.style.display = "none"; // Hide "Hoàn thành" button
                     noEdit.style.display = "none";
                     deleteButton.style.display = "inline-block"; // Show "Xóa" button
+                    reportCount = reports.length-1;
+                    sessionStorage.setItem('reportCount', reportCount);
+                    console.log(reportCount);
                 }
             });
         };

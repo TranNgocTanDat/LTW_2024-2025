@@ -94,7 +94,7 @@ public class ServletUser extends HttpServlet {
         String role = request.getParameter("role");
 
 
-        User newUser = new User(0, username, password, email, firstName, lastName, address, phoneNumber, role);
+        User newUser = new User(0, username, password, email, firstName, lastName, address, phoneNumber, role, null);
         userDao.insertUser(newUser);
         response.sendRedirect(request.getContextPath() + "/admin/users"); // Redirect đúng đường dẫn
     }
@@ -110,7 +110,7 @@ public class ServletUser extends HttpServlet {
         String phoneNumber = request.getParameter("phoneNumber");
         String role = request.getParameter("role");
 
-        User updateUser = new User(userId, username, password, email, firstName, lastName, address, phoneNumber, role);
+        User updateUser = new User(userId, username, password, email, firstName, lastName, address, phoneNumber, role, null);
         userDao.updateUser(updateUser);
         response.sendRedirect(request.getContextPath() + "/admin/users"); // Redirect đúng đường dẫn
     }

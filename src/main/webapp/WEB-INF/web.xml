@@ -39,6 +39,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>ServletNotification</servlet-name>
+        <servlet-class>controller.ServletNotification</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServletNotification</servlet-name>
+        <url-pattern>/ServletNotification</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ServletReportAdmin</servlet-name>
         <servlet-class>controller.ServletReportAdmin</servlet-class>
     </servlet>

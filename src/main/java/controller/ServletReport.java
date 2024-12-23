@@ -60,7 +60,7 @@ public class ServletReport extends HttpServlet {
                             reportDao.insertReport(rs);
                             String error = "Report thành công !";
                             request.setAttribute("error", error);
-                            response.sendRedirect("profile.jsp");
+                            request.getRequestDispatcher("profile.jsp").forward(request, response);
                         }else {
                             String error = "Thông tin ko hợp lệ";
                             request.setAttribute("error", error);
