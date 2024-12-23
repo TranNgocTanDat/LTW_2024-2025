@@ -16,12 +16,20 @@
     </thead>
     <tbody>
     <c:forEach var="item" items="${orderItems}">
-        <tr>
-            <td>${item.productId}</td>
-            <td>${item.quantity}</td>
-            <td>${item.price}</td>
-        </tr>
+        <c:choose>
+            <c:when test="${item.product != null}">
+                <tr>
+                    <td>${item.product.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.product.price* item.quantity}</td>
+                </tr>
+            </c:when>
+            <c:otherwise>
+                Product not available.
+            </c:otherwise>
+        </c:choose>
     </c:forEach>
+
     </tbody>
 </table>
 </body>

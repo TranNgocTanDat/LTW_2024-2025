@@ -1,12 +1,50 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="en">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Confirmation</title>
+    <title>Chỉnh sửa đơn hàng</title>
     <style>
+        /* CSS cho modal */
+        .modal {
+            display: none; /* Ẩn modal mặc định */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4); /* Màu nền trong suốt */
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto; /* Canh giữa màn hình */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 30%; /* Độ rộng modal */
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        button {
+            margin-top: 10px;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
@@ -133,30 +171,48 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-
     </style>
+    <script>
+        // Hiển thị modal
+        function showModal() {
+            document.getElementById('signatureModal').style.display = 'block';
+        }
+
+        // Ẩn modal
+        function closeModal() {
+            document.getElementById('signatureModal').style.display = 'none';
+        }
+
+        // Hiển thị modal
+        function showModalDelete() {
+            document.getElementById('deleteModal').style.display = 'block';
+        }
+
+        // Ẩn modal
+        function closeModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+    </script>
+    </script>
 </head>
 <body>
-
 <div class="container">
     <div class="title">
-        Đơn hàng của bạn đã được tạo thành công!
+        Đơn hàng của bạn đã được đặt thành công!
     </div>
-
     <div class="content">
         <div class="order-info">
             <h2>Thông tin đơn hàng</h2>
             <ul>
-                <li>Mã đơn hàng: ${order.orderId}</li>
-                <li>Khách hàng:  ${order.recipientName}</li>
-                <li>Địa chỉ: ${order.shippingAddress}</li>
-                <li>Số điện thoại: ${order.shippingPhoneNumber}</li>
+                <li>Mã đơn hàng: ${ordered.orderId}</li>
+                <li>Khách hàng:  ${ordered.recipientName}</li>
+                <li>Địa chỉ: ${ordered.shippingAddress}</li>
+                <li>Số điện thoại: ${ordered.shippingPhoneNumber}</li>
             </ul>
         </div>
-
         <div class="product-list">
             <h2>Danh sách sản phẩm</h2>
-            <c:forEach var="item" items="${cartItems}">
+            <c:forEach var="item" items="${orderItems}">
                 <div class="product-item">
                     <img src="${item.product.imageUrl}" alt="${item.product.name}">
                     <div class="product-info">
@@ -168,34 +224,39 @@
             </c:forEach>
         </div>
     </div>
-
     <div class="total-amount">
-        Tổng tiền thanh toán: ${order.totalAmount} VND
+        Tổng tiền thanh toán: ${ordered.totalAmount} VND
     </div>
 
-    <div class="buttons">
-        <button id="downloadOrderTxt">Tải về file TXT thông tin đơn hàng</button>
-        <button id="openModal">Ký và Xác Thực Đơn Hàng</button>
+    <!-- Nút mở modal -->
+    <div style="margin-bottom: 20px; margin-left: 10px">
+        <button type="button" onclick="showModal()">Chỉnh sửa đơn hàng</button>
     </div>
+
+    <div style="margin-bottom: 20px; margin-left: 10px">
+        <button type="button" onclick="showModalDelete()">Hủy đơn hàng</button>
+    </div>
+    <!-- Modal Popup -->
+    <div id="signatureModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Nhập chữ ký để xác nhận</h3>
+            <form action="verifySignUpdate" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="orderId" value="${ordered.orderId}"/>
+                <div>
+                    <label for="signatureFile">Chọn file chữ kí: </label>
+                    <input type="file" name="signatureFile" id="signatureFile" required>
+                </div>
+                <br>
+                <div style="margin-top: 20px">
+                    <button type="submit" >Xác nhận</button>
+                    <button type="button" onclick="closeModal()">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
 </div>
-
-<script>
-    var products = ${cartItemsJson};
-
-    document.getElementById('downloadOrderTxt').addEventListener('click', function() {
-        var content = `${order.order_content}\n`;
-        var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-        var link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "order_12345.txt";
-        link.click();
-    });
-
-    document.getElementById('openModal').addEventListener('click', function() {
-        // document.getElementById('signModal').style.display = 'flex';
-        window.location.href = `${pageContext.request.contextPath}/signOrder?orderId=${order.orderId}`;
-    });
-</script>
-
 </body>
 </html>
