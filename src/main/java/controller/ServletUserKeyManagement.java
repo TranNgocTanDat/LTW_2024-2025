@@ -27,7 +27,7 @@ public class ServletUserKeyManagement extends HttpServlet {
         List<Report> listReports = reportDao.getAllReport();
         if(listReports!=null){
             for (Report report : listReports){
-                if(report.getContent_report()=="exposed"){
+                if(report.getContent_report().equals("exposed")){
                     int userId = report.getUserID();
                     try {
                         userKeyDao.deleteKey(userId);

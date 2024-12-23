@@ -5,7 +5,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <title>Order Confirmation</title>
     <style>
         body {
@@ -133,13 +132,11 @@
             background-color: #0056b3;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-
         }
 
     </style>
 </head>
 <body>
-
 
 <div class="container">
     <div class="title">
@@ -183,7 +180,6 @@
 </div>
 
 <script>
-    document.querySelector('.nav').style.display = 'none';
     var products = ${cartItemsJson};
 
     document.getElementById('downloadOrderTxt').addEventListener('click', function() {

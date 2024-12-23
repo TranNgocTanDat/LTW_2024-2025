@@ -17,7 +17,7 @@ public class ReportDao {
     PreparedStatement ps = null;
     ResultSet rs = null;
     public void insertReport(Report report){
-        String sql = "INSERT INTO reprot( userID, content_report, message, status) VALUES ( ?, ?, ?, ?)";
+        String sql = "INSERT INTO report( userID, content_report, message, status) VALUES ( ?, ?, ?, ?)";
         try {
             connection = new DbContext().getConnection();
             ps = connection.prepareStatement(sql);
@@ -34,7 +34,7 @@ public class ReportDao {
         }
     }
     public void deleteReport(int id){
-        String sql = "DELETE FROM reprot WHERE id=?";
+        String sql = "DELETE FROM report WHERE id=?";
         try {
             connection = new DbContext().getConnection();
             ps = connection.prepareStatement(sql);
@@ -49,7 +49,7 @@ public class ReportDao {
     }
 
     public void updateReport(Report report){
-        String sql = "UPDATE  reprot set status=? WHERE id =?";
+        String sql = "UPDATE  report set status=? WHERE id =?";
         try {
             connection = new DbContext().getConnection();
             ps = connection.prepareStatement(sql);
@@ -66,7 +66,7 @@ public class ReportDao {
 
     public List<Report> getAllReport() {
         List<Report> reports = new ArrayList<>();
-        String sql = "SELECT * FROM reprot";
+        String sql = "SELECT * FROM report";
         try {
             connection = new DbContext().getConnection();
             ps = connection.prepareStatement(sql);
@@ -101,7 +101,7 @@ public class ReportDao {
     public Report getReportId(int id){
         List<Report> reports = getAllReport();
         Report report = null;
-        String sql = "SELECT * FROM reprot WHERE id=?";
+        String sql = "SELECT * FROM report WHERE id=?";
         try {
             connection = new DbContext().getConnection();
             ps = connection.prepareStatement(sql);
