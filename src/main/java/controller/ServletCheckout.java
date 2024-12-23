@@ -68,6 +68,7 @@ public class ServletCheckout extends HttpServlet {
         String recipientName = request.getParameter("recipientName");
         String shippingAddress = request.getParameter("shippingAddress");
         String shippingPhoneNumber = request.getParameter("shippingPhoneNumber");
+
         String notes = request.getParameter("notes");
         String paymentMethod = request.getParameter("paymentMethod");
 
