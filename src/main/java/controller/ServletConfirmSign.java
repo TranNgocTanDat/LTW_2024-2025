@@ -2,17 +2,15 @@ package controller;
 
 import dao.OrderDao;
 import dao.UserKeyDao;
-import model.ChuKi_model;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+
 import java.security.*;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Arrays;
+
 import java.util.Base64;
 
 import static model.ChuKi_model.generateHash;
@@ -101,7 +99,7 @@ public class ServletConfirmSign extends HttpServlet {
                 orderDao.saveSignature(orderId, decodedString);
                 out.write("<h3 style='color:green;'>Xác thực chữ ký thành công và đã lưu vào hệ thống!</h3>");
 
-                response.sendRedirect("ordersUser?orderId=" + orderId);
+                response.sendRedirect("ordersUser");
             } else {
                 // Chữ ký không hợp lệ
                 out.write("<h3 style='color:red;'>Chữ ký không hợp lệ!</h3>");
