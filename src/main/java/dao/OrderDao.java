@@ -460,9 +460,10 @@ public class OrderDao {
 //            System.out.println("Order Content: " + order.getOrder_content());
 //            System.out.println("-----------------------------");
 //        }
-
+        Order o =  new Order();
+        int orderId = o.getOrderId();
         // Lấy chi tiết đơn hàng
-        List<OrderItem> orderItems = orderDao.getOrderDetails(93);
+        List<OrderItem> orderItems = orderDao.getOrderDetails(orderId);
         for (OrderItem item : orderItems) {
             System.out.println("Order Item ID: " + item.getOrderItemId());
             System.out.println("Order ID: " + item.getOrderId());
