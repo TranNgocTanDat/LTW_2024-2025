@@ -188,8 +188,6 @@
                     <p><strong>Khách Hàng:</strong> ${order.recipientName}</p>
                     <p><strong>Địa Chỉ:</strong> ${order.shippingAddress}</p>
                     <p><strong>Số Điện Thoại:</strong> ${order.shippingPhoneNumber}</p>
-<%--                    <p><strong>Phương Thức Thanh Toán:</strong> ${order.paymentMethod}</p>--%>
-<%--                    <p><strong>Ngày Đặt:</strong> ${order.orderDate}</p>--%>
                     <p class="status ${order.is_edited ? 'edited' : 'not-edited'}">
                             ${order.is_edited ? 'Đã chỉnh sửa' : 'Chưa chỉnh sửa'}
                     </p>
