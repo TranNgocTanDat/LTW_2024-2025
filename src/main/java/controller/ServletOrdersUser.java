@@ -23,7 +23,8 @@ public class ServletOrdersUser extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Integer userId = (Integer) session.getAttribute("userId"); // Lấy userId từ session
-        Integer orderId = (Integer) session.getAttribute("orderId");
+//        String orderIdIdParam = request.getParameter("orderId");
+//        int orderId = Integer.parseInt(orderIdIdParam);
 
         if (userId == null) {
             response.sendRedirect("login.jsp"); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
@@ -32,9 +33,9 @@ public class ServletOrdersUser extends HttpServlet {
 
         OrderDao orderDAO = new OrderDao();
         List<Order> orders = orderDAO.getOrdersByUserId(userId);
-        List<OrderItem> orderItems = orderDao.getOrderDetails(orderId);
+//        List<OrderItem> orderItems = orderDao.getOrderDetails(orderId);
         request.setAttribute("orders", orders);
-        request.setAttribute("orderItems", orderItems);
+//        request.setAttribute("orderItems", orderItems);
         request.getRequestDispatcher("ordersUser.jsp").forward(request, response);
     }
 
