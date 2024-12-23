@@ -15,10 +15,39 @@ public class User {
     public User() {
     }
 
-    public User(int userId, String username, String password, String email, String firstName, String lastName, String address, String phoneNumber, String role, String status) {
-        this.userId = userId;
+
+//    public User(int userId, String username, String password, String email, String firstName, String lastName, String address, String phoneNumber, String role) {
+//        this.userId = userId;
+//        this.username = username;
+//        this.password = password;
+//        this.email = email;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.address = address;
+//        this.phoneNumber = phoneNumber;
+//        this.role = role;
+//    }
+
+
+    public User(int userId, String username, String hashedPassword, String email, String firstName, String lastName, String address, String phoneNumber, String role) {
+          this.userId = userId;
+          this.username = username;
+          this.password = hashedPassword;
+          this.email = email;
+          this.firstName = firstName;
+          this.lastName = lastName;
+          this.address = address;
+          this.phoneNumber = phoneNumber;
+          this.role = role;
+
+    }
+
+ 
+
+    public User(int userId, String username, String hashedPassword, String email, String firstName, String lastName, String address, String phoneNumber, String role, Object o) {
+
         this.username = username;
-        this.password = password;
+        this.password = hashedPassword;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;

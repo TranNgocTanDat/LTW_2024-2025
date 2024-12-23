@@ -165,13 +165,14 @@
 <h1>Danh sách đơn hàng</h1>
 <table>
     <tr>
-        <th>Order ID</th>
-        <th>User ID</th>
-        <th>Order Date</th>
-        <th>Total Amount</th>
-        <th>Status</th>
-        <th>Actions</th>
-        <th>Trạng Thái</th>
+
+        <th>Mã đặt hàng</th>
+        <th>Mã khách hàng</th>
+        <th>Ngày đặt hàng</th>
+        <th>Tổng số lượng</th>
+        <th>Trạng thái</th>
+        <th>Xử lý</th>
+        <th></th>
     </tr>
 
     <c:choose>
@@ -193,10 +194,10 @@
                     <td class="option">
                         <form action="${pageContext.request.contextPath}/admin/orders-management" method="POST">
                             <input type="hidden" name="orderId" value="${order.orderId}" />
-                            <button class="approve_btn" type="submit" name="action" value="approve">Approve</button>
-                            <button class="cancel_btn" type="submit" name="action" value="cancel">Cancel</button>
+                            <button class="approve_btn" type="submit" name="action" value="approve">Chấp nhận</button>
+                            <button class="cancel_btn" type="submit" name="action" value="cancel">Hủy</button>
                         </form>
-                       <button class="view_btn"><a class="view_letter" href="${pageContext.request.contextPath}/admin/orders-management?action=details&orderId=${order.orderId}">View</a></button>
+                       <button class="view_btn"><a class="view_letter" href="${pageContext.request.contextPath}/admin/orders-management?action=details&orderId=${order.orderId}">Chi tiết</a></button>
                     </td>
                     <td>
                         <c:choose>

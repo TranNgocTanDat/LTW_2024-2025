@@ -82,7 +82,7 @@
     }
 
     .user-icon {
-       /* Thay bằng URL của biểu tượng người dùng */
+      /* Thay bằng URL của biểu tượng người dùng */
       width: 40px;
       height: 40px;
       background-size: cover;
