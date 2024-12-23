@@ -14,7 +14,7 @@ public class ServletDownloadTool extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Đường dẫn tới file
 
-        String pathFile = getServletContext().getRealPath("/file/ChuKi.exe");
+        String pathFile = getServletContext().getRealPath("/file/ToolChuKi.exe");
         File fileToDownload = new File(pathFile);
 
         // Kiểm tra nếu file không tồn tại

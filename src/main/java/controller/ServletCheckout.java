@@ -84,7 +84,7 @@ public class ServletCheckout extends HttpServlet {
         //Luu chi tiet don hang
         try {
             List<CartItem> cartItems = cartDao.getCart(userId);
-            float totalAmount = 0;
+            double totalAmount = 0.0;
             for (CartItem item : cartItems) {
                 double itemTotal = item.getQuantity() * item.getProduct().getPrice();
                 orderContent.append(item.getProduct().getName())
@@ -98,7 +98,7 @@ public class ServletCheckout extends HttpServlet {
             orderContent.append("Tổng tiền: ").append(totalAmount).append("\n");
 
             // Lưu đơn hàng vào cơ sở dữ liệu
-            int orderId = orderDao.createOrder(userId, shippingAddress, recipientName, shippingPhoneNumber,  paymentMethod, totalAmount, notes, orderContent.toString());
+            int orderId = orderDao.createOrder(userId, shippingAddress, recipientName, shippingPhoneNumber, notes, paymentMethod, orderContent.toString());
 
             // Lưu chi tiết sản phẩm vào đơn hàng
             for (CartItem item : cartItems) {
