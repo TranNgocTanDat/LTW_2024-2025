@@ -1,23 +1,31 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="demoServlet:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/demoServlet_war_exploded</output-path>
+    <output-path>$PROJECT_DIR$/target/demoServlet-1.0-SNAPSHOT</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <exploded>true</exploded>
+        <module>demoServlet</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="demoServlet" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
           <element id="library" level="project" name="Maven: com.mysql:mysql-connector-j:8.2.0" />
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.21.9" />
           <element id="library" level="project" name="Maven: com.microsoft.sqlserver:mssql-jdbc:12.4.1.jre11" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
           <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.8" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/javax.servlet.jsp.jstl-1.2.1.jar" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/javax.servlet.jsp.jstl-api-1.2.1.jar" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/jstl-1.2.jar" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/mssql-jdbc-12.4.1.jre11.jar" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/mysql-connector-j-8.2.0.jar" />
+          <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.6.2" />
+          <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
         </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/demoServlet-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="demoServlet/web/Web" />
     </root>
