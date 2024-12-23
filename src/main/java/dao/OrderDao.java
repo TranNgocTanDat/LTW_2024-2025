@@ -44,6 +44,7 @@ public class OrderDao {
                 order.setPaymentMethod(rs.getString("paymentMethod"));
                 order.setPaymentStatus(rs.getString("paymentStatus"));
                 order.setDeliveryDate(rs.getDate("deliveryDate"));
+                order.setIs_edited(rs.getBoolean("is_edited"));
                 order.setNotes(rs.getString("notes"));
                 order.setStatus(rs.getString("status"));
                 order.setOrder_content(rs.getString("order_content"));
@@ -78,6 +79,7 @@ public class OrderDao {
                 order.setPaymentMethod(rs.getString("paymentMethod"));
                 order.setPaymentStatus(rs.getString("paymentStatus"));
                 order.setDeliveryDate(rs.getDate("deliveryDate"));
+                order.setIs_edited(rs.getBoolean("is_edited"));
                 order.setNotes(rs.getString("notes"));
                 order.setStatus(rs.getString("status"));
                 order.setOrder_content(rs.getString("order_content"));
@@ -95,6 +97,49 @@ public class OrderDao {
         }
         return order;
     }
+
+    public List<Order> getOrdersByUserId(int userId) {
+        String query = "SELECT * FROM Orders WHERE userId = ?";
+        List<Order> orders = new ArrayList<>();
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, userId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Order order = new Order();
+                order.setOrderId(rs.getInt("orderId"));
+                order.setUserId(rs.getInt("userId"));
+                order.setOrderDate(rs.getDate("orderDate"));
+                order.setTotalAmount(rs.getFloat("totalAmount"));
+                order.setShippingAddress(rs.getString("shippingAddress"));
+                order.setRecipientName(rs.getString("recipientName"));
+                order.setShippingPhoneNumber(rs.getString("shippingPhoneNumber"));
+                order.setPaymentMethod(rs.getString("paymentMethod"));
+                order.setPaymentStatus(rs.getString("paymentStatus"));
+                order.setDeliveryDate(rs.getDate("deliveryDate"));
+                order.setIs_edited(rs.getBoolean("is_edited"));
+                order.setNotes(rs.getString("notes"));
+                order.setStatus(rs.getString("status"));
+                order.setOrder_content(rs.getString("order_content"));
+
+                // Thêm order vào danh sách
+                orders.add(order);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return orders;
+    }
+
 
     public int createOrder(int userId, String shippingAddress, String recipientName, String shippingPhoneNumber, String paymentMethod, String notes, String order_content) {
         String query = "INSERT INTO Orders (userId, shippingAddress, totalAmount, recipientName, shippingPhoneNumber, paymentMethod, notes, order_content) OUTPUT INSERTED.orderId VALUES (?, ?, 0, ?,?,?,?, ?)";
@@ -209,15 +254,30 @@ public class OrderDao {
         }
     }
 
-    public void updateOrderItem(OrderItem orderItem) {
-        String query = "UPDATE OrderItem SET productId = ?, quantity = ?, price = ? WHERE orderItemId = ?";
+    public boolean updateOrderWithItems(Order order, List<OrderItem> orderItems) {
+        String updateOrderQuery = "UPDATE Orders SET " +
+                "shippingAddress = ?, recipientName = ?, shippingPhoneNumber = ?, status = ?, is_edited = ?, totalAmount = ?, order_content = ? " +
+                "WHERE orderId = ?";
+        String updateOrderItemQuery = "UPDATE OrderItem SET quantity = ?, price = ? WHERE orderId = ? AND productId = ?";
+        String deleteOrderItemQuery = "DELETE FROM OrderItem WHERE orderId = ? AND productId = ?";
+        String insertOrderItemQuery = "INSERT INTO OrderItem (orderId, productId, quantity, price) VALUES (?, ?, ?, ?)";
+
+        boolean success = false;
+
         try {
             connection = new DbContext().getConnection();
-            ps = connection.prepareStatement(query);
-            ps.setInt(1, orderItem.getProductId());
-            ps.setInt(2, orderItem.getQuantity());
-            ps.setDouble(3, orderItem.getPrice());
-            ps.setInt(4, orderItem.getOrderItemId());
+            connection.setAutoCommit(false); // Bắt đầu transaction
+
+            // 1. Cập nhật bảng Orders
+            ps = connection.prepareStatement(updateOrderQuery);
+            ps.setString(1, order.getShippingAddress());
+            ps.setString(2, order.getRecipientName());
+            ps.setString(3, order.getShippingAddress());
+            ps.setString(4, order.getStatus());
+            ps.setBoolean(5, true);
+            ps.setFloat(6, order.getTotalAmount());
+            ps.setString(7, order.getOrder_content());
+            ps.setInt(8, order.getOrderId());
             ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -321,6 +381,3 @@ public class OrderDao {
             System.out.println("-----------------------------");
         }
     }
-
-
-}
