@@ -50,23 +50,10 @@ public class ServletRegister extends HttpServlet {
         String userIdStr = request.getParameter("id");
         int userId = (userIdStr != null && !userIdStr.isEmpty()) ? Integer.parseInt(userIdStr) : 0;
 
-        // Create a new user object
-        User newUser = new User( username, hashedPassword, email, firstName, lastName, address, phoneNumber, role);
-        try {
-            // Save the user to the database
-            boolean isRegistered = userDao.insertUser(newUser);
-
-            if (isRegistered) {
-                response.sendRedirect("login.jsp");
-            } else {
-                request.setAttribute("errorMessage", "Registration failed. Username or email might already exist.");
-                request.getRequestDispatcher("register.jsp").forward(request, response);
-            }
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error during user registration", e);
-            request.setAttribute("errorMessage", "An error occurred while registering. Please try again.");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
-        }
+        // Kiểm tra và đăng ký người dùng
+        User newUser = new User(userId, username, hashedPassword, email,firstName, lastName, address, phoneNumber, role, null); // Mặc định là user
+        userDao.insertUser(newUser);
+        response.sendRedirect(request.getContextPath() + "/login"); // Chuyển hướng đến trang đăng nhập
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
