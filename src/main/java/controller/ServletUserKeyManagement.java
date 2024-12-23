@@ -1,6 +1,8 @@
 package controller;
 
+import dao.ReportDao;
 import dao.UserKeyDao;
+import model.Report;
 import model.UserKey;
 
 import javax.servlet.*;
@@ -13,14 +15,29 @@ import java.util.List;
 @WebServlet(name = "ServletUserKeyManagement", value = "/admin/key-management")
 public class ServletUserKeyManagement extends HttpServlet {
     private UserKeyDao userKeyDao;
-
+    private ReportDao reportDao;
     public void init() {
+        reportDao = new ReportDao();
         userKeyDao = new UserKeyDao();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
+        List<Report> listReports = reportDao.getAllReport();
+        if(listReports!=null){
+            for (Report report : listReports){
+                if(report.getContent_report()=="exposed"){
+                    int userId = report.getUserID();
+                    try {
+                        userKeyDao.deleteKey(userId);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+
         if (action == null || action.isEmpty()) {
             action = "list";
         }

@@ -46,12 +46,36 @@
     button:hover {
       background-color: #45a049;
     }
+    .report{
+      display: none;
+    }
+    .report__content{
+      display: grid;
+      margin-bottom: 20px;
+    }
+    .content{
+      margin: 0 0 15px;
+      padding: 10px;
+      background-color: #f1f1f1;
+      border-radius: 4px;
+    }
+    .inf__client{
+      display: grid;
+    }
+    .inf__client--mail{
+      display: grid;
+      margin-bottom: 20px;
+    }
+    .report__messenger{
+      display: grid;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
 <div class="container">
-  <h2>Thông tin cá nhân</h2>
-
+  <h2 class="inf__title">Thông tin cá nhân</h2>
+  <h2 class="report__title" style="display: none">Báo cáo của khách hàng</h2>
   <div class="profile-info">
 
     <%--@declare id="username"--%><label for="username">Tên đăng nhập:</label>
@@ -75,10 +99,114 @@
     <label for="role">Vai trò:</label>
     <p>${user.role != null ? user.role : 'Chưa có vai trò'}</p>
   </div>
+  <c:if test="${not empty error}">
+      <h3>${error}</h3>
+  </c:if>
 
-  <form action="${pageContext.request.contextPath}/admin/users?action=${users != null ? "update" : "insert"}" method="post">
+
+  <form action="${pageContext.request.contextPath}/report" method="post">
+    <div class="report">
+      <div class="report__content">
+        <label style="font-weight: bold; margin-bottom: 5px">Nội dung report:</label>
+        <select name="content" class="content" onchange="updateDistricts()">
+          <option value="">-- Nội dung report --</option>
+          <option name="content" value="exposed">Lộ key or mất key</option>
+          <option name="content" value="besides">Một số vấn đề khác</option>
+        </select>
+      </div>
+      <div class="inf__client">
+        <div class="inf__client--mail">
+          <label style="font-weight: bold; margin-bottom: 5px">Email của bạn</label>
+          <input class="content" type="text" name="mail" placeholder="Vui lòng nhập đúng địa chỉ mail của bạn.">
+        </div>
+        <div class="inf__client--mail">
+          <label style="font-weight: bold; margin-bottom: 5px">SDT của bạn</label>
+          <input class="content" type="text" name="phone" placeholder="Vui lòng nhập đúng số điện thoại của bạn.">
+        </div>
+        <div class="inf__client--mail">
+          <label style="font-weight: bold; margin-bottom: 5px">Mã OTP</label>
+          <input class="content" type="text" name="otp"  placeholder="Nhập OTB từ mail của bạn.">
+
+          <button onclick="showReport()" type="submit" class="btn__repOTB" name="action" value="sendOTB">Gửi</button>
+
+        </div>
+      </div>
+      <div class="report__messenger">
+        <label style="font-weight: bold; margin-bottom: 5px">Report</label>
+        <textarea name="report" style="height: 100px; padding: 5px; box-sizing: border-box; text-align: left;" placeholder="Vui lòng nhập nội dung cần báo cáo."></textarea>
+      </div>
+      <button style="display: none" class="rep__report" type="submit" name="action" value="sendReport">Gửi Report</button>
+
+    </div>
+  </form>
+  <c:if test="${not empty otpMail}">
+    <<script>
+    alert("${otpMail}");
+    </script>
+  </c:if>
+
+  <c:if test="${not empty error}">
+    <<script>
+    alert("${error}");
+    </script>
+  </c:if>
+
+  <form class="update" style="display: flex" action="${pageContext.request.contextPath}/admin/users?action=${users != null ? "update" : "insert"}" method="post">
     <button type="submit">Cập nhật thông tin</button>
   </form>
+  <button class="btn__report" onclick="showReport()">Report</button>
+  <form action="logout" method="post">
+    <button type="submit" style="margin-top: 20px; background-color: red">Đăng xuất</button>
+  </form>
+  </div>
 </div>
+<script>
+  function showReport() {
+    const report = document.querySelector(".report");
+    const inf = document.querySelector(".profile-info");
+    document.querySelector(".update").style.display = 'none';
+    document.querySelector(".inf__title").style.display = 'none';
+    document.querySelector(".report__title").style.display = 'block';
+    document.querySelector(".rep__report").style.display = 'block';
+    document.querySelector(".btn__report").style.display = 'none';
+    report.style.display = 'block';
+    inf.style.display = 'none';
+
+    sessionStorage.setItem('isReportView', 'true');
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const isReportView = sessionStorage.getItem('isReportView') === "true";
+
+    if (isReportView) {
+      showReport(); // Gọi hàm hiển thị phần báo cáo
+    }
+
+    // Lưu giá trị vào sessionStorage khi người dùng thay đổi nội dung
+    document.querySelectorAll('input, textarea, select').forEach(function(input) {
+      input.addEventListener('input', function() {
+        sessionStorage.setItem(input.name, input.value);
+      });
+    });
+
+    // Điền lại giá trị vào các trường nếu có trong sessionStorage
+    document.querySelectorAll('input, textarea, select').forEach(function(input) {
+      const storedValue = sessionStorage.getItem(input.name);
+      if (storedValue) {
+        input.value = storedValue;
+      }
+    });
+
+
+
+    // Khi người dùng gửi form báo cáo, lưu trạng thái
+    const form = document.querySelector('form[action="${pageContext.request.contextPath}/report"]');
+    if (form) {
+      form.addEventListener("submit", function() {
+        sessionStorage.setItem('isReportView', 'true');
+      });
+    }
+  });
+</script>
 </body>
 </html>

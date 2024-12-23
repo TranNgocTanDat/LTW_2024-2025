@@ -42,12 +42,12 @@ public class UserKeyDao {
         return userKeys;
     }
 
-    public void deleteKey(int keyId) throws SQLException {
-        String sql = "DELETE FROM user_keys WHERE keyId = ?";
+    public void deleteKey(int userId) throws SQLException {
+        String sql = "DELETE FROM user_keys WHERE userId = ?";
         try  {
             connection = new DbContext().getConnection();
             ps = connection.prepareStatement(sql);
-            ps.setInt(1, keyId);
+            ps.setInt(1, userId);
             ps.executeUpdate();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);

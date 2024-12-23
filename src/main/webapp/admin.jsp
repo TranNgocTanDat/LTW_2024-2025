@@ -149,7 +149,7 @@
     <li><a href="admin/users">Quản lý người dùng</a></li>
     <li><a href="admin/orders-management">Quản lý đơn hàng</a></li>
     <li><a href="admin/key-management">Quản lý key</a></li>
-    <li><a href="reports.jsp">Báo cáo</a></li>
+    <li style="display: flex"><a href="admin/report-management">Báo cáo</a> <h5 style="border-radius: 10px; background-color: red; width: 15px; height: 15px; text-align: center">0</h5></li>
   </ul>
 </div>
 
@@ -231,6 +231,21 @@
       }
     }
   });
+
+  window.onload = function (){
+    // Lấy số lượng báo cáo từ sessionStorage
+    var reportCount = sessionStorage.getItem('reportCount');
+    console.log(reportCount);
+    // Kiểm tra nếu có số lượng báo cáo và cập nhật vào thẻ h5
+    if (reportCount !== null) {
+      var reportCountElement = document.querySelector('.sidebar h5');
+      reportCountElement.textContent = reportCount;
+    } else {
+      // Nếu không có số lượng, hiển thị 0 hoặc thông báo khác
+      var reportCountElement = document.querySelector('.sidebar h5');
+      reportCountElement.textContent = '0';
+    }
+  };
 </script>
 </body>
 </html>
