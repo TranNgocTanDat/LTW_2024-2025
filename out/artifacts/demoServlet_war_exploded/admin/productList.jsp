@@ -72,7 +72,7 @@
         a.btn-edit {
             background-color: #4CAF50;
             margin-bottom: 10px;
-            width: 40px;
+            width: 60px;
         }
         a.btn-edit:active {
             background-color: #3a873d;
@@ -81,6 +81,7 @@
 
         a.btn-delete {
             background-color: #f44336;
+            width: 60px;
         }
         a.btn-delete:active {
             background-color: #d63531;
@@ -201,15 +202,15 @@
         <a href="product-form.jsp?action=new" class="btn-add">Thêm sản phẩm mới</a>
         <table>
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>Size</th>
-                    <th>Color</th>
-                    <th>Stock Quantity</th>
-                    <th>image Url</th>
-                    <th>Actions</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Mô tả</th>
+                    <th>Giá</th>
+                    <th>Loại sản phẩm</th>
+                    <th>Kích cỡ</th>
+                    <th>Màu</th>
+                    <th>Còn trong kho</th>
+                    <th>Đường dẫn ảnh</th>
+                    <th>Xử lý</th>
 
                 </tr>
                 <c:forEach var="product" items="${products}">
@@ -223,8 +224,8 @@
                         <td>${product.stockQuantity}</td>
                         <td><img src="${product.imageUrl}" width="50px" height="50px"></td>
                         <td>
-                            <a href="products?action=edit&id=${product.productId}" class="btn-edit">Edit</a>
-                            <a href="products?action=delete&id=${product.productId}" class="btn-delete" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+                            <a href="products?action=edit&id=${product.productId}" class="btn-edit">Thay đổi</a>
+                            <a href="products?action=delete&id=${product.productId}" class="btn-delete" onclick="return confirm('Are you sure you want to delete this product?');">Xóa</a>
                         </td>
                     </tr>
                 </c:forEach>

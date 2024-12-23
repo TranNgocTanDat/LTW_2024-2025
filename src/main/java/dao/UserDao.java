@@ -3,14 +3,14 @@ package dao;
 import context.DbContext;
 import model.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao {
+    private static final String DB_URL = "jdbc:sqlserver://MSI\\SQLEXPRESS;databaseName=demoLTW;encrypt=false";
+    private static final String DB_USERNAME = "sa"; // Your SQL Server username
+    private static final String DB_PASSWORD = "1630"; // Your SQL Server password
 
     public UserDao(){}
     Connection connection = null;
@@ -18,44 +18,36 @@ public class UserDao {
     ResultSet rs = null;
 
     // phương thức xác thực người dùng
-    public User authenticateUser(String username, String password){
-        String query = "SELECT * FROM Users WHERE username=? AND password=?";
-        User user = null; // Khởi tạo đối tượng User
+    public User authenticateUser(String username, String hashedPassword) {
+        String sql = "SELECT * FROM Users WHERE username = ? AND password = ?";
 
-        try {
-            connection = new DbContext().getConnection();
-            ps = connection.prepareStatement(query);
-            ps.setString(1, username);
-            ps.setString(2, password);
-            rs = ps.executeQuery();
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            if (rs.next()) {
-                // Lấy thông tin từ kết quả truy vấn và khởi tạo đối tượng User
-                int userId = rs.getInt("userId");
-                String email = rs.getString("email");
-                String firstName = rs.getString("firstName");
-                String lastName = rs.getString("lastName");
-                String address = rs.getString("address");
-                String phoneNumber = rs.getString("phoneNumber");
-                String role = rs.getString("role");
+            stmt.setString(1, username);
+            stmt.setString(2, hashedPassword);
 
-                user = new User(userId, username, password, email, firstName, lastName, address, phoneNumber, role);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new User(
+                            rs.getInt("userId"),
+                            rs.getString("username"),
+                            rs.getString("password"),
+                            rs.getString("email"),
+                            rs.getString("firstName"),
+                            rs.getString("lastName"),
+                            rs.getString("address"),
+                            rs.getString("phoneNumber"),
+                            rs.getString("role")
+                    );
+                }
             }
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } finally {
-            // Đóng kết nối, PreparedStatement, và ResultSet nếu cần thiết
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+
         }
-        return user;
-    }
 
+        return null; // Return null if authentication fails
+    }
     // get user by userId
     public User getUserById(int userId){
         String query ="SELECT * FROM Users WHERE userId=?";
@@ -86,7 +78,7 @@ public class UserDao {
         return null;
     }
 
-    public void insertUser(User user) {
+    public boolean insertUser(User user) {
         String query = "INSERT INTO users (username, password, email, firstName, lastName, address, phoneNumber) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             connection = new DbContext().getConnection();
@@ -100,12 +92,12 @@ public class UserDao {
             ps.setString(7, user.getPhoneNumber());
             ps.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+        return false;
     }
+
     public List<User> getAll(){
         List<User> list = new ArrayList<>();
         String query ="select*from users";
@@ -170,12 +162,4 @@ public class UserDao {
     }
 
 
-    public static void main(String[] args) {
-        UserDao userDao = new UserDao();
-        List<User> users = userDao.getAll();
-        for (User user: users) {
-            System.out.println(user);
-        }
-
-    }
 }

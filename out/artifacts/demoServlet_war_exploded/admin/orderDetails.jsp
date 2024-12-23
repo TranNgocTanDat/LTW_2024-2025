@@ -10,19 +10,27 @@
 <table border="1">
     <thead>
     <tr>
-        <th>Product ID</th>
-        <th>Quantity</th>
-        <th>Price</th>
+        <th>Mã sản phẩm</th>
+        <th>Số lượng</th>
+        <th>Giá</th>
     </tr>
     </thead>
     <tbody>
     <c:forEach var="item" items="${orderItems}">
-        <tr>
-            <td>${item.productId}</td>
-            <td>${item.quantity}</td>
-            <td>${item.price}</td>
-        </tr>
+        <c:choose>
+            <c:when test="${item.product != null}">
+                <tr>
+                    <td>${item.product.name}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.product.price* item.quantity}</td>
+                </tr>
+            </c:when>
+            <c:otherwise>
+                Product not available.
+            </c:otherwise>
+        </c:choose>
     </c:forEach>
+
     </tbody>
 </table>
 </body>

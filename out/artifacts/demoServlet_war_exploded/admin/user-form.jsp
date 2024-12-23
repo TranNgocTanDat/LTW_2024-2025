@@ -5,25 +5,25 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>${users != null ? "Edit" : "Add"} User</title>
+  <title>${users != null ? "Thay đổi thông tin" : "Thêm"} Khách hàng</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>${users != null ? "Edit" : "Add New"} User</h1>
+<h1>${users != null ? "Thay đổi thông tin" : "Thêm mới"} Khách hàng</h1>
 
 <form action="${pageContext.request.contextPath}/admin/users?action=${users != null ? "update" : "insert"}" method="post">
   <c:if test="${users != null}">
     <input type="hidden" name="id" value="${users.userId}"/>
   </c:if>
 
-  <label for="name">Name:</label>
+  <label for="name">Tên khách hàng:</label>
   <input type="text" id="name" name="name" value="${users != null ? users.username : ''}" required><br/>
 
 
-  <input type="submit" value="${users != null ? "Update" : "Add"} User">
+  <input type="submit" value="${users != null ? "Cập nhật" : "Thêm"} Khách hàng">
 </form>
 
-<a href="${pageContext.request.contextPath}/admin/users">Back to User List</a>
+<a href="${pageContext.request.contextPath}/admin/users">Quay lại</a>
 </body>
 
 <style>/* Reset một số thuộc tính mặc định */

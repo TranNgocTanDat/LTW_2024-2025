@@ -4,45 +4,45 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>${product != null ? "Edit" : "Add"} Product</title>
+  <title>${product != null ? "Thay đổi thông tin" : "Thêm"} Sản phẩm</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>${product != null ? "Edit" : "Add New"} Product</h1>
+<h1>${product != null ? "Thay đổi" : "Thêm mới"} Sản phẩm</h1>
 
 <form action="${pageContext.request.contextPath}/admin/products?action=${product != null ? "update" : "insert"}" method="post">
   <c:if test="${product != null}">
     <input type="hidden" name="id" value="${product.productId}"/>
   </c:if>
 
-  <label for="name">Name:</label>
+  <label for="name">Tên sản phẩm:</label>
   <input type="text" id="name" name="name" value="${product != null ? product.name : ''}" required><br/>
 
-  <label for="description">Description:</label>
+  <label for="description">Mô tả:</label>
   <input type="text" id="description" name="description" value="${product != null ? product.description : ''}" required><br/>
 
-  <label for="price">Price:</label>
+  <label for="price">Giá:</label>
   <input type="number" id="price" name="price" step="0.01" value="${product != null ? product.price : ''}" required><br/>
 
-  <label for="category">Category:</label>
+  <label for="category">Loại:</label>
   <input type="text" id="category" name="category" value="${product != null ? product.category : ''}" required><br/>
 
-  <label for="size">Size:</label>
+  <label for="size">Kích cỡ:</label>
   <input type="text" id="size" name="size" value="${product != null ? product.size : ''}" required><br/>
 
-  <label for="color">Color:</label>
+  <label for="color">Màu:</label>
   <input type="text" id="color" name="color" value="${product != null ? product.color : ''}" required><br/>
 
-  <label for="stockQuantity">Stock Quantity:</label>
+  <label for="stockQuantity">Còn trong kho:</label>
   <input type="number" id="stockQuantity" name="stockQuantity" value="${product != null ? product.stockQuantity : ''}" required><br/>
 
-  <label for="imageUrl">Image URL:</label>
+  <label for="imageUrl">Đường dẫn ảnh:</label>
   <input type="text" id="imageUrl" name="imageUrl" value="${product != null ? product.imageUrl : ''}" required><br/>
 
-  <input type="submit" value="${product != null ? "Update" : "Add"} Product">
+  <input type="submit" value="${product != null ? "Cập nhật" : "Thêm"} Sản phẩm">
 </form>
 
-<a href="${pageContext.request.contextPath}/admin/products">Back to Product List</a>
+<a href="${pageContext.request.contextPath}/admin/products">Quay lại</a>
 </body>
 <style>/* Reset some default styles */
 * {

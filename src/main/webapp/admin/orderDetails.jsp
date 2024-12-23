@@ -10,9 +10,9 @@
 <table border="1">
     <thead>
     <tr>
-        <th>Product ID</th>
-        <th>Quantity</th>
-        <th>Price</th>
+        <th>Mã sản phẩm</th>
+        <th>Số lượng</th>
+        <th>Giá</th>
     </tr>
     </thead>
     <tbody>

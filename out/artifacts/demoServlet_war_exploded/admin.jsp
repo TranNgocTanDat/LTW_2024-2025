@@ -5,7 +5,6 @@
 <head>
   <title>Admin Dashboard</title>
   <style>
-    /* Reset một số thuộc tính mặc định */
     * {
       margin: 0;
       padding: 0;
@@ -14,7 +13,7 @@
 
     body {
       font-family: 'Poppins', sans-serif; /* Font hiện đại hơn */
-      background-color: #f8f9fa;
+      background-color: #e9ecef;
       color: #343a40;
       display: flex;
     }
@@ -22,16 +21,20 @@
     /* Sidebar */
     .sidebar {
       width: 250px;
-      background-color: #343a40;
+      background-color: #212529;
       padding: 20px;
-      color: #fff;
+      color: #f8f9fa;
       height: 100vh;
       position: fixed;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
 
     .sidebar h2 {
       text-align: center;
       margin-bottom: 20px;
+      font-size: 1.5rem;
+      border-bottom: 2px solid #495057;
+      padding-bottom: 10px;
     }
 
     .sidebar ul {
@@ -44,17 +47,18 @@
     }
 
     .sidebar ul li a {
-      color: #fff;
+      color: #f8f9fa;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 600;
       padding: 10px;
       display: block;
-      transition: background-color 0.3s ease;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
     .sidebar ul li a:hover {
       background-color: #495057;
-      border-radius: 5px;
+      transform: translateX(5px);
     }
 
     /* Nội dung chính */
@@ -70,23 +74,23 @@
       justify-content: space-between;
       align-items: center;
       background-color: #ffffff;
-      padding: 10px 20px;
-      border-radius: 5px;
+      padding: 15px 20px;
+      border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
     }
 
     .welcome-bar h1 {
-      font-size: 1.5rem;
-      color: #343a40;
+      font-size: 1.8rem;
+      color: #212529;
     }
 
     .user-icon {
-       /* Thay bằng URL của biểu tượng người dùng */
-      width: 40px;
-      height: 40px;
-      background-size: cover;
+      width: 50px;
+      height: 50px;
+      background: url('user-placeholder.jpg') center/cover no-repeat; /* Đặt URL hình ảnh người dùng */
       border-radius: 50%;
+      border: 2px solid #495057;
     }
 
     /* Các phần tử khác */
@@ -103,16 +107,29 @@
 
     .overview .box {
       background-color: #ffffff;
-      padding: 2rem;
+      padding: 1.5rem;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-top: 4px solid #17a2b8;
     }
 
     .overview .box:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .overview .box h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #495057;
+    }
+
+    .overview .box p {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #17a2b8;
     }
 
     .charts, .recent-activities, .quick-links {
@@ -121,6 +138,40 @@
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       margin-bottom: 2rem;
+    }
+
+    .charts h2, .recent-activities h2, .quick-links h2 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #343a40;
+    }
+
+    .recent-activities ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    .recent-activities ul li {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #495057;
+    }
+
+    .quick-links button {
+      background-color: #17a2b8;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      margin-right: 10px;
+    }
+
+    .quick-links button:hover {
+      background-color: #138496;
+      transform: translateY(-3px);
     }
 
     /* Responsive Design */
@@ -137,13 +188,23 @@
       .main-content {
         margin-left: 0;
       }
+
+      .welcome-bar {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .user-icon {
+        margin-top: 10px;
+      }
     }
+
   </style>
 </head>
 <body>
 <!-- Sidebar -->
 <div class="sidebar">
-  <h2>Admin Panel</h2>
+  <h2>Bảng quản trị</h2>
   <ul>
     <li><a href="admin/products">Quản lý sản phẩm</a></li>
     <li><a href="admin/users">Quản lý người dùng</a></li>

@@ -19,13 +19,13 @@
 
 <table border="1">
   <tr>
-    <th>Key ID</th>
-    <th>User ID</th>
+    <th>Mã Key</th>
+    <th>Mã khách hàng</th>
     <th>Public Key</th>
     <th>Private Key</th>
-    <th>Key Type</th>
-    <th>Creation Date</th>
-    <th>Actions</th>
+    <th>Loại Key</th>
+    <th>Ngày tạo</th>
+    <th></th>
   </tr>
 
   <c:forEach var="key" items="${userKeys}">
@@ -41,7 +41,7 @@
         <form action="${pageContext.request.contextPath}/admin/key-management" method="GET" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this key?');">
           <input type="hidden" name="action" value="delete" />
           <input type="hidden" name="keyId" value="${key.keyId}" />
-          <button type="submit">Delete</button>
+          <button type="submit">Xóa</button>
         </form>
       </td>
     </tr>

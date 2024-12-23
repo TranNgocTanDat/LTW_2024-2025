@@ -147,19 +147,19 @@
 
   <!-- Section Quản lý sản phẩm -->
   <div id="products" class="section">
-    <h2>Quản lý User</h2>
-    <button onclick="location.href='addProduct.jsp'">Thêm user mới</button>
+    <h2>Quản lý khách hàng</h2>
+    <button onclick="location.href='addProduct.jsp'">Thêm khách hàng mới</button>
     <table>
       <tr>
-        <th>Name</th>
-        <th>Password</th>
+        <th>Tên</th>
+        <th>Mật khẩu</th>
         <th>Email</th>
-        <th>FirstName</th>
-        <th>LastName</th>
-        <th>address</th>
-        <th>Phone Number</th>
-        <th>role</th>
-        <th>Action</th>
+        <th>Tên</th>
+        <th>Họ</th>
+        <th>Địa chỉ</th>
+        <th>Số điện thoại</th>
+        <th>Vai trò</th>
+        <th>Xử lý</th>
       </tr>
       <c:forEach var="user" items="${users}">
         <tr>
@@ -172,8 +172,8 @@
           <td>${user.phoneNumber}</td>
           <td>${user.role}</td>
           <td>
-            <a href="users?action=edit&id=${user.userId}">Edit</a>
-            <a href="users?action=delete&id=${user.userId}" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+            <a href="users?action=edit&id=${user.userId}">Thay đổi</a>
+            <a href="users?action=delete&id=${user.userId}" onclick="return confirm('Are you sure you want to delete this product?');">Xóa</a>
           </td>
         </tr>
       </c:forEach>

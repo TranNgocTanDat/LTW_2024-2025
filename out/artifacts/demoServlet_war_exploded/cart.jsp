@@ -1,6 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="java.util.List" %>
-<%@ page import="model.Product" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
@@ -228,7 +226,7 @@
     <c:choose>
         <c:when test="${not empty sessionScope.cartSession}">
             <div class="cart">
-                <h2>Shopping Cart</h2>
+                <h2>Giỏ hàng</h2>
                 <c:forEach var="item" items="${sessionScope.cartSession}">
                     <div class="cart-items">
                         <div class="cart-item">
@@ -256,23 +254,19 @@
                 <a href="productList.jsp" class="back-to-shop">← Tiếp tục mua sắm</a>
             </div>
             <div class="summary">
-                <h2>Summary</h2>
+                <h2>Thông tin thanh toán</h2>
                 <div class="summary-item">
-                    <span>ITEMS 3</span>
-                    <span>€ 132.00</span>
-                </div>
-                <div class="summary-item">
-                    <span>SHIPPING</span>
+                    <span>Phương thức giao hàng</span>
                     <select>
-                        <option>Standard-Delivery - €5.00</option>
+                        <option>Giao hàng nhanh - 20.000 VNĐ</option>
                     </select>
                 </div>
                 <div class="summary-item">
-                    <span>GIVE CODE</span>
-                    <input type="text" placeholder="Enter your code">
+                    <span>Mã giảm giá</span>
+                    <input type="text" placeholder="Nhập mã">
                 </div>
                 <div class="summary-total">
-                    <span>TOTAL PRICE</span>
+                    <span>Tổng</span>
                     <span>
                         <c:set var="total" value="0"/>
                     <c:forEach var="cartItem" items="${sessionScope.cartSession}">
@@ -298,7 +292,7 @@
 
 </div>
 <div class="list__newProduct">
-    <h3 class="title__newProduct">Gợi ý sảm phảm</h3>
+    <h3 class="title__newProduct">Gợi ý sản phẩm</h3>
     <div class="list__item--product">
         <c:forEach var="product" items="${productsNewProduct}">
             <div class="item__product">

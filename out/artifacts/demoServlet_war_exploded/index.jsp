@@ -125,7 +125,7 @@
     </div>
 </div>
 <div class="list__newProduct">
-    <h3 class="title__newProduct">Flast Sale</h3>
+    <h3 class="title__newProduct">Giảm giá</h3>
     <div class="list__item--product">
         <c:forEach var="product" items="${products}">
             <div class="item__product">
