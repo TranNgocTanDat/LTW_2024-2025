@@ -89,7 +89,7 @@ public class ServletOrderManagement extends HttpServlet {
             if (order != null && "Pending".equals(order.getStatus())) {
                 String newStatus = "approve".equals(action) ? "Shipped" : "Canceled";
                 order.setStatus(newStatus);
-                orderDao.updateOrder(order);
+                orderDao.updateOrderStatus(order);
                 response.sendRedirect(request.getContextPath() +"/admin/orders-management?action=list");
             } else {
                 response.sendRedirect(request.getContextPath() +"/admin/orders-management?action=list&error=Invalid order status.");
