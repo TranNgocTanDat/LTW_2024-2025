@@ -151,12 +151,12 @@
     </script>
   </c:if>
 
-  <form class="update" style="display: flex" action="${pageContext.request.contextPath}/admin/users?action=${users != null ? "update" : "insert"}" method="post">
-    <button type="submit">Cập nhật thông tin</button>
-  </form>
+  <a class="update" style="display: flex; margin-bottom: 20px" href="${pageContext.request.contextPath}/home" >
+    <button type="submit">Quay lại</button>
+  </a>
   <button class="btn__report" onclick="showReport()">Report</button>
   <form action="logout" method="post">
-    <button type="submit" style="margin-top: 20px; background-color: red">Đăng xuất</button>
+    <button onclick="logout()" class="logout" type="submit" style="margin-top: 20px; background-color: red">Đăng xuất</button>
   </form>
   </div>
 </div>
@@ -174,6 +174,10 @@
 
     sessionStorage.setItem('isReportView', 'true');
   }
+  function logout(){
+    sessionStorage.removeItem('notification');
+  }
+
 
   document.addEventListener("DOMContentLoaded", function() {
     const isReportView = sessionStorage.getItem('isReportView') === "true";
@@ -198,12 +202,21 @@
     });
 
 
-
-    // Khi người dùng gửi form báo cáo, lưu trạng thái
-    const form = document.querySelector('form[action="${pageContext.request.contextPath}/report"]');
-    if (form) {
-      form.addEventListener("submit", function() {
+    // Xử lý khi nhấn nút "Gửi OTP"
+    const btnSendOtp = document.querySelector('.btn__repOTB');
+    if (btnSendOtp) {
+      btnSendOtp.addEventListener("click", function () {
+        // Không thay đổi isReportView khi gửi OTP
         sessionStorage.setItem('isReportView', 'true');
+      });
+    }
+
+    // Xử lý khi nhấn nút "Rep Report"
+    const btnRepReport = document.querySelector('.rep__report');
+    if (btnRepReport) {
+      btnRepReport.addEventListener("click", function () {
+        // Đặt isReportView thành false khi gửi báo cáo thành công
+        sessionStorage.setItem('isReportView', 'false');
       });
     }
   });

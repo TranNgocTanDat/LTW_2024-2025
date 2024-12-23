@@ -43,7 +43,7 @@ public class ServletRegister extends HttpServlet {
         int userId = (userIdStr != null && !userIdStr.isEmpty()) ? Integer.parseInt(userIdStr) : 0;
 
         // Kiểm tra và đăng ký người dùng
-        User newUser = new User(userId, username, password, email,firstName, lastName, address, phoneNumber, role); // Mặc định là user
+        User newUser = new User(userId, username, password, email,firstName, lastName, address, phoneNumber, role, null); // Mặc định là user
         userDao.insertUser(newUser);
         response.sendRedirect(request.getContextPath() + "/login"); // Chuyển hướng đến trang đăng nhập
     }

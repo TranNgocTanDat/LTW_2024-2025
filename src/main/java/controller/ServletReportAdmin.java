@@ -3,6 +3,7 @@ package controller;
 import dao.ReportDao;
 import dao.UserDao;
 import model.Report;
+import model.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -32,6 +33,13 @@ public class ServletReportAdmin extends HttpServlet {
         String action = request.getParameter("action");
         String reportIDStr = request.getParameter("reportID");
         String newStatus = "Đã Hoàn Thành";
+        String newStatus2 = "Lỗi không xử lý";
+        HttpSession session = request.getSession();
+
+
+
+
+
 
         if(action != null){
             switch (action){
@@ -47,6 +55,9 @@ public class ServletReportAdmin extends HttpServlet {
                                 // Cập nhật trạng thái báo cáo
                                 report.setStatus(newStatus);
                                 reportDao.updateReport(report);
+                                String mesage = "Hệ thống đã xữ lý bạn có thể tạo Key mới";
+                                userDao.insetStatus(mesage, report.getUserID());
+
                             }
                         } catch (NumberFormatException e) {
                             // Xử lý lỗi khi chuyển đổi hoặc khi thực hiện thao tác trên cơ sở dữ liệu
@@ -57,6 +68,32 @@ public class ServletReportAdmin extends HttpServlet {
                     break;
                 }
                 case "noEdit":{
+                    if (reportIDStr != null && !reportIDStr.isEmpty()) {
+                        try {
+                            // Chuyển đổi reportID thành int
+                            int reportID = Integer.parseInt(reportIDStr);
+
+                            // Lấy báo cáo bằng reportID
+                            Report report = reportDao.getReportId(reportID);
+                            if (report != null) {
+                                // Cập nhật trạng thái báo cáo
+                                report.setStatus(newStatus2);
+                                reportDao.updateReport(report);
+                                if(report.getContent_report().equals("exposed")){
+                                    String mesage = "Thông tin bạn cung cấp chưa đủ, mong bạn cung cấp đúng ngày và thời gian mất Key!!";
+                                    userDao.insetStatus(mesage, report.getUserID());
+
+                                }else {
+                                    String mesage = "Thông tin bạn cung cấp chưa đủ mong bạn cung cấp nhìu thông tin hơn!!";
+                                    userDao.insetStatus(mesage, report.getUserID());
+                                }
+                            }
+                        } catch (NumberFormatException e) {
+                            // Xử lý lỗi khi chuyển đổi hoặc khi thực hiện thao tác trên cơ sở dữ liệu
+                            e.printStackTrace();
+                            request.setAttribute("errorMessage", "Đã xảy ra lỗi khi cập nhật trạng thái báo cáo.");
+                        }
+                    }
                     String noEdit = "Yêu cầu bạn miêu tả đúng nội dung cần hỗ trợ";
                     request.setAttribute("noEdit", noEdit);
                     break;

@@ -103,7 +103,11 @@
         color: black;
         text-decoration: none;
     }
-
+    li{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
   </style>
 
 </head>

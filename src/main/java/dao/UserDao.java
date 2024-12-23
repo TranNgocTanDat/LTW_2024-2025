@@ -39,7 +39,7 @@ public class UserDao {
                 String phoneNumber = rs.getString("phoneNumber");
                 String role = rs.getString("role");
 
-                user = new User(userId, username, password, email, firstName, lastName, address, phoneNumber, role);
+                user = new User(userId, username, password, email, firstName, lastName, address, phoneNumber, role, null);
             }
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
@@ -75,6 +75,7 @@ public class UserDao {
                 user.setAddress(rs.getString("address"));
                 user.setPhoneNumber(rs.getString("phoneNumber"));
                 user.setRole(rs.getString("role"));
+                user.setStatus(rs.getString("status"));
                 return user;
             }
 
@@ -114,7 +115,7 @@ public class UserDao {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()){
-                list.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+                list.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10)));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -204,12 +205,37 @@ public class UserDao {
         return false;
     }
 
+    public void  insetStatus(String status, int userID){
+        String query = "UPDATE Users SET  status = ? WHERE userId=?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setInt(2, userID);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            // Đóng các đối tượng để tránh rò rỉ tài nguyên
+            try {
+                if (ps != null) ps.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) {
         UserDao userDao = new UserDao();
-        List<User> users = userDao.getAll();
-        for (User user: users) {
-            System.out.println(user);
-        }
+//        List<User> users = userDao.getAll();
+//        for (User user: users) {
+//            System.out.println(user);
+//        }
+
+        System.out.println(userDao.getUserById(15));
 
     }
 }
