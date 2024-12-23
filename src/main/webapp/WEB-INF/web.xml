@@ -46,6 +46,27 @@
         <servlet-name>ServletOrderManagement</servlet-name>
         <url-pattern>/admin/orders-management</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletNotification</servlet-name>
+        <servlet-class>controller.ServletNotification</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServletNotification</servlet-name>
+        <url-pattern>/ServletNotification</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletReportAdmin</servlet-name>
+        <servlet-class>controller.ServletReportAdmin</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ServletReportAdmin</servlet-name>
+        <url-pattern>/admin/report-management</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>ServletConfirm</servlet-name>
         <servlet-class>controller.ServletConfirm</servlet-class>
@@ -86,12 +107,22 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>updateOrderServlet</servlet-name>
+        <servlet-name>ServletUpdateOrder</servlet-name>
         <servlet-class>controller.ServletUpdateOrder</servlet-class>
     </servlet>
+
     <servlet-mapping>
-        <servlet-name>updateOrderServlet</servlet-name>
-        <url-pattern>/updateOder</url-pattern>
+        <servlet-name>ServletUpdateOrder</servlet-name>
+        <url-pattern>/updateOrder</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ServletSendOTP</servlet-name>
+        <servlet-class>controller.ServletSendOTP</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletSendOTP</servlet-name>
+        <url-pattern>/sendOTP</url-pattern>
     </servlet-mapping>
 
 

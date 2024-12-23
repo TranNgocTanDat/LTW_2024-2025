@@ -18,6 +18,7 @@ public class UserDao {
     ResultSet rs = null;
 
     // phương thức xác thực người dùng
+
     public User authenticateUser(String username, String hashedPassword) {
         String sql = "SELECT * FROM Users WHERE username = ? AND password = ?";
 
@@ -41,6 +42,7 @@ public class UserDao {
                             rs.getString("role")
                     );
                 }
+
             }
         } catch (Exception e) {
 
@@ -67,6 +69,7 @@ public class UserDao {
                 user.setAddress(rs.getString("address"));
                 user.setPhoneNumber(rs.getString("phoneNumber"));
                 user.setRole(rs.getString("role"));
+                user.setStatus(rs.getString("status"));
                 return user;
             }
 
@@ -106,7 +109,7 @@ public class UserDao {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()){
-                list.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9)));
+                list.add(new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10)));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -122,7 +125,7 @@ public class UserDao {
             connection = new DbContext().getConnection();
             ps = connection.prepareStatement(query);
             ps.setInt(1, userId);
-            ps.executeUpdate();
+            rs = ps.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -161,5 +164,75 @@ public class UserDao {
         }
     }
 
+    public boolean checkMail(String mail){
+        String sql = "SELECT * FROM Users WHERE email=?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, mail);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+    public boolean checkPhone(String phone){
+        String sql = "SELECT * FROM Users WHERE phoneNumber=?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, phone);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+    public void  insetStatus(String status, int userID){
+        String query = "UPDATE Users SET  status = ? WHERE userId=?";
+        try {
+            connection = new DbContext().getConnection();
+            ps = connection.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setInt(2, userID);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            // Đóng các đối tượng để tránh rò rỉ tài nguyên
+            try {
+                if (ps != null) ps.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+    public static void main(String[] args) {
+        UserDao userDao = new UserDao();
+//        List<User> users = userDao.getAll();
+//        for (User user: users) {
+//            System.out.println(user);
+//        }
+
+        System.out.println(userDao.getUserById(15));
+
+    }
 
 }

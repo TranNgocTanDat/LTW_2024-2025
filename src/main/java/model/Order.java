@@ -12,6 +12,7 @@ public class Order {
     protected String paymentMethod;
     protected String paymentStatus;
     protected Date deliveryDate;
+    protected boolean is_edited;
     protected String notes;
     String shippingAddress;
     protected String status;
@@ -19,7 +20,7 @@ public class Order {
     protected String order_content;
     public Order(){}
 
-    public Order(int orderId, int userId, Date orderDate, float totalAmount, String recipientName, String shippingPhoneNumber, String paymentMethod, String paymentStatus, Date deliveryDate, String notes, String shippingAddress, String status, String signature, String order_content) {
+    public Order(int orderId, int userId, Date orderDate, float totalAmount, String recipientName, String shippingPhoneNumber, String paymentMethod, String paymentStatus, Date deliveryDate, boolean is_edited, String notes, String shippingAddress, String status, String signature, String order_content) {
         this.orderId = orderId;
         this.userId = userId;
         this.orderDate = orderDate;
@@ -29,6 +30,7 @@ public class Order {
         this.paymentMethod = paymentMethod;
         this.paymentStatus = paymentStatus;
         this.deliveryDate = deliveryDate;
+        this.is_edited = is_edited;
         this.notes = notes;
         this.shippingAddress = shippingAddress;
         this.status = status;
@@ -108,6 +110,14 @@ public class Order {
         this.deliveryDate = deliveryDate;
     }
 
+    public boolean isIs_edited() {
+        return is_edited;
+    }
+
+    public void setIs_edited(boolean is_edited) {
+        this.is_edited = is_edited;
+    }
+
     public String getNotes() {
         return notes;
     }
@@ -160,6 +170,7 @@ public class Order {
                 ", paymentMethod='" + paymentMethod + '\'' +
                 ", paymentStatus='" + paymentStatus + '\'' +
                 ", deliveryDate=" + deliveryDate +
+                ", is_edited=" + is_edited +
                 ", notes='" + notes + '\'' +
                 ", shippingAddress='" + shippingAddress + '\'' +
                 ", status='" + status + '\'' +

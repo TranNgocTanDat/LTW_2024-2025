@@ -159,7 +159,13 @@
         });
     </script>
 
-
+<!-- Kiểm tra điều kiện thông báo từ user -->
+<c:if test="${not empty user and not empty user.status}">
+    <script>
+        // Lưu thông báo vào sessionStorage nếu có thông báo mới
+        sessionStorage.setItem('notification', 'Bạn có thông báo mới!');
+    </script>
+</c:if>
 <c:if test="${not empty errorMessage}">
     <p style="color: red;">${errorMessage}</p>
 </c:if>

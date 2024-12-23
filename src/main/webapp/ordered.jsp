@@ -179,7 +179,7 @@
         }
 
         // Ẩn modal
-        function closeModal() {
+        function closeModalSignature() {
             document.getElementById('signatureModal').style.display = 'none';
         }
 
@@ -233,13 +233,13 @@
         <button type="button" onclick="showModal()">Chỉnh sửa đơn hàng</button>
     </div>
 
-    <div style="margin-bottom: 20px; margin-left: 10px">
-        <button type="button" onclick="showModalDelete()">Hủy đơn hàng</button>
-    </div>
+<%--    <div style="margin-bottom: 20px; margin-left: 10px">--%>
+<%--        <button type="button" onclick="showModalDelete()">Hủy đơn hàng</button>--%>
+<%--    </div>--%>
     <!-- Modal Popup -->
     <div id="signatureModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
+            <span class="close" onclick="closeModalSignature()()">&times;</span>
             <h3>Nhập chữ ký để xác nhận</h3>
             <form action="verifySignUpdate" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="orderId" value="${ordered.orderId}"/>
@@ -250,7 +250,7 @@
                 <br>
                 <div style="margin-top: 20px">
                     <button type="submit" >Xác nhận</button>
-                    <button type="button" onclick="closeModal()">Hủy</button>
+                    <button type="button" onclick="closeModalSignature()()">Hủy</button>
                 </div>
             </form>
         </div>

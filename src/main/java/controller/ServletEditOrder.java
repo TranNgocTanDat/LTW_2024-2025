@@ -10,15 +10,14 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "ServletOrdered", value = "/ordered")
-public class ServletOrdered extends HttpServlet {
+@WebServlet(name = "ServletEditOrder", value = "/ServletEditOrder")
+public class ServletEditOrder extends HttpServlet {
     private OrderDao orderDao;
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         orderDao = new OrderDao();
     }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -35,11 +34,11 @@ public class ServletOrdered extends HttpServlet {
         List<OrderItem> orderItems = orderDao.getOrderDetails(orderId);
         request.setAttribute("ordered", ordered);
         request.setAttribute("orderItems", orderItems);
-        request.getRequestDispatcher("/ordered.jsp").forward(request,response);
+        request.getRequestDispatcher("editOrder.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+
     }
 }

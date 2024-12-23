@@ -10,9 +10,11 @@ public class User {
     protected String address;
     protected String phoneNumber;
     protected String role;
+    protected String status;
 
     public User() {
     }
+
 
 //    public User(int userId, String username, String password, String email, String firstName, String lastName, String address, String phoneNumber, String role) {
 //        this.userId = userId;
@@ -40,20 +42,10 @@ public class User {
 
     }
 
-    public User(int userId, String username, String hashedPassword, String email, String firstName, String lastName, String role) {
-          this.userId = userId;
-          this.username = username;
-          this.password = hashedPassword;
-          this.email = email;
-          this.firstName = firstName;
-          this.lastName = lastName;
-          this.address = address;
-          this.phoneNumber = phoneNumber;
-          this.role = role;
-
-    }
+ 
 
     public User(int userId, String username, String hashedPassword, String email, String firstName, String lastName, String address, String phoneNumber, String role, Object o) {
+
         this.username = username;
         this.password = hashedPassword;
         this.email = email;
@@ -62,6 +54,7 @@ public class User {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.role = role;
+        this.status = status;
     }
 
 
@@ -137,6 +130,15 @@ public class User {
         this.role = role;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
     @Override
     public String toString() {
         return "User{" +
@@ -149,6 +151,7 @@ public class User {
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", role='" + role + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }
