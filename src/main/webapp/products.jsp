@@ -24,66 +24,82 @@
     }
 
     /*test*/
-    .list__item--product{
+    .list__item--product {
       display: grid;
-      grid-template-columns: repeat(4, minmax(200px, 1fr));
-      /*gap: px;*/
+      grid-template-columns: repeat(4, 1fr); /* Four equal columns */
+      gap: 20px; /* Space between grid items */
+      margin: 20px;
     }
 
-    .item__product{
+
+    .item__product {
       text-align: center;
-      background-color: #F5F5F5;
-      margin-left: 30px;
-      margin-right: 30px;
-      margin-bottom: 20px;
-      border-radius: 5px;
+      background-color: #f5f5f5;
+      padding: 15px;
+      border-radius: 10px;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
-    .item__product:hover .product__img{
-      transform: scale(1.1);
+    .item__product:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    .btn__price{
-      width: 80px;
-      height: 30px;
-      margin-right: 20px;
+
+    .product__img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 5px;
+      transition: transform 0.3s;
+    }
+
+    .item__product:hover .product__img {
+      transform: scale(1.05);
+    }
+
+    .title__product {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 10px 0;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 200px; /* Example: Adjust based on your layout */
+      display: block;
+    }
+
+    .price__product {
+      color: #e63946;
+      font-size: 16px;
       margin-bottom: 10px;
-      border: 0px;
-      font-size: 13px;
-      margin-left: 10px;
-      border-radius: 10px;
-      border: solid 1px black;
     }
-    .btn__price:hover{
-      background-color: red;
-    }
-    .btn__view:hover{
-      background-color: #45a049;
-    }
-    .addToCard{
-      width: 80px;
-      height: 30px;
-      margin-left: 20px;
-      margin-bottom: 10px;
-      border: 0px;
-      font-size: 20px;
-    }
-    .addToCard:hover{
-      background-color: red;
-    }
-    .btn__product{
+
+    .btn__product {
       display: flex;
+      justify-content: center;
+      gap: 10px;
     }
-    .add__product{
-      display: flex;
+
+    .btn__price, .btn__add {
+      padding: 10px 15px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
     }
-    .btn__add{
-      height: 30px;
-      border-radius: 10px;
-      font-size: 13px;
+
+    .btn__price:hover {
+      background-color: red;
+      color: white;
     }
-    .btn__add:hover{
+
+    .btn__add:hover {
       background-color: #fc870c;
+      color: white;
     }
+
   </style>
   <script>
     function viewProduct(productId) {
@@ -104,9 +120,10 @@
           <div class="item__product--img">
             <img src="${product.imageUrl}" class="product__img" style="width: 320px; height: 400px; border-radius: 10px">
           </div>
-          <div class="title__product">
+          <div class="title__product" title="${product.name}">
               ${product.name}
           </div>
+
           <div class="price__product">
               ${product.price}
           </div>

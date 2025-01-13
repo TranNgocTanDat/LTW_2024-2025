@@ -61,51 +61,73 @@
             font-size: 30px;
             margin-bottom: 20px;
         }
-        .list__item--product{
+        .list__item--product {
             display: grid;
-            grid-template-columns: repeat(4, minmax(200px, 1fr));
-            /*gap: px;*/
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 10px 30px;
         }
 
-        .item__product{
+        .item__product {
             text-align: center;
-            background-color: #F5F5F5;
-            margin-left: 30px;
-            margin-right: 30px;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .item__product:hover .product__img{
-            transform: scale(1.1);
+
+        .item__product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .btn__product{
-            display: flex;
+
+        .product__img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: transform 0.3s;
         }
-        .btn__price{
-            width: 80px;
-            height: 30px;
-            margin-right: 20px;
+
+        .item__product:hover .product__img {
+            transform: scale(1.05);
+        }
+
+        .title__product {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .price__product {
+            color: #e63946;
+            font-size: 16px;
             margin-bottom: 10px;
-            border: 0px;
-            font-size: 20px;
-            border-radius: 10px;
-            border: 1px solid black;
-            font-size: 13px;
         }
-        .btn__price:hover{
+
+        .btn__product {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn__price, .btn__add {
+            padding: 10px 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn__price:hover {
             background-color: red;
+            color: white;
         }
-        .view:hover{
-            background-color: #45a049;
-        }
-        .active{
-            background-color: #bf9369;
-        }
-        .btn__add{
-            height: 30px;
-            border-radius: 10px;
-            font-size: 13px;
-        }
-        .btn__add:hover{
+
+        .btn__add:hover {
             background-color: #fc870c;
+            color: white;
         }
     </style>
 </head>

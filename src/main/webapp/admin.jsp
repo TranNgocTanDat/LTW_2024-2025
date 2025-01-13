@@ -256,7 +256,7 @@
     if (adminOpen === 'true') {
       // alert('Trang quản trị đã được mở trong một tab khác. Vui lòng đóng tab kia trước khi truy cập.');
       // Chuyển hướng hoặc đóng tab hiện tại
-      window.location.href = 'index.jsp'; // Thay bằng trang lỗi của bạn
+      window.location.href = 'error.jsp'; // Thay bằng trang lỗi của bạn
       return;
     }
 
