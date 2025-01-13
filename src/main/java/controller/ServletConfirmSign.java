@@ -54,7 +54,8 @@ public class ServletConfirmSign extends HttpServlet {
 
         int userId = (int) session.getAttribute("userId");
        // Lưu orderId vào request hoặc session để gửi sang JSP
-        Integer orderId = (Integer) session.getAttribute("orderId");
+        String orderIdIdParam = request.getParameter("orderId");
+        int orderId = Integer.parseInt(orderIdIdParam);
 
         Part signatureFilePart = request.getPart("signatureFile");
 
@@ -99,7 +100,7 @@ public class ServletConfirmSign extends HttpServlet {
                 orderDao.saveSignature(orderId, decodedString);
                 out.write("<h3 style='color:green;'>Xác thực chữ ký thành công và đã lưu vào hệ thống!</h3>");
 
-                response.sendRedirect("ordersUser");
+                response.sendRedirect("sendOTP?orderId=" + orderId);
             } else {
                 // Chữ ký không hợp lệ
                 out.write("<h3 style='color:red;'>Chữ ký không hợp lệ!</h3>");

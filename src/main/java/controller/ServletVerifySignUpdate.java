@@ -32,8 +32,8 @@ public class ServletVerifySignUpdate extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        HttpSession session = request.getSession();
-        int orderId = (Integer) session.getAttribute("orderId");
+        String orderIdIdParam = request.getParameter("orderId");
+        int orderId = Integer.parseInt(orderIdIdParam);
         PrintWriter out = response.getWriter();
 
         Part signatureFilePart = request.getPart("signatureFile");

@@ -175,7 +175,9 @@
 
     <div class="buttons">
         <button id="downloadOrderTxt">Tải về file TXT thông tin đơn hàng</button>
-        <button id="openModal">Ký và Xác Thực Đơn Hàng</button>
+        <a href="${pageContext.request.contextPath}/signOrder?orderId=${order.orderId}">
+            <button>Ký và Xác Thực Đơn Hàng</button>
+        </a>
     </div>
 </div>
 
@@ -187,13 +189,8 @@
         var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
         var link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = "order_12345.txt";
+        link.download = "order_12345.txt"
         link.click();
-    });
-
-    document.getElementById('openModal').addEventListener('click', function() {
-        // document.getElementById('signModal').style.display = 'flex';
-        window.location.href = `${pageContext.request.contextPath}/signOrder?orderId=${order.orderId}`;
     });
 </script>
 

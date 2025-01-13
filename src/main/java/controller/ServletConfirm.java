@@ -55,17 +55,8 @@ public class ServletConfirm extends HttpServlet {
             request.setAttribute("totalAmount", totalAmount);
 
             // Kiểm tra xem tham số orderId có tồn tại trong request không
-            Integer orderId = (Integer) session.getAttribute("orderId");
-            if (orderId == null) {
-                response.sendRedirect("checkout.jsp");  // Hoặc trang lỗi
-                return;
-            }
-
-            if (orderId == null) {
-                // Nếu không có orderId, chuyển hướng hoặc trả về lỗi
-                response.sendRedirect("error.jsp");  // Hoặc trang lỗi thích hợp
-                return;
-            }
+            String orderIdIdParam = request.getParameter("orderId");
+            int orderId = Integer.parseInt(orderIdIdParam);
             // Lấy thông tin đơn hàng
             Order order = orderDao.getOrderById(orderId);
             if (order == null) {
