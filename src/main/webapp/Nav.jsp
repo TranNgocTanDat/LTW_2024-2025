@@ -52,12 +52,7 @@
         margin: 0px;
         padding: 0px;
     }
-    .list{
-        border-bottom:1px solid  black;
-        margin-bottom: 0px;
-        height: 50px;
-        padding: 0px;
-    }
+
     .shoes{
         border-bottom: none;
     }

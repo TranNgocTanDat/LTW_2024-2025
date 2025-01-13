@@ -87,7 +87,7 @@
     <h3>Bước 1: Tạo khóa RSA</h3>
     <p>Nhấn nút "Generate Key" để tạo cặp khóa RSA. Sau khi tạo, bạn có thể lưu khóa của mình.</p>
     <form method="post" action="signOrder">
-        <button type="submit">Generate Key</button>
+        <button type="submit">Tạo khóa</button>
         <c:if test="${not empty successMessage}">
             <div class="alert-success">${successMessage}</div>
         </c:if>

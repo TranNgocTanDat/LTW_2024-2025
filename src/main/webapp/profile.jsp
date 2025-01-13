@@ -100,7 +100,7 @@
     <p>${user.role != null ? user.role : 'Chưa có vai trò'}</p>
   </div>
   <c:if test="${not empty error}">
-      <h3>${error}</h3>
+    <h3>${error}</h3>
   </c:if>
 
 
@@ -158,7 +158,7 @@
   <form action="logout" method="post">
     <button onclick="logout()" class="logout" type="submit" style="margin-top: 20px; background-color: red">Đăng xuất</button>
   </form>
-  </div>
+</div>
 </div>
 <script>
   function showReport() {
