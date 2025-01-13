@@ -45,6 +45,6 @@ public class ServletRegister extends HttpServlet {
         // Kiểm tra và đăng ký người dùng
         User newUser = new User(userId, username, password, email,firstName, lastName, address, phoneNumber, role, null); // Mặc định là user
         userDao.insertUser(newUser);
-        response.sendRedirect(request.getContextPath() + "/login"); // Chuyển hướng đến trang đăng nhập
+        response.sendRedirect(request.getContextPath() + "/sendOTP"); // Chuyển hướng đến trang đăng nhập
     }
 }
