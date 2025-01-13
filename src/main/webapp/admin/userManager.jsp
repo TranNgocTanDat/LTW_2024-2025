@@ -172,8 +172,8 @@
           <td>${user.phoneNumber}</td>
           <td>${user.role}</td>
           <td>
-            <a href="users?action=edit&id=${user.userId}">Edit</a>
-            <a href="users?action=delete&id=${user.userId}" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+            <a href="users?action=edit&userId=${user.userId}">Edit</a>
+            <a href="users?action=delete&userId=${user.userId}" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
           </td>
         </tr>
       </c:forEach>
