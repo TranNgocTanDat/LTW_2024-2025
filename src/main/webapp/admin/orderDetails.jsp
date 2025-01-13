@@ -33,6 +33,28 @@
 
     </tbody>
 </table>
+<script>
+    // Kiểm tra nếu trang admin đã tồn tại
+    window.onload = function () {
+        const adminOpenKey = 'admin_page_open';
+        const adminOpen = localStorage.getItem(adminOpenKey);
+
+        if (adminOpen === 'true') {
+            // alert('Trang quản trị đã được mở trong một tab khác. Vui lòng đóng tab kia trước khi truy cập.');
+            // Chuyển hướng hoặc đóng tab hiện tại
+            window.location.href = 'index.jsp'; // Thay bằng trang lỗi của bạn
+            return;
+        }
+
+        // Đánh dấu trang admin đã mở
+        localStorage.setItem(adminOpenKey, 'true');
+
+        // Lắng nghe sự kiện đóng tab để xóa trạng thái
+        window.addEventListener('beforeunload', () => {
+            localStorage.removeItem(adminOpenKey);
+        });
+    };
+</script>
 </body>
 </html>
 <style>

@@ -1,7 +1,9 @@
 package controller;
 
+import dao.ReportDao;
 import dao.UserKeyDao;
 import model.ChuKi_model;
+import model.Report;
 import model.UserKey;
 
 import javax.servlet.*;
@@ -44,6 +46,8 @@ public class ServletSign extends HttpServlet {
         try {
             //Kiểm tra người dùng tạo key hay chưa
             UserKey existingKey = userKeyDAO.getKeyByUserId(userId);
+
+
             if (existingKey != null) {
                 request.setAttribute("errorMessage", "Key của bạn đã tồn tại");
                 request.getRequestDispatcher("signOrder.jsp").forward(request, response);

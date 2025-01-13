@@ -1,3 +1,4 @@
+
 <%--
   Created by IntelliJ IDEA.
   User: Danh Nguyen
@@ -95,74 +96,94 @@
 </head>
 <body>
 
-<div class="container">
-    <h1>Quản lý report của khách hàng</h1>
-    <c:forEach var="report" items="${reports}">
-        <form action="${pageContext.request.contextPath}/admin/report-management" method="post">
-            <div class="container__report">
-                <div class="container__report--main">
-                    <div class="report__userID">
-                        <h3>UserID</h3>
-                        <h4>${report.userID}</h4>
+        <div class="container">
+            <h1>Quản lý report của khách hàng</h1>
+            <c:forEach var="report" items="${reports}">
+            <form action="${pageContext.request.contextPath}/admin/report-management" method="post">
+                <div class="container__report">
+                    <div class="container__report--main">
+                        <div class="report__userID">
+                            <h3>UserID</h3>
+                            <h4>${report.userID}</h4>
+                        </div>
+                        <div class="report__userID">
+                            <h3>Yêu cầu</h3>
+                            <h4>${report.content_report}</h4>
+                        </div>
+                        <div class="report__userID">
+                            <h3>Nội dung báo cáo</h3>
+                            <h4>${report.massage}</h4>
+                        </div>
+                        <div class="report__userID">
+                            <h3> Trạng thái</h3>
+                            <h4 class="status">${report.status}</h4>
+                        </div>
+                        <input type="hidden" name="reportID" value="${report.id}" />
+                        <button type="submit" class="btn__finish complete" name="action" value="complete">Hoàn thành</button>
+                        <button type="submit" class="btn__finish noEdit"  name="action" value="noEdit" style="margin-left: 10px; margin-right: 10px">Không giải quyết</button>
+                        <button type="submit" class="btn__finish delete" name="action" value="delete" style="display: none">Xóa</button>
                     </div>
-                    <div class="report__userID">
-                        <h3>Yêu cầu</h3>
-                        <h4>${report.content_report}</h4>
-                    </div>
-                    <div class="report__userID">
-                        <h3>Nội dung báo cáo</h3>
-                        <h4>${report.massage}</h4>
-                    </div>
-                    <div class="report__userID">
-                        <h3> Trạng thái</h3>
-                        <h4 class="status">${report.status}</h4>
-                    </div>
-                    <input type="hidden" name="reportID" value="${report.id}" />
-                    <button type="submit" class="btn__finish complete" name="action" value="complete">Hoàn thành</button>
-                    <button type="submit" class="btn__finish noEdit"  name="action" value="noEdit" style="margin-left: 10px; margin-right: 10px">Không giải quyết</button>
-                    <button type="submit" class="btn__finish delete" name="action" value="delete" style="display: none">Xóa</button>
+
                 </div>
-
+            </form>
+            </c:forEach>
+            <div class="footer__checkout">
+                <a href="${pageContext.request.contextPath}/admin" class="cart">
+                    Quay lại
+                </a>
             </div>
-        </form>
-    </c:forEach>
-<%--    <div class="footer__checkout">--%>
-<%--        <a href="${pageContext.request.contextPath}/admin" class="cart">--%>
-<%--            Quay lại--%>
-<%--        </a>--%>
-<%--    </div>--%>
-</div>
+        </div>
 
 
-<script>
-    window.onload = function() {
-        var reports = document.querySelectorAll('.container__report');
-        var reportCount = reports.length;
-        console.log(reportCount);
-        // Lưu số lượng vào sessionStorage
-        // sessionStorage.setItem('reportCount', reportCount);
+    <script>
+        window.onload = function() {
+            var reports = document.querySelectorAll('.container__report');
+            var reportCount = reports.length;
+            console.log(reportCount);
+            // Lưu số lượng vào sessionStorage
+            // sessionStorage.setItem('reportCount', reportCount);
 
-        var reports = document.querySelectorAll('.container__report');
+            var reports = document.querySelectorAll('.container__report');
 
-        reports.forEach(function(report) {
-            var statusElement = report.querySelector('.status');
-            var statusText = statusElement.innerText; // Get the status text for each report
+            reports.forEach(function(report) {
+                var statusElement = report.querySelector('.status');
+                var statusText = statusElement.innerText; // Get the status text for each report
 
-            var completeButton = report.querySelector('.complete');
-            var noEdit = report.querySelector('.noEdit');
-            var deleteButton = report.querySelector('.delete');
+                var completeButton = report.querySelector('.complete');
+                var noEdit = report.querySelector('.noEdit');
+                var deleteButton = report.querySelector('.delete');
 
-            if (statusText === "Đã Hoàn Thành") {
-                completeButton.style.display = "none"; // Hide "Hoàn thành" button
-                noEdit.style.display = "none";
-                deleteButton.style.display = "inline-block"; // Show "Xóa" button
-                reportCount = reports.length-1;
-                sessionStorage.setItem('reportCount', reportCount);
-                console.log(reportCount);
-            }
+                if (statusText === "Đã Hoàn Thành") {
+                    completeButton.style.display = "none"; // Hide "Hoàn thành" button
+                    noEdit.style.display = "none";
+                    deleteButton.style.display = "inline-block"; // Show "Xóa" button
+                    reportCount = reports.length-1;
+                    sessionStorage.setItem('reportCount', reportCount);
+                    console.log(reportCount);
+                }
+            });
+        };
+            // Kiểm tra nếu trang admin đã tồn tại
+            window.onload = function () {
+            const adminOpenKey = 'admin_page_open';
+            const adminOpen = localStorage.getItem(adminOpenKey);
+
+            if (adminOpen === 'true') {
+            // alert('Trang quản trị đã được mở trong một tab khác. Vui lòng đóng tab kia trước khi truy cập.');
+            // Chuyển hướng hoặc đóng tab hiện tại
+            window.location.href = 'index.jsp'; // Thay bằng trang lỗi của bạn
+            return;
+        }
+
+            // Đánh dấu trang admin đã mở
+            localStorage.setItem(adminOpenKey, 'true');
+
+            // Lắng nghe sự kiện đóng tab để xóa trạng thái
+            window.addEventListener('beforeunload', () => {
+            localStorage.removeItem(adminOpenKey);
         });
-    };
-
-</script>
+        };
+    </script>
 </body>
 </html>
+
