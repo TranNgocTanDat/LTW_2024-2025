@@ -12,7 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "ServletUser", value = "/admin/users")
@@ -32,9 +34,6 @@ public class ServletUser extends HttpServlet {
         }
 
         switch (action) {
-            case "new":
-                showNewUserForm(request, response);
-                break;
             case "edit":
                 showEditUserForm(request, response);
                 break;
@@ -54,13 +53,9 @@ public class ServletUser extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private void showNewUserForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/user-form.jsp");
-        dispatcher.forward(request, response);
-    }
-
     private void showEditUserForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userId = Integer.parseInt(request.getParameter("id"));
+        String userIdString = request.getParameter("userId");
+        int userId = Integer.parseInt(userIdString);
         User existingUser = userDao.getUserById(userId);
         request.setAttribute("users", existingUser);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/user-form.jsp");
@@ -68,7 +63,7 @@ public class ServletUser extends HttpServlet {
     }
 
     private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int userId = Integer.parseInt(request.getParameter("id"));
+        int userId = Integer.parseInt(request.getParameter("userId"));
         userDao.delelteUser(userId);
         response.sendRedirect(request.getContextPath() + "/admin/users"); // Redirect đúng đường dẫn
     }
@@ -77,42 +72,25 @@ public class ServletUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        if ("insert".equals(action)) {
-            insertUser(request, response);
-        } else if ("update".equals(action)) {
-            updateUser(request, response);
+        if ("update".equals(action)) {
+            try {
+                updateUser(request, response);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    private void insertUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String address = request.getParameter("address");
-        String phoneNumber = request.getParameter("phoneNumber");
-        String role = request.getParameter("role");
-
-
-        User newUser = new User(0, username, password, email, firstName, lastName, address, phoneNumber, role, null);
-        userDao.insertUser(newUser);
-        response.sendRedirect(request.getContextPath() + "/admin/users"); // Redirect đúng đường dẫn
-    }
-
-    private void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void updateUser(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ClassNotFoundException {
         int userId = Integer.parseInt(request.getParameter("id"));
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String address = request.getParameter("address");
-        String phoneNumber = request.getParameter("phoneNumber");
         String role = request.getParameter("role");
 
-        User updateUser = new User(userId, username, password, email, firstName, lastName, address, phoneNumber, role, null);
-        userDao.updateUser(updateUser);
-        response.sendRedirect(request.getContextPath() + "/admin/users"); // Redirect đúng đường dẫn
+        // Chỉ cập nhật role
+        userDao.updateUserRole(userId, role);
+
+        response.sendRedirect(request.getContextPath() + "/admin/users");
     }
+
 }

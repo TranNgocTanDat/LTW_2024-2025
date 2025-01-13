@@ -229,14 +229,28 @@ public class UserDao {
         }
     }
 
-    public static void main(String[] args) {
-        UserDao userDao = new UserDao();
-//        List<User> users = userDao.getAll();
-//        for (User user: users) {
-//            System.out.println(user);
-//        }
+    public void updateUserRole(int userId, String role) throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE Users SET role = ? WHERE userId = ?";
+        try  {
+            connection = new DbContext().getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, role); // Set giá trị role
+            ps.setInt(2, userId); // Set id của người dùng
 
-        System.out.println(userDao.getUserById(15));
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error updating user role: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        UserDao userDao = new UserDao();
+        List<User> users = userDao.getAll();
+        for (User user: users) {
+            System.out.println(user);
+        }
+//        System.out.println(userDao.getUserById(12));
 
     }
 }
