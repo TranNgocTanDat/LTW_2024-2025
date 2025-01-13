@@ -126,7 +126,7 @@
                 Google
             </button>
         </div>
-        <a href="login.jsp" class="register__login">
+        <a href="login" class="register__login">
             Đăng nhập
         </a>
     </div>
