@@ -14,7 +14,7 @@
             width: 100%;
             height: 800px;
             background-image: url("https://4menshop.com/images/thumbs/slides/slide-2-trang-chu-slide-2.png?t=1726737059");
-            margin-top: -50px;
+            margin-top: -30px;
         }
         .nav{
             display: none;
