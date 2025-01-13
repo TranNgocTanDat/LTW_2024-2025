@@ -21,7 +21,7 @@
 
         .header {
             width: 100%;
-            height: 100px;
+            height: 80px;
             background: #002D62;
             margin-bottom: 30px;
             display: flex;
@@ -55,8 +55,6 @@
             display: flex;
             gap: 20px;
             list-style: none;
-            padding: 0;
-            margin: 0;
             border: none;
         }
 
@@ -67,6 +65,7 @@
             transition: background-color 0.3s, color 0.3s;
             font-size: 18px; /* Phù hợp với chiều cao header */
             font-weight: bold;
+            margin: 0;
         }
 
         .list__item:hover {
@@ -81,8 +80,8 @@
         }
 
         a .list__item.active {
-            background-color: #bf9369;
-            color: #fff;
+            /*background-color: #bf9369;*/
+            /*color: #fff;*/
         }
         .notification-dot {
             width: 15px;
@@ -99,7 +98,7 @@
 <body>
 <div class="header">
     <div class="header__left">
-        <img src="https://incucdep.com/wp-content/uploads/2014/12/logo-thoi-trang.jpg" alt="Logo" class="img__footer">
+        <img src="./accset/logo.png" alt="Logo" class="img__footer">
     </div>
     <div class="header__right">
         <ul class="list">

@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Login</title>
-<%--    <link rel="stylesheet" href="styles.css">--%>
+    <%--    <link rel="stylesheet" href="styles.css">--%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         body{
@@ -115,49 +115,49 @@
 <%--    <input type="password" id="password" name="password" required><br/>--%>
 
 <%--    <input type="submit" >--%>
-    <header><jsp:include page="header.jsp"></jsp:include></header>
-    <div class="container__login">
-        <div class="login__item">
-            <h1>Đăng nhập</h1>
-            <form action="login" method="post">
+<header><jsp:include page="header.jsp"></jsp:include></header>
+<div class="container__login">
+    <div class="login__item">
+        <h1>Đăng nhập</h1>
+        <form action="login" method="post">
             <input type="text" name="username" placeholder="Email/Số điện thoại/ Tên đăng nhập" class="login__texx">
             <input type="password" name="password" placeholder="Mật Khẩu" class="login__texx">
             <button type="submit" class="btn__login">Đăng nhập</button>
-            </form>
-            <div class="login__sp">
-                <div class="login__sp--left">Quên mật khẩu</div>
-            </div>
-            <div class="login__or">Hoặc</div>
-            <div class="login__logo">
-                <button class="btn__fb">
-                    <i class="fa-brands fa-facebook" style="color: blue"></i>
-                    Facebook
-                </button>
-                <button class="btn__gmail">
-                    <i class="fa-brands fa-google" style="color: red"></i>
-                    Google
-                </button>
-            </div>
-            <a type="submit" href="register">
-                <div class="login__dk ">
-                Đăng kí
-                </div>
-            </a>
+        </form>
+        <div class="login__sp">
+            <div class="login__sp--left">Quên mật khẩu</div>
         </div>
+        <div class="login__or">Hoặc</div>
+        <div class="login__logo">
+            <button class="btn__fb">
+                <i class="fa-brands fa-facebook" style="color: blue"></i>
+                Facebook
+            </button>
+            <button class="btn__gmail">
+                <i class="fa-brands fa-google" style="color: red"></i>
+                Google
+            </button>
+        </div>
+        <a type="submit" href="register">
+            <div class="login__dk ">
+                Đăng kí
+            </div>
+        </a>
     </div>
-    <footer><jsp:include page="foodter.jsp"></jsp:include></footer>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const currentPage = window.location.pathname; // Lấy đường dẫn hiện tại
-            const nav = document.querySelector('.nav'); // lấy ra thẻ nav
+</div>
+<footer><jsp:include page="foodter.jsp"></jsp:include></footer>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const currentPage = window.location.pathname; // Lấy đường dẫn hiện tại
+        const nav = document.querySelector('.nav'); // lấy ra thẻ nav
 
-            // Kiểm tra nếu đang ở trang login.jsp
-            if (currentPage.includes("login")) {
-                nav.style.display = 'none'; // Ẩn thẻ nav
-            }
-            console.log(currentPage); // Kiểm tra đường dẫn hiện tại trong console
-        });
-    </script>
+        // Kiểm tra nếu đang ở trang login.jsp
+        if (currentPage.includes("login")) {
+            nav.style.display = 'none'; // Ẩn thẻ nav
+        }
+        console.log(currentPage); // Kiểm tra đường dẫn hiện tại trong console
+    });
+</script>
 
 <!-- Kiểm tra điều kiện thông báo từ user -->
 <c:if test="${not empty user and not empty user.status}">

@@ -226,13 +226,13 @@
     <c:choose>
         <c:when test="${not empty sessionScope.cartSession}">
             <div class="cart">
-                <h2>Shopping Cart</h2>
+                <h2>Giỏ hàng </h2>
                 <c:forEach var="item" items="${sessionScope.cartSession}">
                     <div class="cart-items">
                         <div class="cart-item">
                             <img src="${item.product.imageUrl}" alt="${item.product.name}">
                             <div class="item-info">
-                                <h3>Shirt</h3>
+<%--                                <h3>${item.product.category}</h3>--%>
                                 <p>${item.product.name}</p>
                             </div>
                             <div class="quantity-control">
@@ -254,30 +254,30 @@
                 <a href="productList.jsp" class="back-to-shop">← Tiếp tục mua sắm</a>
             </div>
             <div class="summary">
-                <h2>Summary</h2>
+                <h2>Thông tin </h2>
+<%--                <div class="summary-item">--%>
+<%--                    <span>ITEMS 3</span>--%>
+<%--                    <span>€ 132.00</span>--%>
+<%--                </div>--%>
+<%--                <div class="summary-item">--%>
+<%--                    <span>SHIPPING</span>--%>
+<%--                    <select>--%>
+<%--                        <option>Standard-Delivery - €5.00</option>--%>
+<%--                    </select>--%>
+<%--                </div>--%>
                 <div class="summary-item">
-                    <span>ITEMS 3</span>
-                    <span>€ 132.00</span>
+                    <span>Nhập mã giảm giá </span>
+                    <input type="text" placeholder="Nhập mã giảm giá(nếu có)">
                 </div>
-                <div class="summary-item">
-                    <span>SHIPPING</span>
-                    <select>
-                        <option>Standard-Delivery - €5.00</option>
-                    </select>
-                </div>
-                <div class="summary-item">
-                    <span>GIVE CODE</span>
-                    <input type="text" placeholder="Enter your code">
-                </div>
-                <div class="summary-total">
-                    <span>TOTAL PRICE</span>
+                <div class="summary-total" style="margin-top: 190px">
+                    <span>Tổng tiền</span>
                     <span>
                         <c:set var="total" value="0"/>
                     <c:forEach var="cartItem" items="${sessionScope.cartSession}">
                         <c:set var="product" value="${cartItem.product}"/>
                         <c:set var="total" value="${total + (product.price * cartItem.quantity)}"/>
                     </c:forEach>
-                    <c:out value="${total} VNĐ"/>
+                    <c:out value="${total}00 VNĐ"/>
                     </span>
 
                 </div>
